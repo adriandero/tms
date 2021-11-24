@@ -11,17 +11,23 @@ import org.jsoup.nodes.Element;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-
+/**
+ * Class CURRENTLY tailored to AuftragAT (subject to change!)
+ */
 public class TenderProducer extends DefaultProducer {
 
+    private static final Pattern URL_REGEX = Pattern.compile("http(s)?:\\/\\/[0-9a-zA-Z_\\.~\\-\\!\\*\\%\\'\\(\\)\\;\\:\\@\\&\\=\\+\\$\\,\\/\\?\\#\\[\\]]+"); // Does not need to be perfect and match every valid URL, but should match all auftrag.at ones.
+    private static final String[] CATEGORY_NAMES = {"Beschreibung","Bekanntmachungsart","Veröffentlicht am","Dokumentnummer"};
+    private static final String[] CATEGORY_IDs = {"ctl00_Content_usrAnonymEtender_TPropDescr", "ctl00_Content_usrAnonymEtender_TPropFormType", "ctl00_Content_usrAnonymEtender_TPropPublishDate", "ctl00_Content_usrAnonymEtender_TPropNoticeNumber"};
+
     private final HashMap<String, HashMap<String, String>> tenders = new HashMap<>();  // <Link<Category,Info>>
-    private final String[] CATEGORY_NAMES = {"Beschreibung","Bekanntmachungsart","Veröffentlicht am","Dokumentnummer"};
-    private final String[] CATEGORY_IDs =   {"ctl00_Content_usrAnonymEtender_TPropDescr",
-                                             "ctl00_Content_usrAnonymEtender_TPropFormType",
-                                             "ctl00_Content_usrAnonymEtender_TPropPublishDate",
-                                             "ctl00_Content_usrAnonymEtender_TPropNoticeNumber"};
 
     public TenderProducer(Endpoint endpoint) {
         super(endpoint);
@@ -32,40 +38,61 @@ public class TenderProducer extends DefaultProducer {
         final Message message = exchange.getIn();
         final MimeMultipart body = message.getBody(MimeMultipart.class);
 
-        createTendersFromLinksInMail(body);
-        getTenderInformationFromLinks();
-        showTenders();
-//        final String subject = message.getHeader("subject") + "";
-//        System.out.println(subject + ":"+body.getBodyPart(0).getContent());
+        if(!(message.getHeader("subject") + "").contains("Treffer")) return;
+
+        final String[] links = findLinks(body);
+
+        TenderProducer.showTenders(TenderProducer.fetchInformationFromTenderLink(links));
     }
 
-    private void showTenders(){
-        tenders.values().forEach(tender -> tender.forEach((category, info) ->
+    private static void showTenders(Map<String, Map<String, String>> information) {
+        information.values().forEach(tender -> tender.forEach((category, info) ->
                 System.out.printf("%n%s : %s", category, info)));
     }
 
-    private void getTenderInformationFromLinks() throws IOException {
-        for (String link : tenders.keySet()){
-            Document doc = Jsoup.connect(link).get();
-//            System.out.println(doc);
-            tenders.get(link).put("Titel", doc.getElementsByClass("boxHeader").text()); // .substring(7)
+    /**
+     * Fetches all the information available when following the given tender links.
+     * @param links
+     * @throws IOException
+     */
+    private static Map<String, Map<String, String>> fetchInformationFromTenderLink(String... links) throws IOException {
+        final Map<String, Map<String, String>> information = new HashMap<>();
+
+        for (String link : links){
+            final Map<String, String> details = new HashMap<String, String>();
+            final Document document = Jsoup.connect(link).get();
+
+            details.put("Titel", document.getElementsByClass("boxHeader").text()); // .substring(7)
+
             for (int i = 0; i < CATEGORY_NAMES.length; i++) {
-                Element element = doc.getElementById(String.format("%s", CATEGORY_IDs[i]));
+                final Element element = document.getElementById(String.format("%s", CATEGORY_IDs[i]));
+
                 if (element != null) {
-                    tenders.get(link).put(CATEGORY_NAMES[i], element.text());
+                    details.put(CATEGORY_NAMES[i], element.text());
                 }
             }
+            information.put(link, details);
         }
+
+        return information;
     }
 
-    private void createTendersFromLinksInMail(MimeMultipart body) throws IOException, MessagingException {
-        String mailContent = body.getBodyPart(0).getContent().toString();
-        String[] lines = mailContent.split(System.lineSeparator());
-        for (String line : lines){
-            if (line.contains("<") && line.contains("emea01")){  // safe, could change? "https://emea01. ...
-                String link = line.substring(line.indexOf("<")+1, line.indexOf(">"));
-                tenders.put(link, new HashMap<>());
-            }
-        }
+    /**
+     * Finds all the links from the given body.
+     * @param body
+     * @return all the links found.
+     */
+    private static String[] findLinks(MimeMultipart body) throws IOException, MessagingException {
+        final List<String> links = new ArrayList<>();
+        String content = (body.getBodyPart(0).getContent() + "");
+
+        content = content.substring(content.indexOf("============================"), content.lastIndexOf("============================"));
+
+        final Matcher matcher = TenderProducer.URL_REGEX.matcher(content);
+
+        while(matcher.find()) links.add(matcher.group());
+
+        return links.toArray(new String[0]);
     }
+
 }
