@@ -26,6 +26,12 @@
             <artifactId>camel-stream</artifactId>
             <version>3.13.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.camel/camel-mail -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-mail</artifactId>
+            <version>3.13.0</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-camel -->
         <dependency>
             <groupId>org.apache.activemq</groupId>
@@ -38,6 +44,16 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.32</version>
         </dependency>
+
+
+        <dependency>
+            <!-- jsoup HTML parser library @ https://jsoup.org/ -->
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.14.3</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>
