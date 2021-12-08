@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  tms:
+    build:
+      context: software/
+    depends_on:
+      - database
+    image: snt/tms
+  database:
+    image: oracleinanutshell/oracle-xe-11g:latest
+    # volumes:
+    #  - todo:todo
+
