@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <!-- database connection properties -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/tms_db</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password"/>
+        <property name="hibernate.dialect">org.hibernate.dialect.MariaDBDialect</property>
+
+        <!-- https://howtodoinjava.com/hibernate/hibernate-c3p0-connection-pool-configuration-tutorial/ -->
+
+        <!-- show mysql queries output in console -->
+        <property name="hibernate.show_sql">true</property>
+
+        <!-- manage automatic database creation -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- add annotated resources here-->
+        <mapping class="at.snt.tms.model.Tender"/>
+        <mapping class="at.snt.tms.model.TenderPresent"/>
+        <mapping class="at.snt.tms.model.TenderHistory"/>
+        <mapping class="at.snt.tms.model.Platform"/>
+        <mapping class="at.snt.tms.model.operator.User"/>
+        <mapping class="at.snt.tms.model.operator.Role"/>
+
+        <mapping class="at.snt.tms.model.status.ExternalStatus"/>
+        <mapping class="at.snt.tms.model.status.InternalStatus"/>
+    </session-factory>
+</hibernate-configuration>

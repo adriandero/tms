@@ -1,0 +1,25 @@
+<body>
+<div class="login-body">
+<form class="login-form">
+  <h1 id="login-header">Login</h1>
+  <mat-form-field class="login-field" appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput type="email"  [formControl]="emailFormControl" placeholder="Please enter your email">
+    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+      Please enter a valid email address
+    </mat-error>
+    <mat-error *ngIf="emailFormControl.hasError('required')">
+      Email is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="login-field" appearance="fill">
+    <mat-label>Password</mat-label>
+    <input matInput type="password"  [formControl]="pwdFormControl" placeholder="Please enter your password">
+    <mat-error *ngIf="pwdFormControl.hasError('required')">
+      Password is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <button mat-stroked-button color="primary" class="login-button">Log in</button>
+</form>
+</div>
+</body>

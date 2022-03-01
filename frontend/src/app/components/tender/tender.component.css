@@ -1,0 +1,107 @@
+.card {
+  width: calc(100% - 20px);
+  height: auto;
+  box-shadow: none;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 5px 20px 5px 20px;
+}
+.container {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-around;
+}
+
+.dropdown-icon {
+  font-size: xx-large;
+  color: #06578c;
+}
+
+.dropdown-btn {
+  width: auto !important;
+  min-width: unset !important;
+}
+::ng-deep .mat-menu-panel {
+  max-width: none !important;
+  min-width: 0px !important;
+}
+.mat-menu-panel.dropdown-menu {
+  width: 280px;
+}
+
+.user-icon {
+  font-size: x-large;
+  color: #06578c;
+}
+.tag-icon {
+  font-size: x-large;
+  color: #06578c;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  min-width: 80%;
+  width: 100%;
+  margin: 20px;
+}
+
+h3,
+h2,
+h4,
+h5 {
+  margin: 0;
+}
+
+.title {
+  color: #555;
+  font-weight: bold;
+}
+.auftragsgeber {
+  color: #598fb2;
+  font-weight: bold;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: #aaa;
+  margin: 0;
+}
+
+mat-chip-list {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  bottom: 15px;
+  margin-bottom: -20px;
+  margin-left: 65px;
+}
+
+:host ::ng-deep .mat-chip-list-wrapper mat-chip {
+  padding: 0 10px;
+  font-size: small;
+  height: auto !important;
+}
+
+::ng-deep .mat-standard-chip {
+  min-height: 25px !important;
+  color: #555;
+}
+
+.mat-chip {
+  color: #555 !important;
+}
+.tag1 {
+  background-color: #d3e1eb !important;
+}
+.tag3 {
+  background-color: #caedd8 !important;
+}
+
+::ng-deep .mat-badge-content {
+  background: #d3e1eb;
+  color: #06578c;
+  font-size: medium;
+}

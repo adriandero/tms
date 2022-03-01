@@ -1,0 +1,117 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-content class="content">
+    <div class="toolbar">
+      <img alt="logo" class="img-fluid" src="assets/logo.png" />
+
+      <div class="profile-box">
+        <img
+          [size]="50"
+          alt="profile-picture"
+          class="profile-picture"
+          ngxGravatar
+        />
+        <div class="profile-name h2">
+          <a>{{ user.firstname | userName }}</a>
+          <a><br />{{ user.lastname | userName }}</a>
+        </div>
+      </div>
+    </div>
+    <form class="search-bar">
+      <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
+
+      <input
+        type="text"
+        id="search"
+        name="search"
+        placeholder="Search"
+        size="11"
+      />
+    </form>
+
+    <div class="line"></div>
+    <div class="list">
+      <mat-nav-list class="list-top">
+        <a mat-list-item href="#" class="nav-link"
+          ><fa-icon [icon]="faArchive" class="link-icons"></fa-icon>Dashboard
+        </a>
+        <a mat-list-item href="#" class="nav-link"
+          ><fa-icon [icon]="faTag" class="link-icons"></fa-icon>Labels</a
+        >
+        <a mat-list-item href="#" class="nav-link"
+          ><fa-icon [icon]="faTrash" class="link-icons"></fa-icon>Rejected</a
+        >
+      </mat-nav-list>
+
+      <mat-nav-list class="list-bottom">
+        <a mat-list-item href="#" class="nav-link"
+          ><fa-icon [icon]="faCog" class="link-icons"></fa-icon>Settings</a
+        >
+      </mat-nav-list>
+    </div>
+
+    <!--
+    .bottomStick{/*border-top:1px solid green;border-bottom:1px solid green;*/position:absolute; bottom:0}
+    .bottomRelative{position:relative;}
+    -->
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!--
+<mat-sidenav-container autosize class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar class="toolbar">
+      <img alt="logo" class="img-fluid" src="assets/logo.png" />
+
+      <div class="profile-box">
+        <img
+          [size]="50"
+          alt="profile-picture"
+          class="profile-picture"
+          ngxGravatar
+        />
+        <div class="profile-name h2">
+          <a>{{ user.firstname | userName }}</a>
+          <a><br />{{ user.lastname | userName }}</a>
+        </div>
+      </div>
+    </mat-toolbar>
+
+    <form class="search-bar">
+      <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
+
+      <input
+        type="text"
+        id="search"
+        name="search"
+        placeholder="Search"
+        size="11"
+      />
+    </form>
+    <div class="line"></div>
+    <mat-nav-list>
+      <a mat-list-item href="#" class="nav-link"
+        ><fa-icon [icon]="faArchive" class="link-icons"></fa-icon>Dashboard
+      </a>
+      <a mat-list-item href="#" class="nav-link"
+        ><fa-icon [icon]="faTag" class="link-icons"></fa-icon>Labels</a
+      >
+      <a mat-list-item href="#" class="nav-link last-link"
+        ><fa-icon [icon]="faTrash" class="link-icons"></fa-icon>Rejected</a
+      >
+      <a mat-list-item href="#" class="nav-link"
+        ><fa-icon [icon]="faCog" class="link-icons"></fa-icon>Settings</a
+      >
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <p>hello</p>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+-->

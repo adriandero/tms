@@ -1,0 +1,49 @@
+<div
+  class="w3-sidebar w3-bar-block flex"
+  style="min-width: 150px !important; width: 20%; max-width: 300px"
+>
+  <img alt="logo" class="img-fluid" src="assets/logo.png" />
+
+  <div class="profile-box">
+    <img
+      [email]="user.mail"
+      [size]="50"
+      alt="profile-picture"
+      class="profile-picture"
+      ngxGravatar
+    />
+    <div class="profile-name h2">
+      <a>{{ user.firstname | userName }}</a>
+      <a><br />{{ user.lastname | userName }}</a>
+    </div>
+  </div>
+
+  <div class="search-bar">
+    <fa-icon [icon]="faSearch" class="search-icon" size="1x"></fa-icon>
+    <app-floating-label placeholder="Search"></app-floating-label>
+  </div>
+
+  <div class="link-box">
+    <a class="single-link hidden-search-icon" href="#">
+      <fa-icon [icon]="faSearch" class="link-icons" size="lg"></fa-icon>
+    </a>
+    <a class="single-link" href="#">
+      <fa-icon [icon]="faArchive" class="link-icons" size="lg"></fa-icon>
+      <p class="link-text">Inbox</p>
+
+      <mat-checkbox>hello my friend</mat-checkbox>
+    </a>
+    <a class="single-link" href="#">
+      <fa-icon [icon]="faInbox" class="link-icons" size="lg"></fa-icon>
+      <p class="link-text">Latest</p>
+    </a>
+    <a class="single-link" href="#">
+      <fa-icon [icon]="faStar" class="link-icons" size="lg"></fa-icon>
+      <p class="link-text">Favorites</p>
+    </a>
+    <a class="single-link" href="#" style="margin-left: 4px">
+      <fa-icon [icon]="faTrash" class="link-icons" size="lg"></fa-icon>
+      <p class="link-text">Rejected</p>
+    </a>
+  </div>
+</div>

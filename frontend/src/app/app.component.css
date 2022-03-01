@@ -1,0 +1,8 @@
+@import '~@angular/cdk/overlay-prebuilt.css';
+
+.container {
+  min-height: 100vh;
+  min-width: 100%;
+  padding: 0px !important;
+  margin: 0px !important;
+}

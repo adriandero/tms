@@ -1,0 +1,83 @@
+#popup-card {
+  position: relative;
+  display: flex;
+  width: 40%;
+  height: 0;
+  margin: 5% auto;
+  padding-bottom: 35%;
+}
+
+.card-title-text {
+  position: relative;
+  color: #06578C;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+#card-title {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+
+}
+
+#history-link-arrow {
+  color: #06578C;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+#card-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge {
+  width: 16px;
+  height: 16px;
+  font-size: 8px;
+  border-radius: 50%;
+  padding: 2px;
+  text-align: center;
+  background-color: #ACC7D9;
+
+}
+
+#card-project-title {
+  display: block;
+  color: #555555;
+  font-size: 1rem;
+}
+
+.card-main-heading {
+  margin-left: 30px;
+  display: -ms-flexbox;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.card-tags {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+
+
+:host ::ng-deep .mat-chip-list-wrapper mat-chip {
+  padding: 0px 7px;
+  font-size: small;
+  font-size: 0.7rem;
+  height: auto !important;
+}
+
+.mat-chip {
+  color: #555 !important;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: #aaa;
+  margin: 0;
+}

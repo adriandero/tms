@@ -1,0 +1,127 @@
+.sidenav-container {
+  height: calc(100vh - 40px);
+  background-color: white;
+  min-width: 280px;
+  border-radius: 8px !important;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+
+}
+
+.justify-start {
+  margin-right: auto;
+}
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  padding: 0px;
+}
+.content {
+  height: calc(100vh - 40px);
+}
+
+.nav-link {
+  border-radius: 8px;
+  color: #06578c;
+  font-size: 1.5em;
+  font-family: Roboto;
+  margin-top: 15px;
+}
+.nav-link:hover {
+  background-color: #06578c;
+  color: white;
+}
+.list {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  margin-bottom: 10px;
+  min-height: 55%;
+}
+
+.mat-list-base .mat-list-item,
+.mat-list-base .mat-list-option {
+  width: auto;
+}
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2vh;
+}
+
+.img-fluid {
+  max-width: 140px;
+  min-width: 100px;
+  height: auto;
+  align-self: center;
+}
+fa-icon {
+  margin-right: 40px;
+  font-size: xx-large;
+}
+
+.profile-box {
+  display: flex;
+  flex-direction: row !important;
+  justify-content: space-between;
+  align-self: flex-start;
+  font-weight: 300;
+  font-size: 24px;
+  color: #555;
+  margin-top: 2vh;
+}
+
+.profile-picture {
+  border: 3px solid #06578c !important;
+  margin-right: 20px;
+  height: 65px !important;
+  width: auto !important;
+}
+
+.search-bar {
+  display: flex;
+  flex-direction: row;
+  border-radius: 8px;
+  border: none;
+  outline-width: 0;
+  width: auto;
+  height: auto;
+  color: #06578c;
+  background-color: #d3e1eb;
+  font-family: Roboto;
+  margin-top: 5vh;
+}
+::placeholder {
+  color: #598fb2;
+}
+#search {
+  padding: 0px;
+  border: none;
+  outline-width: 0;
+  background-color: #d3e1eb;
+  margin: 7px 0px 7px -15px;
+  color: #06578c;
+  font-family: Roboto;
+  font-size: x-large;
+}
+
+.search-icon {
+  margin-left: 20px;
+  margin-top: 7px;
+  color: #598fb2;
+  font-size: x-large;
+}
+
+.mat-form-field-infix {
+  width: 400px !important;
+}
+.line {
+  height: 1px;
+  background-color: #06578c;
+  margin: 40px auto auto;
+}
+
+.list-bottom {
+margin-top: auto;
+}

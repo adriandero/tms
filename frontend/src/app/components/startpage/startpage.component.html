@@ -1,0 +1,24 @@
+<div class="main">
+  <app-sidebar></app-sidebar>
+  <div class="main-content">
+    <mat-toolbar>
+      <button mat-flat-button id="sortby-btn">
+        Sort By <fa-icon [icon]="faSort" class="sortby-icon"></fa-icon>
+      </button>
+      <button mat-flat-button id="filter-btn">
+        Filter
+        <fa-icon [icon]="faFilter" class="filter-icon"></fa-icon>
+      </button>
+      <h2>
+        Dashboard
+        <!-- dynamic-->
+      </h2>
+    </mat-toolbar>
+    <app-tender></app-tender>
+    <app-tender></app-tender>
+    <app-tender></app-tender>
+    <app-tender></app-tender>
+    <app-tender></app-tender>
+    <app-tender></app-tender>
+  </div>
+</div>

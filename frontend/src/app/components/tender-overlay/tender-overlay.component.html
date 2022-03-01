@@ -1,0 +1,45 @@
+<button cdkOverlayOrigin #trigger="cdkOverlayOrigin">
+  Open/close overlay
+</button>
+<div>This content will be under the overlay</div>
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger">
+  <ul class="example-overlay">
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+  </ul>
+</ng-template>
+
+<mat-card id="popup-card" matBadge="X" matBadgePosition="after">
+  <mat-card-header id="card-header">
+    <mat-card-title id="card-title">
+      <div class="badge">
+        <a>3</a>
+      </div>
+      <a class="card-title-text">See History</a>
+      <fa-icon [icon]="faArrowRight" class="dropdown-icon" id="history-link-arrow"></fa-icon>
+      <!--   on click TODO-->
+    </mat-card-title>
+    <div class="card-main-heading">
+
+      <a id="card-project-title">Österreich-Wien: IT-Dienste: Beratung, Software-Entwicklung, Internet und
+        Hilfestellung</a>
+
+      <mat-chip-list aria-label="Fish selection" class="card-tags">
+        <mat-chip class="tag1">Tag 1</mat-chip>
+        <mat-chip>Test tag</mat-chip>
+        <mat-chip class="tag3">longer test tag</mat-chip>
+        <mat-chip>tag</mat-chip>
+      </mat-chip-list>
+
+      <div class="line"></div>
+    </div>
+
+  </mat-card-header>
+  <mat-card-content>
+<div class="card-content-schrift">
+<a></a>
+</div>
+  </mat-card-content>
+
+</mat-card>
