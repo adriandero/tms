@@ -1,7 +1,5 @@
 package at.snt.tms.model.operator;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -18,9 +16,8 @@ public class Role implements Serializable {
     private static final long serialVersionUID = -430763022781473677L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "r_id", nullable = false, updatable = false)
+    @GeneratedValue
+    @Column(name = "r_id")
     private Long id;
     @Column(name = "r_designation", length = 50)
     private String designation;

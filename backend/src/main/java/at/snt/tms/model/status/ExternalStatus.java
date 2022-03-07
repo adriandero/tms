@@ -22,11 +22,8 @@ public class ExternalStatus {
     private String label;
 
     @ManyToMany
-    @JoinTable(name = "es_status_transitions",
-            joinColumns = @JoinColumn(name = "es_id", referencedColumnName = "es_id"),
-            inverseJoinColumns = @JoinColumn(name = "transition_es_id", referencedColumnName = "es_id")
-    )
-    private Set<ExternalStatus> possibleTransitions;
+    @JoinTable(name = "es_status_transitions", joinColumns = @JoinColumn(name = "es_id", referencedColumnName = "es_id"), inverseJoinColumns = @JoinColumn(name = "transition_es_id", referencedColumnName = "es_id"))
+    private Set<ExternalStatus> transitions;
 
     public ExternalStatus(String label) {
         this.label = label;
@@ -35,25 +32,25 @@ public class ExternalStatus {
     public ExternalStatus() {
     }
 
-    public Set<ExternalStatus> getPossibleTransitions() {
-        return possibleTransitions;
+    public Set<ExternalStatus> getTransitions() {
+        return transitions;
     }
 
-    private void setPossibleTransitions(Set<ExternalStatus> possibleTransitions) {
-        this.possibleTransitions = possibleTransitions;
+    private void setTransitions(Set<ExternalStatus> transitions) {
+        this.transitions = transitions;
     }
 
-    public void addPossibleTransitions(ExternalStatus... possibleTransitions) {
-        for(ExternalStatus es : possibleTransitions) {
-            this.addPossibleTransition(es);
+    public void addTransitions(ExternalStatus... transitions) {
+        for(ExternalStatus es : transitions) {
+            this.addTransition(es);
         }
     }
 
-    public void addPossibleTransition(ExternalStatus possibleTransition) {
-        if(possibleTransition == null) {
+    public void addTransition(ExternalStatus transition) {
+        if(transition == null) {
             throw new IllegalArgumentException("Cannot add null-value transition.");
         }
-        possibleTransitions.add(possibleTransition);
+        this.transitions.add(transition);
     }
 
     public Long getId() {

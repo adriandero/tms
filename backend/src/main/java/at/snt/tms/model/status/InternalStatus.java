@@ -1,12 +1,7 @@
 package at.snt.tms.model.status;
 
-import at.snt.tms.model.operator.User;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.Set;
 
 /**
@@ -22,30 +17,19 @@ public class InternalStatus implements Serializable {
     private static final long serialVersionUID = -8736360362075978103L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "is_id", nullable = false, updatable = false)
+    @GeneratedValue
+    @Column(name = "is_id")
     private Long id;
 
     @Column(name = "is_label")
     private String label;
-    @ManyToOne
-    @JoinColumn(name = "is_u_user", foreignKey = @ForeignKey(name = "u_mail"))
-    private User user;
-    @CreationTimestamp
-    @Column(name = "is_timestamp", nullable = false, updatable = false)
-    private Date timestamp;  // java.sql.Date
 
     @ManyToMany
-    @JoinTable(name = "is_status_transitions",
-            joinColumns = @JoinColumn(name = "is_id", referencedColumnName = "is_id"),
-            inverseJoinColumns = @JoinColumn(name = "transition_is_id", referencedColumnName = "is_id")
-    )
-    private Set<InternalStatus> possibleTransitions;
+    @JoinTable(name = "is_status_transitions", joinColumns = @JoinColumn(name = "is_id", referencedColumnName = "is_id"), inverseJoinColumns = @JoinColumn(name = "transition_is_id", referencedColumnName = "is_id"))
+    private Set<InternalStatus> transitions;
 
-    public InternalStatus(String label, User user) {
+    public InternalStatus(String label) {
         this.label = label;
-        this.user = user;
     }
 
     public InternalStatus() {
@@ -67,40 +51,24 @@ public class InternalStatus implements Serializable {
         this.label = label;
     }
 
-    public User getUser() {
-        return user;
+    public Set<InternalStatus> getTransitions() {
+        return transitions;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    private void setTransitions(Set<InternalStatus> transitions) {
+        this.transitions = transitions;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public Set<InternalStatus> getPossibleTransitions() {
-        return possibleTransitions;
-    }
-
-    private void setPossibleTransitions(Set<InternalStatus> possibleTransitions) {
-        this.possibleTransitions = possibleTransitions;
-    }
-
-    public void addPossibleTransitions(InternalStatus... possibleTransitions) {
-        for(InternalStatus es : possibleTransitions) {
-            this.addPossibleTransition(es);
+    public void addTransitions(InternalStatus... transitions) {
+        for(InternalStatus es : transitions) {
+            this.addTransition(es);
         }
     }
 
-    public void addPossibleTransition(InternalStatus possibleTransition) {
-        if(possibleTransition == null) {
+    public void addTransition(InternalStatus transition) {
+        if(transition == null) {
             throw new IllegalArgumentException("Cannot add null-value transition.");
         }
-        possibleTransitions.add(possibleTransition);
+        this.transitions.add(transition);
     }
 }

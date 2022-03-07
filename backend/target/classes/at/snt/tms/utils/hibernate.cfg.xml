@@ -5,12 +5,13 @@
 
 <hibernate-configuration>
     <session-factory>
+        <!-- https://www.baeldung.com/spring-boot-sqlite -->
         <!-- database connection properties -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/tms_db</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password"/>
-        <property name="hibernate.dialect">org.hibernate.dialect.MariaDBDialect</property>
+        <!-- https://www.codejava.net/frameworks/hibernate/how-to-make-hibernate-work-with-oracle-database -->
 
         <!-- https://howtodoinjava.com/hibernate/hibernate-c3p0-connection-pool-configuration-tutorial/ -->
 
@@ -21,14 +22,16 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- add annotated resources here-->
-        <mapping class="at.snt.tms.model.Tender"/>
-        <mapping class="at.snt.tms.model.TenderPresent"/>
-        <mapping class="at.snt.tms.model.TenderHistory"/>
-        <mapping class="at.snt.tms.model.Platform"/>
+        <mapping class="at.snt.tms.model.tender.Tender"/>
+        <mapping class="at.snt.tms.model.tender.Platform"/>
         <mapping class="at.snt.tms.model.operator.User"/>
         <mapping class="at.snt.tms.model.operator.Role"/>
-
-        <mapping class="at.snt.tms.model.status.ExternalStatus"/>
         <mapping class="at.snt.tms.model.status.InternalStatus"/>
+        <mapping class="at.snt.tms.model.status.AssignedIntStatus"/>
+        <mapping class="at.snt.tms.model.status.ExternalStatus"/>
+        <mapping class="at.snt.tms.model.tender.Assignment"/>
+        <mapping class="at.snt.tms.model.tender.Task"/>
+        <mapping class="at.snt.tms.model.tender.TenderUpdate"/>
+        <mapping class="at.snt.tms.model.tender.Attachment"/>
     </session-factory>
 </hibernate-configuration>
