@@ -1,6 +1,4 @@
-package at.snt.tms.model;
-
-import org.hibernate.annotations.GenericGenerator;
+package at.snt.tms.model.tender;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,10 +17,10 @@ public class Platform implements Serializable {
     private static final long serialVersionUID = -2331276148933404188L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue
     @Column(name = "p_id", nullable = false, updatable = false)
     private Long id;
+
     @Column(name = "p_link", length = 50)
     private String link;
 

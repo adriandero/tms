@@ -1,6 +1,6 @@
-import at.snt.tms.model.Platform;
-import at.snt.tms.model.Tender;
 import at.snt.tms.utils.HibernateUtil;
+import at.snt.tms.model.tender.Platform;
+import at.snt.tms.model.tender.Tender;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.jupiter.api.Assertions;
@@ -14,6 +14,8 @@ import javax.persistence.Query;
  * @author Oliver Sommer
  */
 public class TestConnection {
+    // VM options: -ea -Ddb_driver=MySQL -Ddb_url=jdbc:mysql://127.0.0.1:3306/tms_db -Ddb_user=root -Ddb_password=""
+
     @Test
     void connectToDatabase() {
         //https://stackabuse.com/guide-to-jpa-with-hibernate-basic-mapping/
