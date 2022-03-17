@@ -2,6 +2,7 @@ package at.snt.tms.model.tender;
 
 import at.snt.tms.model.status.AssignedIntStatus;
 import at.snt.tms.model.status.ExternalStatus;
+import at.snt.tms.model.status.InternalStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -38,6 +39,10 @@ public class Tender implements Serializable {
     @Column(name = "te_name", length = 150, nullable = false)
     private String name;
 
+    @ManyToOne
+    @JoinColumn(name = "te_c_company")
+    private Company company;
+
     @Column(name = "te_description", length = 500)
     private String description;  // Beschreibung der Ausschreibung
 
@@ -54,20 +59,22 @@ public class Tender implements Serializable {
     @JoinColumn(name = "te_es_latest_ex_status")
     private ExternalStatus latestExStatus;
 
-    /*@ManyToOne
-    @JoinColumn(name = "t_is_latest_int_status")
-    private InternalStatus latestIntStatus;*/
+    @ManyToOne
+    @JoinColumn(name = "te_is_latest_int_status")
+    private InternalStatus latestIntStatus;
 
     @OneToMany(mappedBy = "tender")
     @OrderBy(value = "created")
     //@JoinColumn(name = "t_ais_assigned_int_statuses")
     private Set<AssignedIntStatus> assignedIntStatuses;
 
-    public Tender(String documentNumber, Platform platform, String link, String name, String description) {
+    public Tender(Long id, String documentNumber, Platform platform, String link, String name, Company company, String description) {
+        this.id = id;
         this.documentNumber = documentNumber;
         this.platform = platform;
         this.link = link;
         this.name = name;
+        this.company = company;
         this.description = description;
     }
 
@@ -143,13 +150,21 @@ public class Tender implements Serializable {
         this.latestExStatus = latestExStatus;
     }
 
-    /*public InternalStatus getLatestIntStatus() {
+    public InternalStatus getLatestIntStatus() {
         return latestIntStatus;
     }
 
     public void setLatestIntStatus(InternalStatus latestIntStatus) {
         this.latestIntStatus = latestIntStatus;
-    }*/
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 
     public Set<AssignedIntStatus> getAssignedIntStatuses() {
         return assignedIntStatuses;
@@ -157,10 +172,10 @@ public class Tender implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if(this == o) {
+        if (this == o) {
             return true;
         }
-        if(o == null || getClass() != o.getClass()) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         Tender tender = (Tender) o;

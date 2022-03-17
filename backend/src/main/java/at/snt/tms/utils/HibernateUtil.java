@@ -63,6 +63,7 @@ public class HibernateUtil {
         config.addAnnotatedClass(TenderUpdate.class);
         config.addAnnotatedClass(Attachment.class);
         config.addAnnotatedClass(Platform.class);
+        config.addAnnotatedClass(Company.class);
         config.addAnnotatedClass(User.class);
         config.addAnnotatedClass(Role.class);
         config.addAnnotatedClass(InternalStatus.class);
