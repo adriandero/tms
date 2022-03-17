@@ -4,7 +4,7 @@ camel:
     name: tms
   servlet:
     mapping:
-      contextPath: /api/*
+      contextPath: /*
 spring:
   profiles:
     active: @spring.profiles.active@
