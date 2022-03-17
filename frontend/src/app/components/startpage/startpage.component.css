@@ -5,7 +5,7 @@
   width: 100%;
 }
 app-sidebar {
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  position: relative; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
@@ -15,10 +15,11 @@ app-tender {
   width: 100%;
 }
 .main-content {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-left: 320px;
+  margin-left: 10px;
 }
 
 mat-toolbar {
@@ -34,10 +35,12 @@ mat-toolbar {
   display: flex;
   font-weight: bold;
   color: #555;
+  border-radius: 8px;
 }
 #filter-btn {
   font-weight: bold;
   color: #555;
+  border-radius: 8px;
 }
 
 .sortby-icon,

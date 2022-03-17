@@ -10,11 +10,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatBadgeModule} from '@angular/material/badge';
-
-
-
-
-
+import {MatRippleModule} from '@angular/material/core';
 
 import { TenderComponent } from './tender.component';
 
@@ -36,7 +32,8 @@ describe('TenderComponent', () => {
         MatSelectModule,
         MatMenuModule,
         MatChipsModule,
-        MatBadgeModule
+        MatBadgeModule,
+        MatRippleModule
       ]
     }).compileComponents();
   }));

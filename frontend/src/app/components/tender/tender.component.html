@@ -1,30 +1,47 @@
-<mat-card class="card" matBadge="3" matBadgePosition="before"
-  ><!--dynamic-->
+<mat-card class="card" matBadge="3" matBadgePosition="before">
+  <div
+    class="overlayclick"
+    mat-button
+    (click)="openDialog()"
+    type="button"
+  ></div>
+  <!--dynamic-->
+  <!-- <mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()"
+    ><!--dynamic-->
+  <!--<mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()">&lt;!&ndash;dynamic&ndash;&gt;-->
   <mat-chip-list aria-label="Fish selection">
-    <mat-chip class="tag1">Tag 1</mat-chip>
-    <mat-chip>Test tag</mat-chip>
-    <mat-chip class="tag3">longer test tag</mat-chip>
-    <mat-chip>tag</mat-chip>
+    <mat-chip mat-button [matMenuTriggerFor]="extern" class="extern">{{
+      tender.latestExStatus.label  
+    }}
+
+    </mat-chip>
+    <mat-chip mat-button [matMenuTriggerFor]="intern" class="intern">{{
+      tender.latestIntStatus.label
+    }}</mat-chip>
   </mat-chip-list>
-  <div class="container">
-    <button mat-button [matMenuTriggerFor]="menu" class="dropdown-btn">
-      <fa-icon [icon]="faAngleDown" class="dropdown-icon"></fa-icon>
+  <mat-menu class="dropdown-menu" #extern="matMenu">
+    <button mat-menu-item>
+      <!-- <fa-icon [icon]="faUser" class="user-icon"></fa-icon> -->
+      Interesting
     </button>
-    <mat-menu class="dropdown-menu" #menu="matMenu">
-      <button mat-menu-item>
-        <fa-icon [icon]="faUser" class="user-icon"></fa-icon>
-      </button>
-      <button mat-menu-item>
-        <fa-icon [icon]="faTag" class="tag-icon"></fa-icon>
-      </button>
-    </mat-menu>
+    <button mat-menu-item>
+      <!-- <fa-icon [icon]="faTag" class="tag-icon"></fa-icon> -->
+      Uninteresting
+    </button>
+  </mat-menu>
+  <mat-menu class="dropdown-menu" #intern="matMenu"> </mat-menu>
+
+  <div class="container">
     <div class="content">
       <h4 class="title">
-        Österreich-Wien: IT-Dienste: Beratung, Software-Entwicklung, Internet
-        und Hilfestellung
+        {{ tender.name }}
       </h4>
       <div class="line"></div>
-      <h5 class="auftragsgeber">Wiener Tourismusverband</h5>
+      <h5 class="auftragsgeber">{{tender.description}}</h5>
     </div>
+
+    <!-- <button mat-button [matMenuTriggerFor]="menu" class="dropdown-btn">
+      <fa-icon [icon]="faAngleDown" class="dropdown-icon"></fa-icon>
+    </button> -->
   </div>
 </mat-card>

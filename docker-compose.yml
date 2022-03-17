@@ -1,13 +1,14 @@
 version: "3.8"
 services:
-  tms:
+  backend:
     build:
-      context: software/
+      context: ./backend/
+    image: tms/backend
+  frontend:
+    build:
+      context: ./frontend/
     depends_on:
-      - database
-    image: snt/tms
-  database:
-    image: oracleinanutshell/oracle-xe-11g:latest
-    # volumes:
-    #  - todo:todo
-
+      - "backend"
+    ports:
+      - 80:80
+    image: tms/frontend

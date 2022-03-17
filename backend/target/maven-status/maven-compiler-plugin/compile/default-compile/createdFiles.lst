@@ -1,0 +1,16 @@
+at\snt\tms\model\status\InternalStatus.class
+at\snt\tms\model\tender\Tender.class
+at\snt\tms\rest\TenderBean.class
+at\snt\tms\rest\UserBean.class
+at\snt\tms\model\tender\Task.class
+at\snt\tms\model\status\AssignedIntStatus.class
+at\snt\tms\model\tender\Assignment.class
+at\snt\tms\model\status\ExternalStatus.class
+at\snt\tms\TenderManager.class
+at\snt\tms\model\operator\Role.class
+at\snt\tms\model\operator\User.class
+at\snt\tms\model\tender\Tender$Builder.class
+at\snt\tms\model\tender\Platform.class
+at\snt\tms\model\tender\Attachment.class
+at\snt\tms\rest\RestAPI.class
+at\snt\tms\model\tender\TenderUpdate.class
