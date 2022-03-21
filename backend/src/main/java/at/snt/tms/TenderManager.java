@@ -1,9 +1,9 @@
 package at.snt.tms;
 
-import at.snt.tms.rest.HelloBean;
-import at.snt.tms.rest.RestRouteBuilder;
-import org.apache.camel.CamelContext;
-import org.apache.camel.impl.DefaultCamelContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Class {@code TenderManager.java}
@@ -12,21 +12,16 @@ import org.apache.camel.impl.DefaultCamelContext;
  *
  * @author Dominik Fluch
  */
-public class TenderManager {
+@SpringBootApplication
+@ComponentScan(basePackages="at.snt.tms")
+public class TenderManager extends SpringBootServletInitializer {
 
     /**
      * Runs the tms backend.
      * @param args
      */
-    public static void main(String[] args) throws Exception { // TODO: Handle this exception with some nice logging; This is not very clean
-        try (CamelContext camel = new DefaultCamelContext()) {
-            camel.addRoutes(new RestRouteBuilder());
-            camel.getRegistry().bind("helloBean", new HelloBean()); // Dirty; Pretty sure there is a better way but for demonstration only
-
-            camel.start();
-
-            Thread.sleep(100_000_000);
-        }
+    public static void main(String[] args) {
+        SpringApplication.run(TenderManager.class, args);
     }
 
 }

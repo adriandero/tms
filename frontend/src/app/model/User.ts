@@ -9,3 +9,4 @@ export type User = {
   mail: string,
   roles: Role[]
 }
+

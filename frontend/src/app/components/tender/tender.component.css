@@ -3,8 +3,9 @@
   height: auto;
   box-shadow: none;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   padding: 5px 20px 5px 20px;
+  border-radius: 8px;
 }
 .container {
   display: flex;
@@ -14,7 +15,7 @@
 }
 
 .dropdown-icon {
-  font-size: xx-large;
+  font-size: x-large;
   color: #06578c;
 }
 
@@ -23,20 +24,22 @@
   min-width: unset !important;
 }
 ::ng-deep .mat-menu-panel {
+  margin-top: 10px;
   max-width: none !important;
   min-width: 0px !important;
 }
-.mat-menu-panel.dropdown-menu {
-  width: 280px;
-}
-
 .user-icon {
-  font-size: x-large;
+  font-size: large;
   color: #06578c;
 }
 .tag-icon {
-  font-size: x-large;
+  font-size: large;
   color: #06578c;
+}
+.mat-menu-item {
+  color: #555;
+  font-size: medium;
+  font-weight: bold;
 }
 
 .content {
@@ -67,7 +70,8 @@ h5 {
   width: 100%;
   height: 1px;
   background-color: #aaa;
-  margin: 0;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 mat-chip-list {
@@ -76,7 +80,7 @@ mat-chip-list {
   position: relative;
   bottom: 15px;
   margin-bottom: -20px;
-  margin-left: 65px;
+  margin-left: 15px;
 }
 
 :host ::ng-deep .mat-chip-list-wrapper mat-chip {
@@ -92,16 +96,24 @@ mat-chip-list {
 
 .mat-chip {
   color: #555 !important;
-}
-.tag1 {
-  background-color: #d3e1eb !important;
-}
-.tag3 {
-  background-color: #caedd8 !important;
+  z-index: 2;
 }
 
 ::ng-deep .mat-badge-content {
   background: #d3e1eb;
   color: #06578c;
   font-size: medium;
+}
+
+.overlayclick {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+.intern, .extern {
+  background-color: #d3e1eb;
 }

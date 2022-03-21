@@ -19,7 +19,6 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatListModule } from '@angular/material/list';
 import {MatInputModule} from '@angular/material/input';
@@ -28,9 +27,17 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatBadgeModule} from '@angular/material/badge';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { HistoryComponent } from './components/history/history.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatRippleModule} from '@angular/material/core';
 import { TenderOverlayComponent } from './components/tender-overlay/tender-overlay.component';
 import { OverlayModule } from "@angular/cdk/overlay";
+import { TendersComponent } from './components/tenders/tenders.component';
+import {HttpClientModule} from "@angular/common/http"
+import {MatDialogModule} from "@angular/material/dialog";
+
 
 
 
@@ -44,7 +51,9 @@ import { OverlayModule } from "@angular/cdk/overlay";
     FloatingLabelComponent,
     StartpageComponent,
     LoginComponent,
+    HistoryComponent,
     TenderOverlayComponent,
+   TendersComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,8 +77,15 @@ import { OverlayModule } from "@angular/cdk/overlay";
     MatMenuModule,
     MatChipsModule,
     MatBadgeModule,
+    FormsModule,
+    MatStepperModule,
     ReactiveFormsModule,
-    OverlayModule
+    OverlayModule,
+    HttpClientModule,
+    MatDialogModule,
+    MatRippleModule,
+
+
 
   ],
   providers: [],

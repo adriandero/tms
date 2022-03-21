@@ -1,45 +1,186 @@
-<button cdkOverlayOrigin #trigger="cdkOverlayOrigin">
-  Open/close overlay
-</button>
-<div>This content will be under the overlay</div>
-<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="trigger">
-  <ul class="example-overlay">
-    <li>Item 1</li>
-    <li>Item 2</li>
-    <li>Item 3</li>
-  </ul>
-</ng-template>
+<mat-dialog-content class="mat-typography dialog">
+  <mat-card class="card">
+    <div class="content">
+      <mat-toolbar>
+        <a href="/history"
+          ><fa-icon [icon]="faArrowLeft" class="icons"></fa-icon>History</a
+        >
+        <fa-icon
+          [icon]="faTimes"
+          class="icons close"
+          (click)="this.dialogRef.close()"
+        ></fa-icon>
+      </mat-toolbar>
+      <div class="head">
+        <h4 class="title">
+          {{ data.name }}
+        </h4>
+        <mat-chip-list aria-label="externer status">
+          <mat-chip mat-button [matMenuTriggerFor]="extern" class="extern">
+            {{data.latestExStatus.label}}
+          </mat-chip>
+          <mat-chip mat-button [matMenuTriggerFor]="intern" class="intern">
+            {{data.latestIntStatus.label}}
+          </mat-chip>
+        </mat-chip-list>
 
-<mat-card id="popup-card" matBadge="X" matBadgePosition="after">
-  <mat-card-header id="card-header">
-    <mat-card-title id="card-title">
-      <div class="badge">
-        <a>3</a>
+        <mat-chip-list aria-label="user" class="users">
+          <!-- so viele user können assigned werden wie gewünscht (nacharbeiten) -->
+          <mat-chip mat-button class="user"> Oliver Sommer </mat-chip>
+          <mat-chip mat-button class="user"> Luis Kalckstein </mat-chip>
+          <mat-chip mat-button class="user"> Dominik Fluch </mat-chip>
+        </mat-chip-list>
+        <mat-menu class="dropdown-menu" #extern="matMenu">
+          <button mat-menu-item>
+            <!-- <fa-icon [icon]="faUser" class="user-icon"></fa-icon> -->
+            Interesting
+          </button>
+          <button mat-menu-item>
+            <!-- <fa-icon [icon]="faTag" class="tag-icon"></fa-icon> -->
+            Uninteresting
+          </button>
+        </mat-menu>
+        <mat-menu class="dropdown-menu" #intern="matMenu"> </mat-menu>
+        <div class="line"></div>
       </div>
-      <a class="card-title-text">See History</a>
-      <fa-icon [icon]="faArrowRight" class="dropdown-icon" id="history-link-arrow"></fa-icon>
-      <!--   on click TODO-->
-    </mat-card-title>
-    <div class="card-main-heading">
+      <div class="main">
+        <h5 class="info">
+          <span class="info-title">Dokumentennummer:</span>
+          {{ data.documentNumber }}
+        </h5>
+        <!-- 
+        <h5 class="info">
+          <span class="info-title">Bekanntmachnugsart:</span> {{Bekanntmachnug}}
+        </h5> -->
+        <h5 class="info">
+          <span class="info-title">Auftragsgeber:</span>{{ data.company }}
+        </h5>
+        <!-- <h5 class="info" [ngClass]="{ limitTextHeight: isReadMore }"> -->
+        <h5 class="info">
+          <span class="info-title">Beschreibung:</span>
+          {{ data.description }}
+        </h5>
+        <!-- 
+        <button mat-flat-button id="more-btn" type="button" (click)="showText()">
+          {{ isReadMore ? "Read More" : "Read Less" }}
+        </button> -->
 
-      <a id="card-project-title">Österreich-Wien: IT-Dienste: Beratung, Software-Entwicklung, Internet und
-        Hilfestellung</a>
+        <!-- depending if update or not: -->
+        <!-- <h5 class="info">
+          <span class="info-title">Details:</span> {{ data.details }}
+        </h5> -->
 
-      <mat-chip-list aria-label="Fish selection" class="card-tags">
-        <mat-chip class="tag1">Tag 1</mat-chip>
-        <mat-chip>Test tag</mat-chip>
-        <mat-chip class="tag3">longer test tag</mat-chip>
-        <mat-chip>tag</mat-chip>
-      </mat-chip-list>
-
-      <div class="line"></div>
+        <h5 class="info">
+          <span class="info-title">Anhänge:</span>
+          <mat-list>
+            <a mat-list-item class="file"
+              ><fa-icon [icon]="faFileAlt" class="icons"></fa-icon>dummy1.pdf</a
+            >
+            <a mat-list-item class="file"
+              ><fa-icon [icon]="faFileAlt" class="icons"></fa-icon>dummy2.pdf
+            </a>
+          </mat-list>
+        </h5>
+      </div>
     </div>
+  </mat-card>
 
-  </mat-card-header>
-  <mat-card-content>
-<div class="card-content-schrift">
-<a></a>
-</div>
-  </mat-card-content>
+  <!--  <a class="close-button">X</a>-->
 
-</mat-card>
+  <!-- <div id="popup-card">
+    <div id="card-header">
+      <div id="card-title">
+        <div class="badge">
+          <a>3</a>
+        </div>
+        <a class="card-title-text" (click)="go()">See History</a>
+        <fa-icon
+          [icon]="faArrowRight"
+          class="dropdown-icon"
+          id="history-link-arrow"
+        ></fa-icon>
+      </div>
+
+      <div class="card-main-heading">
+        <a id="card-project-title"
+          >Österreich-Wien: IT-Dienste: Beratung, Software-Entwicklung, Internet
+          und Hilfestellung</a
+        >
+
+        <mat-chip-list aria-label="Fish selection" class="card-tags">
+          <mat-chip class="extern">Externer status</mat-chip>
+          <mat-chip class="intern">Interner status</mat-chip>
+        </mat-chip-list>
+        <div class="line"></div>
+      </div>
+      <div class="card-content">
+        <div class="card-content-schrift">
+          <a class="blue-text">Auftragsgeber:</a>
+          <a class="grey-text">Wiener Trousimusverband</a>
+        </div>
+        <div class="card-content-schrift">
+          <a class="blue-text">Veräfentlichung:</a>
+          <a class="grey-text">27.10.2021</a>
+        </div>
+        <div class="card-content-schrift">
+          <a class="blue-text">Dokumentennummer:</a>
+          <a class="grey-text">EU546015-2021</a>
+        </div>
+        <div class="card-content-schrift">
+          <a class="blue-text">Bekanntmachnugsart:</a>
+          <a class="grey-text"
+            >Kerndaten für die Bekanntmachung von zu vergebenden Aufträgen,
+            Rahmenvereinbarungen und die Einrichtung bzw. Einstellung von
+            dynamischen Beschaffungssystemen (Anhang VIII, 1. Abschnitt, Z 2
+            BVergG 2018)</a
+          >
+        </div>
+        <div class="card-content-schrift">
+          <a class="blue-text">Beschreibung:</a>
+          <a class="grey-text">
+            1060 Wien, Lehargasse 6, Obj. 11 - : Abbruch und Neubau BT BF (ehem.
+            BT BD Tonne) / Beleuchtung, Gegenstand dieses
+            Leistungsverzeichnisses sind sämtliche Leistungen über die
+            Herstellung der Beleuchtung zur Errichtung des Institutsgebäudes BF
+            für die Fakultät Maschinenwesen und Betriebswissenschaften an der TU
+            Wien auf dem Areal Getreidemarkt, in der L</a
+          >
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!--<mat-card id="popup-card" matBadge="X" matBadgePosition="after">-->
+  <!--  <mat-card-header id="card-header">-->
+  <!--    <mat-card-title id="card-title">-->
+  <!--      <div class="badge">-->
+  <!--        <a>3</a>-->
+  <!--      </div>-->
+  <!--      <a class="card-title-text">See History</a>-->
+  <!--      <fa-icon [icon]="faArrowRight" class="dropdown-icon" id="history-link-arrow"></fa-icon>-->
+  <!--      &lt;!&ndash;   on click TODO&ndash;&gt;-->
+  <!--    </mat-card-title>-->
+  <!--    <div class="card-main-heading">-->
+
+  <!--      <a id="card-project-title">Österreich-Wien: IT-Dienste: Beratung, Software-Entwicklung, Internet und-->
+  <!--        Hilfestellung</a>-->
+
+  <!--      <mat-chip-list aria-label="Fish selection" class="card-tags">-->
+  <!--        <mat-chip class="tag1">Tag 1</mat-chip>-->
+  <!--        <mat-chip>Test tag</mat-chip>-->
+  <!--        <mat-chip class="tag3">longer test tag</mat-chip>-->
+  <!--        <mat-chip>tag</mat-chip>-->
+  <!--      </mat-chip-list>-->
+
+  <!--      <div class="line"></div>-->
+  <!--    </div>-->
+
+  <!--  </mat-card-header>-->
+  <!--  <mat-card-content>-->
+  <!--    <div class="card-content-schrift">-->
+  <!--      <a></a>-->
+  <!--    </div>-->
+  <!--  </mat-card-content>-->
+
+  <!--</mat-card>-->
+</mat-dialog-content>

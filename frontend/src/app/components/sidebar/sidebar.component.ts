@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import {User} from "../../model/User";
 import {Role} from "../../model/Roles";
-import {faArchive, faInbox, faSearch, faStar, faTrash, faTag, faCog} from "@fortawesome/free-solid-svg-icons"
+import {faArchive, faInbox, faSearch, faStar, faTrash, faTag, faCog, 	faCertificate, faSyncAlt} from "@fortawesome/free-solid-svg-icons"
 
 
 @Component({
@@ -32,6 +32,8 @@ export class SidebarComponent {
     faTrash = faTrash
     faTag = faTag
     faCog=faCog
+    faCertificate = faCertificate
+    faSyncAlt = faSyncAlt
 
   constructor(private breakpointObserver: BreakpointObserver) {}
 

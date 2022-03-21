@@ -6,21 +6,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
-import {MatSelectModule} from '@angular/material/select';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatBadgeModule} from '@angular/material/badge';
-import {MatRippleModule} from '@angular/material/core';
+import {MatStepperModule} from '@angular/material/stepper';
+import { HistoryComponent } from './history.component';
+import { TenderOverlayComponent } from '../tender-overlay/tender-overlay.component';
 
-import { TenderComponent } from './tender.component';
-
-describe('TenderComponent', () => {
-  let component: TenderComponent;
-  let fixture: ComponentFixture<TenderComponent>;
+describe('HistoryComponent', () => {
+  let component: HistoryComponent;
+  let fixture: ComponentFixture<HistoryComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TenderComponent],
+      declarations: [HistoryComponent],
       imports: [
         NoopAnimationsModule,
         LayoutModule,
@@ -29,17 +25,15 @@ describe('TenderComponent', () => {
         MatListModule,
         MatToolbarModule,
         MatCardModule,
-        MatSelectModule,
-        MatMenuModule,
-        MatChipsModule,
-        MatBadgeModule,
-        MatRippleModule
+        MatStepperModule,
+        TenderOverlayComponent
+
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TenderComponent);
+    fixture = TestBed.createComponent(HistoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
