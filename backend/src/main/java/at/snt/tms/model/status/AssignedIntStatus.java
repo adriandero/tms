@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "ais_assigned_int_status", schema = "tms_db")
+@Table(name = "ais_assigned_int_status")
 public class AssignedIntStatus implements Serializable {
     private static final long serialVersionUID = -2353155447689327872L;
 

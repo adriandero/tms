@@ -12,7 +12,7 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "is_internal_status", schema = "tms_db")
+@Table(name = "is_internal_status")
 public class InternalStatus implements Serializable {
     private static final long serialVersionUID = -8736360362075978103L;
 

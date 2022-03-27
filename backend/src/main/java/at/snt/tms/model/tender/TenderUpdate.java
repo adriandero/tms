@@ -14,7 +14,7 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "tu_tender_updates", schema = "tms_db")
+@Table(name = "tu_tender_updates")
 public class TenderUpdate implements Serializable {
     private static final long serialVersionUID = -5898473558184076078L;
 

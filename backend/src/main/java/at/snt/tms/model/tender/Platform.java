@@ -12,7 +12,7 @@ import java.util.Objects;
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "p_platforms", schema = "tms_db")
+@Table(name = "p_platforms")
 public class Platform implements Serializable {
     private static final long serialVersionUID = -2331276148933404188L;
 

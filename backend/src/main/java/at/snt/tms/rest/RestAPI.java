@@ -1,18 +1,8 @@
 package at.snt.tms.rest;
 
-import at.snt.tms.model.operator.Role;
-import at.snt.tms.model.operator.User;
-import at.snt.tms.model.status.AssignedIntStatus;
-import at.snt.tms.model.status.ExternalStatus;
-import at.snt.tms.model.status.InternalStatus;
-import at.snt.tms.model.tender.Platform;
-import at.snt.tms.model.tender.Tender;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.stereotype.Component;
-
-import java.sql.Time;
-import java.sql.Timestamp;
 
 
 /**
@@ -20,59 +10,81 @@ import java.sql.Timestamp;
  * <p>
  * Class preparing REST.
  *
- * @author Dominik Fluch & Maximilan Wolf
+ * @author Dominik Fluch, Maximilian Wolf & Oliver Sommer
  */
 @Component
-public class RestAPI extends RouteBuilder {     // http://localhost:8080/
-
-    private final TenderBean tenderBean;
-    private final UserBean userBean;
-
-    public RestAPI(TenderBean tenderBean, UserBean userBean) {
-        this.tenderBean = tenderBean;
-        this.userBean = userBean;
-    }
-
+public class RestAPI extends RouteBuilder {  // http://localhost:8080/
     @Override
     public void configure() {
-        restConfiguration().component("servlet").bindingMode(RestBindingMode.json);
+        restConfiguration()
+                .component("servlet")
+                .apiProperty("api.title", "tms REST API")
+                .apiProperty("api.version", "1.0")
+                .port("8080")
+                .bindingMode(RestBindingMode.json);
 
-        rest("/tenders")
+        rest("/user")
                 .get()
-                .to("bean:tenderBean?method=getTenders");
-        rest("/tenders")
-                .get("{id}")
-                .to("bean:tenderBean?method=getTendersId(${header.id})");
+                .to("direct:user");
+        // 2 options:
+        // 1) findUsers is a method in the class Database
+        from("direct:user")
+                .bean(Database.class, "findUsers");
+        // 2) directly reference findAll method in UserRepository
+        /*from("direct:user")
+                .routeId("user-api")
+                .to("bean:userRepository?method=findAll");*/
 
-        rest("/users")
-                .get()
-                .to("bean:userBean?method=getUsers");
-        rest("/users")
-                .get("{id}")
-                .to("bean:userBean?method=getUsersId(${header.id})")
-                .post().type(User.class)
-                .route()
-                .transform(simple("Created ${body}"));
+        rest("/user/add")
+                .post()
+                .to("direct:user_add");
+        from("direct:user_add")
+                .bean(Database.class, "addUser");
 
 
+        // TODO fix (consider replacing body with header)
         rest("/login")
                 .post()
                 .route()
                 .choice()
-                .when(simple("${body}.password").isEqualTo("admin"))
+                .when(simple("${body.password}").isEqualTo("admin"))
                 .choice()
-                .when(simple("${body}.name").isEqualTo("admin"))
+                .when(simple("${body.name}").isEqualTo("admin"))
                 .transform(simple("Successful login"))
                 .otherwise()
                 .transform(simple("Invalid credentials"));
-    }
 
+
+        /*restConfiguration().component("servlet").bindingMode(RestBindingMode.json);
+
+        rest("/tenders")
+                .get()
+                .to("bean:tenderRepository?method=findAll");
+        rest("/tenders")
+                .get("{id}")
+                .to("bean:tenderRepository?method=findById(${header.id})");
+
+        rest("/users")
+                .get()
+                .to("bean:userRepository?method=findAll");
+        rest("/users")
+                .get("{id}")
+                .to("bean:userRepository?method=findById(${header.id})")
+                .post()
+                .type(User.class)
+                .route()
+                .transform(simple("Created ${body}"));
+         */
+
+
+    }
 }
 
+/*
 @Component
 class TenderBean {
 
-    public Tender[] getTenders(){
+    public Tender[] getTenders() {
         Tender[] tenders = new Tender[3];
         tenders[0] = this.getTendersId(1);
         tenders[1] = this.getTendersId(2);
@@ -84,10 +96,10 @@ class TenderBean {
         Tender tender = new Tender();
         tender.setDescription("Software Programmierung");
         tender.setDocumentNumber("DKNR123");
-        tender.setLink("www.aufrtag.at/exampleTender");
+        tender.setLink("www.auftrag.at/exampleTender");
         tender.setPlatform(new Platform("Auftrag.at"));
         tender.setName("IT-Auftrag");
-        tender.setLatestExStatus(new ExternalStatus("Update"));
+        // tender.setLatestExStatus(new ExternalStatus("Update"));
         // tender.getAssignedIntStatuses().add(new AssignedIntStatus(new InternalStatus("Internal Status"), tender, new User(1234L, "test@test.com", new Role("role")), new Timestamp()));
         // tender.setLatestUpdate(new TenderUpdate());  // tender.updates is null...
         // tender.setLatestIntStatus(new InternalStatus("Interessant"));
@@ -98,7 +110,7 @@ class TenderBean {
 @Component
 class UserBean {
 
-    public User[] getUsers(){
+    public User[] getUsers() {
         User[] users = new User[3];
         users[0] = this.getUsersId(0);
         users[1] = this.getUsersId(1);
@@ -109,6 +121,5 @@ class UserBean {
     public User getUsersId(long id) {
         return new User(id, "muster@mail.zb", new Role("admin"));
     }
-
-
 }
+*/

@@ -12,7 +12,7 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "as_assignments", schema = "tms_db")
+@Table(name = "as_assignments")
 public class Assignment implements Serializable {
     private static final long serialVersionUID = -5828276887838212585L;
 

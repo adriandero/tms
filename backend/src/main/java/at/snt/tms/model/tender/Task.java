@@ -3,12 +3,12 @@ package at.snt.tms.model.tender;
 import javax.persistence.*;
 
 /**
- * Class {@code AssignmentType}
+ * Class {@code Task}
  *
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "ta_task", schema = "tms_db")
+@Table(name = "ta_task")
 public class Task {
     @Id
     @GeneratedValue

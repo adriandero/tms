@@ -9,7 +9,7 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "es_external_status", schema = "tms_db")
+@Table(name = "es_external_status")
 public class ExternalStatus {
     // https://stackoverflow.com/questions/28949853/is-it-possible-to-force-hibernate-to-embed-an-entity
 

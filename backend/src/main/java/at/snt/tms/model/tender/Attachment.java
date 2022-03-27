@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "at_attachments", schema = "tms_db")
+@Table(name = "at_attachments")
 public class Attachment implements Serializable {
     private static final long serialVersionUID = -2001662624259726346L;
 
