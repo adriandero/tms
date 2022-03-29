@@ -1,5 +1,7 @@
 package at.snt.tms.model.status;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
@@ -26,6 +28,7 @@ public class InternalStatus implements Serializable {
 
     @ManyToMany
     @JoinTable(name = "is_status_transitions", joinColumns = @JoinColumn(name = "is_id", referencedColumnName = "is_id"), inverseJoinColumns = @JoinColumn(name = "transition_is_id", referencedColumnName = "is_id"))
+    @JsonIgnore
     private Set<InternalStatus> transitions;
 
     public InternalStatus(String label) {

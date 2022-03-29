@@ -1,5 +1,6 @@
 package at.snt.tms.rest;
 
+import at.snt.tms.rest.services.*;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.stereotype.Component;
@@ -23,103 +24,87 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .port("8080")
                 .bindingMode(RestBindingMode.json);
 
-        rest("/user")
-                .get()
-                .to("direct:user");
-        // 2 options:
-        // 1) findUsers is a method in the class Database
-        from("direct:user")
-                .bean(Database.class, "findUsers");
-        // 2) directly reference findAll method in UserRepository
-        /*from("direct:user")
-                .routeId("user-api")
-                .to("bean:userRepository?method=findAll");*/
-
-        rest("/user/add")
-                .post()
-                .to("direct:user_add");
-        from("direct:user_add")
-                .bean(Database.class, "addUser");
-
-
-        // TODO fix (consider replacing body with header)
-        rest("/login")
-                .post()
-                .route()
-                .choice()
-                .when(simple("${body.password}").isEqualTo("admin"))
-                .choice()
-                .when(simple("${body.name}").isEqualTo("admin"))
-                .transform(simple("Successful login"))
-                .otherwise()
-                .transform(simple("Invalid credentials"));
-
-
-        /*restConfiguration().component("servlet").bindingMode(RestBindingMode.json);
-
         rest("/tenders")
                 .get()
-                .to("bean:tenderRepository?method=findAll");
-        rest("/tenders")
+                    .to("direct:allTenders")
                 .get("{id}")
-                .to("bean:tenderRepository?method=findById(${header.id})");
+                    .to("direct:tenderId");
+        from("direct:allTenders")
+                .bean(TenderService.class, "findAll");
+        from("direct:tenderId")
+                .bean(TenderService.class, "findById(${header.id})");
 
         rest("/users")
                 .get()
-                .to("bean:userRepository?method=findAll");
-        rest("/users")
+                    .to("direct:allUsers")
                 .get("{id}")
-                .to("bean:userRepository?method=findById(${header.id})")
+                    .to("direct:userId")
                 .post()
-                .type(User.class)
-                .route()
-                .transform(simple("Created ${body}"));
-         */
+                    .to("direct:addUser")
+                .delete("{id}")
+                    .to("direct:delUser");
+        from("direct:allUsers")
+                .bean(UserService.class, "findAll");
+        from("direct:userId")
+                .bean(UserService.class, "findById(${header.id})");
+        from("direct:addUser")
+                .bean(UserService.class, "add");
+        from("direct:delUser")
+                .bean(UserService.class, "delete(${header.id})");
 
+        rest("/internalStatus")
+                .get()
+                    .to("direct:allIntStatus")
+                .get("{id}")
+                    .to("direct:intStatusId")
+                .post()
+                    .to("direct:addIntStatus")
+                .delete("{id}")
+                    .to("direct:delIntStatus");
+        from("direct:allIntStatus")
+                .bean(IntStatusService.class, "findAll");
+        from("direct:intStatusId")
+                .bean(IntStatusService.class, "findById(${header.id})");
+        from("direct:addIntStatus")
+                .bean(IntStatusService.class, "add");
+        from("direct:delIntStatus")
+                .bean(IntStatusService.class, "delete(${header.id})");
+
+        rest("/externalStatus")
+                .get()
+                    .to("direct:allExtStatus")
+                .get("{id}")
+                    .to("direct:extStatusId")
+                .post()
+                    .to("direct:addExtStatus")
+                .delete("{id}")
+                    .to("direct:delExtStatus");
+        from("direct:allExtStatus")
+                .bean(ExtStatusService.class, "findAll");
+        from("direct:extStatusId")
+                .bean(ExtStatusService.class, "findById(${header.id})");
+        from("direct:addExtStatus")
+                .bean(ExtStatusService.class, "add");
+        from("direct:delExtStatus")
+                .bean(ExtStatusService.class, "delete(${header.id})");
+
+        rest("/companies")
+                .get()
+                    .to("direct:allCompanies")
+                .get("{id}")
+                    .to("direct:companyId")
+                .post()
+                    .to("direct:addCompany")
+                .delete("{id}")
+                    .to("direct:delCompany");
+        from("direct:allCompanies")
+                .bean(CompanyService.class, "findAll");
+        from("direct:companyId")
+                .bean(CompanyService.class, "findById(${header.id})");
+        from("direct:addCompany")
+                .bean(CompanyService.class, "add");
+        from("direct:delCompany")
+                .bean(CompanyService.class, "delete(${header.id})");
 
     }
 }
-
-/*
-@Component
-class TenderBean {
-
-    public Tender[] getTenders() {
-        Tender[] tenders = new Tender[3];
-        tenders[0] = this.getTendersId(1);
-        tenders[1] = this.getTendersId(2);
-        tenders[2] = this.getTendersId(3);
-        return tenders;
-    }
-
-    public Tender getTendersId(long id) {  // private set for id, AssignedIntStatus, ...
-        Tender tender = new Tender();
-        tender.setDescription("Software Programmierung");
-        tender.setDocumentNumber("DKNR123");
-        tender.setLink("www.auftrag.at/exampleTender");
-        tender.setPlatform(new Platform("Auftrag.at"));
-        tender.setName("IT-Auftrag");
-        // tender.setLatestExStatus(new ExternalStatus("Update"));
-        // tender.getAssignedIntStatuses().add(new AssignedIntStatus(new InternalStatus("Internal Status"), tender, new User(1234L, "test@test.com", new Role("role")), new Timestamp()));
-        // tender.setLatestUpdate(new TenderUpdate());  // tender.updates is null...
-        // tender.setLatestIntStatus(new InternalStatus("Interessant"));
-        return tender;
-    }
-}
-
-@Component
-class UserBean {
-
-    public User[] getUsers() {
-        User[] users = new User[3];
-        users[0] = this.getUsersId(0);
-        users[1] = this.getUsersId(1);
-        users[2] = this.getUsersId(2);
-        return users;
-    }
-
-    public User getUsersId(long id) {
-        return new User(id, "muster@mail.zb", new Role("admin"));
-    }
-}
-*/

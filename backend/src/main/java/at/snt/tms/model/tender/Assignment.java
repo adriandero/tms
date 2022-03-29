@@ -1,6 +1,7 @@
 package at.snt.tms.model.tender;
 
 import at.snt.tms.model.operator.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -34,6 +35,7 @@ public class Assignment implements Serializable {
             joinColumns = @JoinColumn(name = "ast_as_assignment", referencedColumnName = "as_id"),
             inverseJoinColumns = @JoinColumn(name = "ast_ta_type", referencedColumnName = "ta_id")
     )
+    @JsonIgnore
     private Set<Task> tasks;
 
     public Assignment() {
