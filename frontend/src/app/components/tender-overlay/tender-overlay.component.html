@@ -7,8 +7,8 @@
         >
         <fa-icon
           [icon]="faTimes"
+          (click)="closeDialog()"
           class="icons close"
-          (click)="this.dialogRef.close()"
         ></fa-icon>
       </mat-toolbar>
       <div class="head">
@@ -17,10 +17,10 @@
         </h4>
         <mat-chip-list aria-label="externer status">
           <mat-chip mat-button [matMenuTriggerFor]="extern" class="extern">
-            {{data.latestExStatus.label}}
+            {{ data.latestExStatus.label }}
           </mat-chip>
           <mat-chip mat-button [matMenuTriggerFor]="intern" class="intern">
-            {{data.latestIntStatus.label}}
+            {{ data.latestIntStatus.label }}
           </mat-chip>
         </mat-chip-list>
 
@@ -29,6 +29,9 @@
           <mat-chip mat-button class="user"> Oliver Sommer </mat-chip>
           <mat-chip mat-button class="user"> Luis Kalckstein </mat-chip>
           <mat-chip mat-button class="user"> Dominik Fluch </mat-chip>
+          <mat-chip mat-button matTooltip="Assign a user" id="add-user-btn"
+            >+</mat-chip
+          >
         </mat-chip-list>
         <mat-menu class="dropdown-menu" #extern="matMenu">
           <button mat-menu-item>
@@ -48,28 +51,33 @@
           <span class="info-title">Dokumentennummer:</span>
           {{ data.documentNumber }}
         </h5>
-        <!-- 
+
         <h5 class="info">
-          <span class="info-title">Bekanntmachnugsart:</span> {{Bekanntmachnug}}
-        </h5> -->
+          <span class="info-title">Bekanntmachnugsart:</span> Bekanntmachnug
+        </h5>
         <h5 class="info">
-          <span class="info-title">Auftragsgeber:</span>{{ data.company }}
+          <span class="info-title">Auftragsgeber:</span> Wiener Tourismusverband
         </h5>
         <!-- <h5 class="info" [ngClass]="{ limitTextHeight: isReadMore }"> -->
         <h5 class="info">
           <span class="info-title">Beschreibung:</span>
-          {{ data.description }}
+          1060 Wien, Lehargasse 6, Obj. 11 - : Abbruch und Neubau BT BF (ehem.
+          BT BD Tonne) / Beleuchtung, Gegenstand dieses Leistungsverzeichnisses
+          sind sämtliche Leistungen über die Herstellung der Beleuchtung zur
+          Errichtung des Institutsgebäudes BF für die Fakultät Maschinenwesen
+          und Betriebswissenschaften an der TU Wien auf dem Areal Getreidemarkt,
+          in der Lehargasse 6, 1060 Wien.
         </h5>
-        <!-- 
+        <!--
         <button mat-flat-button id="more-btn" type="button" (click)="showText()">
           {{ isReadMore ? "Read More" : "Read Less" }}
         </button> -->
-
-        <!-- depending if update or not: -->
-        <!-- <h5 class="info">
-          <span class="info-title">Details:</span> {{ data.details }}
-        </h5> -->
-
+        <h5 class="info">
+          <span class="info-title">Details:</span> Lorem ipsum dolor sit amet
+          consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint
+          commodirepudiandae consequuntur voluptatum laborum numquam blanditiis
+          harum quisqua
+        </h5>
         <h5 class="info">
           <span class="info-title">Anhänge:</span>
           <mat-list>

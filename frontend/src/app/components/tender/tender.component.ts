@@ -28,7 +28,7 @@ export class TenderComponent implements OnInit{
   faAngleDown=faAngleDown
   faUser=faUser
   faTag=faTag
-  
+
 
   openDialog() {
       console.log(this.tender);
@@ -36,17 +36,15 @@ export class TenderComponent implements OnInit{
       closeOnNavigation: true,
       maxWidth: '700px',
       minWidth: '600px',
-      maxHeight: '600px',
+      maxHeight: '700px',
       minHeight: '400px',
-
-      // height: '600px',
-      // width: '700px'
+      height: '80vh',
       data: this.tender
     });
-    
+
 
 
   }
- 
+
 }
 

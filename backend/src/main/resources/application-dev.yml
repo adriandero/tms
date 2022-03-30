@@ -1,8 +1,6 @@
 spring:
   # Spring JDBC configuration
   datasource:
-    username:
-    password:
     # Let Spring Boot auto-configure an embedded HSQL database
     url:
   # Spring Data JPA configuration

@@ -3,11 +3,9 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {NavbarComponent} from './components/navbar/navbar.component';
 import {GravatarModule} from 'ngx-gravatar';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {UserNamePipe} from './pipes/user-name-pipe.pipe';
-import {FloatingLabelComponent} from './components/floating-label/floating-label.component';
 import {MatCardModule} from "@angular/material/card";
 import {StartpageComponent} from './components/startpage/startpage.component';
 import { LoginComponent } from './components/login/login.component';
@@ -25,7 +23,6 @@ import {MatInputModule} from '@angular/material/input';
 import { TenderComponent } from './components/tender/tender.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
-import {MatChipsModule} from '@angular/material/chips';
 import {MatBadgeModule} from '@angular/material/badge';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -37,23 +34,24 @@ import { OverlayModule } from "@angular/cdk/overlay";
 import { TendersComponent } from './components/tenders/tenders.component';
 import {HttpClientModule} from "@angular/common/http"
 import {MatDialogModule} from "@angular/material/dialog";
-
-
+import {FilterOverlayComponent} from "./components/filter-overlay/filter-overlay.component";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatChipsModule} from '@angular/material/chips';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
     SidebarComponent,
     TenderComponent,
     UserNamePipe,
-    FloatingLabelComponent,
     StartpageComponent,
     LoginComponent,
     HistoryComponent,
     TenderOverlayComponent,
    TendersComponent,
+    FilterOverlayComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +74,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatSelectModule,
     MatMenuModule,
     MatChipsModule,
+    MatTooltipModule,
     MatBadgeModule,
     FormsModule,
     MatStepperModule,
@@ -84,9 +83,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     HttpClientModule,
     MatDialogModule,
     MatRippleModule,
-
-
-
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

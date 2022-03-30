@@ -3,12 +3,25 @@
 <!--<app-navbar></app-navbar>-->
   <div class="main-content">
     <mat-toolbar>
-      <button mat-flat-button id="sortby-btn">
-        Sort By <fa-icon [icon]="faSort" class="sortby-icon"></fa-icon>
+      <button (click)="toggleSort()" [matMenuTriggerFor]="menu" id="sortby-btn" mat-flat-button>
+        Sort By
+        <fa-icon [icon]="faSort" class="sortby-icon"
+                 type="button"></fa-icon>
       </button>
-      <button mat-flat-button id="filter-btn">
+
+      <mat-menu #menu="matMenu"  overlapTrigger="false" >
+        <div id="sort-menu">
+        <button mat-button *ngFor="let sort of sorts" [value]="sort" id="sort-options">
+          {{sort}}
+        </button>
+        </div>
+      </mat-menu>
+
+
+      <button id="filter-btn" (click)="openDialog()" mat-flat-button>
         Filter
-        <fa-icon [icon]="faFilter" class="filter-icon"></fa-icon>
+        <fa-icon  [icon]="faFilter" class="filter-icon"
+                  type="button"></fa-icon>
       </button>
       <h2>
         All Tenders

@@ -43,12 +43,21 @@ mat-toolbar {
   border-radius: 8px;
 }
 
+#sort-menu{
+  display: flex;
+  flex-direction: column !important;
+  text-align: left;
+}
 .sortby-icon,
 .filter-icon {
   color: #06578c;
   margin-left: 5px;
 }
 
+#sort-options{
+  margin-left: 0;
+  text-align: left;
+}
 .sortby-icon {
   font-size: large;
 }

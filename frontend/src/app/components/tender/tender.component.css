@@ -58,10 +58,12 @@ h5 {
 }
 
 .title {
+  font-size: 1.5rem;
   color: #555;
   font-weight: bold;
 }
 .auftragsgeber {
+  font-size: 1.3rem;
   color: #598fb2;
   font-weight: bold;
 }
@@ -114,6 +116,7 @@ mat-chip-list {
   z-index: 1;
 }
 
-.intern, .extern {
+.intern,
+.extern {
   background-color: #d3e1eb;
 }

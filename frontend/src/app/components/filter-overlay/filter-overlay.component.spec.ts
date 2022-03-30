@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FloatingLabelComponent } from './floating-label.component';
+import { FilterOverlayComponent } from './filter-overlay.component';
 
-describe('FloatingLabelComponent', () => {
-  let component: FloatingLabelComponent;
-  let fixture: ComponentFixture<FloatingLabelComponent>;
+describe('FilterOverlayComponent', () => {
+  let component: FilterOverlayComponent;
+  let fixture: ComponentFixture<FilterOverlayComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FloatingLabelComponent ]
+      declarations: [ FilterOverlayComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FloatingLabelComponent);
+    fixture = TestBed.createComponent(FilterOverlayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

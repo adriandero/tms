@@ -1,4 +1,4 @@
-<mat-card class="card" matBadge="3" matBadgePosition="before">
+<mat-card class="card" matBadge="3" matBadgePosition="before" matBadgeSize="medium">
   <div
     class="overlayclick"
     mat-button
@@ -7,11 +7,10 @@
   ></div>
   <!--dynamic-->
   <!-- <mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()"
-    ><!--dynamic-->
-  <!--<mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()">&lt;!&ndash;dynamic&ndash;&gt;-->
+ <mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()">-->
   <mat-chip-list aria-label="Fish selection">
     <mat-chip mat-button [matMenuTriggerFor]="extern" class="extern">{{
-      tender.latestExStatus.label  
+      tender.latestExStatus.label
     }}
 
     </mat-chip>

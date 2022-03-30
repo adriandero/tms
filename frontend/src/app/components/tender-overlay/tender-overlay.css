@@ -1,41 +1,33 @@
 #popup-card {
   position: relative;
   display: flex;
+  width: 100%;
 }
 
 .dialog {
+  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 0px;
-  padding: 0px 20px 0px 20px;
-}
-
-::ng-deep .mat-dialog-content {
   max-height: 100%;
-  overflow: auto;
+  margin: 0px;
+  padding: 0px 10px;
 }
-/* 
-::ng-deep .mat-dialog-container {
-  overflow: hidden !important;
-} */
 
 .card {
   box-shadow: none;
   border-radius: 8px;
-  padding: 0px 20px 20px 20px;
-  width: 100%;
+  padding: 0px 20px 0px 20px;
 }
 mat-toolbar {
   background-color: white;
-  padding: 0px;
+  padding: 20px 0px 15px 0px;
   height: auto;
   color: #06578c;
   position: -webkit-sticky; /* Safari & IE */
   position: sticky;
   top: 0px;
   z-index: 1;
-  padding: 20px 0px 10px 0px;
 }
 .close {
   margin-left: auto;
@@ -53,6 +45,7 @@ a {
 
 ::ng-deep .mat-dialog-container {
   padding: 0px !important;
+  overflow: hidden;
 }
 
 .title {
@@ -63,7 +56,7 @@ a {
 .info {
   color: #555;
   font-size: large;
-  margin: 10px 0px 20px 0px;
+  margin: 0px 0px 30px 0px;
   line-height: 1.5;
 }
 
@@ -73,11 +66,6 @@ a {
   background-color: #aaa;
   margin: 20px 0px 20px 0px;
 }
-
-/* 
-.main {
-  padding-bottom: 1px;
-} */
 
 .info-title {
   color: #598fb2;
@@ -89,7 +77,7 @@ h2 {
   margin-right: 20px;
   color: #06578c;
 }
-/* 
+/*
 .limitTextHeight {
   height: 20px;
   overflow: hidden;
@@ -135,6 +123,10 @@ mat-chip-list {
   z-index: initial !important;
 }
 
+#add-user-btn {
+  background-color: #d3e1eb;
+}
+
 .intern,
 .extern {
   background-color: #d3e1eb;
@@ -142,14 +134,15 @@ mat-chip-list {
 
 .users {
   margin-top: 10px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.main {
+  overflow-y: auto;
 }
 
 .head {
-  /* position: -webkit-sticky; /* Safari & IE 
-  position: sticky;
-  top: 0px;
-  padding-top: 40px;
-*/
   background-color: white;
 }
 
@@ -157,7 +150,7 @@ mat-chip-list {
   padding: 0px !important;
 }
 
-/* 
+/*
 .card-title-text {
   position: relative;
   color: #06578c;

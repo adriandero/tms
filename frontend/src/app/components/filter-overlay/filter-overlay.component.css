@@ -1,0 +1,140 @@
+::ng-deep .mat-dialog-container {
+  padding: 0px 24px !important;
+  overflow: hidden;
+}
+.mat-dialog-content {
+  padding: 0px;
+}
+
+mat-nav-list {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-checkbox {
+  font-size: 1.2rem;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+h3 {
+  color: #06578c;
+}
+
+/* :host ::ng-deep .mat-tab-header {
+  top: 0;
+  z-index: 1000;
+  position: sticky;
+  position: -webkit-sticky; /* macOS/iOS Safari 
+} */
+
+::ng-deep
+  .mat-checkbox-checked.mat-accent
+  .mat-checkbox-ripple
+  .mat-ripple-element {
+  opacity: 0.03 !important;
+  background-color: #06578c !important;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #06578c;
+}
+
+section {
+  overflow-y: hidden;
+  padding: 0px 20px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+#row-flex {
+  display: flex;
+  flex-flow: column;
+}
+
+.search {
+  padding: 2px;
+  border: none;
+  outline-width: 0;
+  background-color: #d3e1eb;
+  width: 100%;
+  margin: 7px 0px 7px 0px;
+  color: #06578c;
+  font-family: Roboto;
+  font-size: 1.5em;
+}
+
+/*.search-icon {*/
+/*  margin-left: 20px;*/
+/*  margin-top: 7px;*/
+/*  color: #598fb2;*/
+/*  font-size: x-large;*/
+/*}*/
+.search-icon {
+  margin: 0px 10px;
+  align-self: center;
+  font-size: 1.7rem;
+  color: rgba(89, 143, 178, 1);
+}
+
+.search-bar {
+  display: flex;
+  flex-direction: row;
+  border-radius: 8px;
+  border: none;
+  width: 100%;
+  outline-width: 0;
+  max-height: 40px;
+  color: #06578c;
+  background-color: #d3e1eb;
+  font-family: Roboto;
+  padding: 3px;
+  overflow: hidden;
+}
+/* 
+.options {
+  width: 90%;
+  margin-left: 5%;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+} 
+*/
+
+mat-tab-group {
+  overflow: hidden;
+  width: 100%;
+}
+mat-tab {
+  overflow: hidden !important;
+}
+::ng-deep .mat-tab-body-content {
+  padding: 20px;
+}
+
+.example-chip-list {
+  width: 100%;
+}
+
+#search-platform {
+  display: flex;
+  border-radius: 8px;
+  border: none;
+  outline-width: 0;
+  width: 100%;
+  margin-left: 5%;
+  max-height: 40px;
+  color: #06578c;
+  background-color: #d3e1eb;
+  font-family: Roboto;
+  margin-top: 4vh;
+  overflow: hidden;
+}
+
+.chip-platform {
+  margin: 10px 10px 0px 0px;
+}

@@ -107,6 +107,7 @@ h2 {
 
 ::ng-deep .mat-step-label {
   font-size: large;
+  color: #555 !important;
 }
 
 ::ng-deep .mat-step-header:hover {

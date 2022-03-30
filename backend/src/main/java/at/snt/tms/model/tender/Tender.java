@@ -6,6 +6,7 @@ import at.snt.tms.model.status.InternalStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -48,7 +49,9 @@ public class Tender implements Serializable {
     @JoinColumn(name = "te_tu_updates")
     private TenderUpdate latestUpdate;
 
-    @OneToMany(mappedBy = "tender")
+    // TODO: See if fetchtype is fine here.
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tender")
     @OrderBy(value = "validFrom")
     //@JoinColumn(name = "t_tu_updates")
     private Set<TenderUpdate> updates;
@@ -61,12 +64,14 @@ public class Tender implements Serializable {
     @JoinColumn(name = "te_is_latest_int_status")
     private InternalStatus latestIntStatus;
 
-    @OneToMany(mappedBy = "tender")
+
+    // TODO: See if fetch type is fine here.
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tender")
     @OrderBy(value = "created")
     //@JoinColumn(name = "t_ais_assigned_int_statuses")
     private Set<AssignedIntStatus> assignedIntStatuses;
 
-    public Tender(Long id, String documentNumber, Platform platform, String link, String name, Company company, String description) {
+    public Tender(Long id, String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExStatus, InternalStatus latestIntStatus) {
         this.id = id;
         this.documentNumber = documentNumber;
         this.platform = platform;
@@ -74,6 +79,10 @@ public class Tender implements Serializable {
         this.name = name;
         this.company = company;
         this.description = description;
+
+        // TODO: See if this is fine (just here for demo for now):
+        this.latestExStatus = latestExStatus;
+        this.latestIntStatus = latestIntStatus;
     }
 
     public Tender() {

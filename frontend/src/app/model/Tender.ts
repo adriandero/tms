@@ -53,17 +53,13 @@ export interface AssignedIntStatus {
     user: User;
     created: Created;
 }
-export interface Company {
-    id: number;
-    name: string;
-}
+
 export interface Tender {
     id: number;
     documentNumber: string;
     platform: Platform;
     link: string;
     name: string;
-    company: Company;
     description: string;
     latestUpdate: TenderUpdate;
     updates: TenderUpdate[];

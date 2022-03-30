@@ -8,13 +8,12 @@ import { Tender } from '../model/Tender';
   providedIn: 'root'
 })
 export class TenderService {
-  private baseUrl: string = "/api";
-
-  constructor(private http: HttpClient) {}
+  private apiUrl = "/api"
+  constructor(private http: HttpClient) { }
 
   getTenders():Observable<Tender[]> {
 
-    return this.http.get<Tender[]>(this.baseUrl + "/tenders");
+    return this.http.get<Tender[]>(this.apiUrl + "/tenders");
 
   }
   
