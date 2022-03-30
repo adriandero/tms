@@ -94,6 +94,10 @@
             <artifactId>camel-jackson-starter</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-bean</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-swagger-java-starter</artifactId>
             <exclusions>
@@ -118,7 +122,7 @@
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
             <artifactId>ojdbc10</artifactId>
-            <version>19.13.0.0.1</version>
+            <version>19.14.0.0</version>
         </dependency>
 
         <!-- HSQLDB for development -->

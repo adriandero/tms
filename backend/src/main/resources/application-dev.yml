@@ -1,6 +1,8 @@
 spring:
   # Spring JDBC configuration
   datasource:
+    username:
+    password:
     # Let Spring Boot auto-configure an embedded HSQL database
     url:
   # Spring Data JPA configuration
@@ -8,5 +10,6 @@ spring:
     database: h2
     database-platform: org.hibernate.dialect.H2Dialect
     generate-ddl: false
+    show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update

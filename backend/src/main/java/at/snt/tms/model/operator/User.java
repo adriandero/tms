@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "u_users", schema = "tms_db")
+@Table(name = "u_users")
 public class User implements Serializable {
     private static final long serialVersionUID = -7843067404217832070L;
 
@@ -19,15 +19,27 @@ public class User implements Serializable {
     @GeneratedValue
     @Column(name = "u_id")
     private Long id;
-    @Column(name = "u_mail", length = 50)
+    @Column(name = "u_mail")
     private String mail;
+    @Column(name = "u_passwordHash")
+    private String passwordHash;
     @ManyToOne
     @JoinColumn(name = "u_r_role", foreignKey = @ForeignKey(name = "r_id"))
     private Role role;
 
-    public User(Long id, String mail, Role role) {
-        this.id = id;
+    public User(String mail, Role role) {
         this.mail = mail;
+        this.role = role;
+    }
+
+    public User(String mail, String passwordHash) {
+        this.mail = mail;
+        this.passwordHash = passwordHash;
+    }
+
+    public User(String mail, String passwordHash, Role role) {
+        this.mail = mail;
+        this.passwordHash = passwordHash;
         this.role = role;
     }
 
@@ -58,8 +70,21 @@ public class User implements Serializable {
         this.role = role;
     }
 
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
     @Override
     public String toString() {
-        return "User{" + "mail='" + mail + '\'' + ", role=" + role + '}';
+        return "User{" +
+                "id=" + id +
+                ", mail='" + mail + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

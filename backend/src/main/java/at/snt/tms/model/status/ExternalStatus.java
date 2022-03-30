@@ -1,5 +1,7 @@
 package at.snt.tms.model.status;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -9,7 +11,7 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "es_external_status", schema = "tms_db")
+@Table(name = "es_external_status")
 public class ExternalStatus {
     // https://stackoverflow.com/questions/28949853/is-it-possible-to-force-hibernate-to-embed-an-entity
 
@@ -23,6 +25,7 @@ public class ExternalStatus {
 
     @ManyToMany
     @JoinTable(name = "es_status_transitions", joinColumns = @JoinColumn(name = "es_id", referencedColumnName = "es_id"), inverseJoinColumns = @JoinColumn(name = "transition_es_id", referencedColumnName = "es_id"))
+    @JsonIgnore
     private Set<ExternalStatus> transitions;
 
     public ExternalStatus(String label) {

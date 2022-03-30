@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "r_roles", schema = "tms_db")
+@Table(name = "r_roles")
 public class Role implements Serializable {
     private static final long serialVersionUID = -430763022781473677L;
 

@@ -15,12 +15,10 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "te_tenders", schema = "tms_db")
+@Table(name = "te_tenders")
 public class Tender implements Serializable {
     private static final long serialVersionUID = 3865877817478679993L;
 
-    // https://hibernate.org/orm/
-    // https://stackabuse.com/a-guide-to-jpa-with-hibernate-relationship-mapping/
     @Id
     @GeneratedValue
     @Column(name = "te_id")
@@ -146,7 +144,7 @@ public class Tender implements Serializable {
         return latestExStatus;
     }
 
-    public void setLatestExStatus(ExternalStatus latestExStatus) {
+    void setLatestExStatus(ExternalStatus latestExStatus) {
         this.latestExStatus = latestExStatus;
     }
 
@@ -154,7 +152,7 @@ public class Tender implements Serializable {
         return latestIntStatus;
     }
 
-    public void setLatestIntStatus(InternalStatus latestIntStatus) {
+    void setLatestIntStatus(InternalStatus latestIntStatus) {
         this.latestIntStatus = latestIntStatus;
     }
 
