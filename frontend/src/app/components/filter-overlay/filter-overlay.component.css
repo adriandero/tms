@@ -17,7 +17,7 @@ mat-checkbox {
   margin-bottom: 10px;
 }
 
-h3 {
+h5 {
   color: #06578c;
 }
 
@@ -135,6 +135,9 @@ mat-tab {
   overflow: hidden;
 }
 
-.chip-platform {
+.chip {
   margin: 10px 10px 0px 0px;
+}
+
+.select-search {
 }

@@ -38,7 +38,9 @@ import {FilterOverlayComponent} from "./components/filter-overlay/filter-overlay
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatChipsModule} from '@angular/material/chips';
-
+import {MatDatepickerModule} from '@angular/material/datepicker'; 
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
 
 @NgModule({
   declarations: [
@@ -70,7 +72,9 @@ import {MatChipsModule} from '@angular/material/chips';
     LayoutModule,
     MatListModule,
     MatButtonModule,
+    MatAutocompleteModule,
     MatInputModule,
+    MatNativeDateModule,
     MatSelectModule,
     MatMenuModule,
     MatChipsModule,
@@ -84,6 +88,7 @@ import {MatChipsModule} from '@angular/material/chips';
     MatDialogModule,
     MatRippleModule,
     MatTabsModule,
+    MatDatepickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

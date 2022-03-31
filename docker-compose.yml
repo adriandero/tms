@@ -11,4 +11,4 @@ services:
       - "backend"
     ports:
       - 80:80
-    image: tms/frontend
+    image: tms/frontend-updated
