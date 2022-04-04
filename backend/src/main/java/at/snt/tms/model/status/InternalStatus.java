@@ -26,6 +26,9 @@ public class InternalStatus implements Serializable {
     @Column(name = "is_label")
     private String label;
 
+    @Column(name = "es_terminates_tender")
+    private Boolean terminatesTender;
+
     @ManyToMany
     @JoinTable(name = "is_status_transitions", joinColumns = @JoinColumn(name = "is_id", referencedColumnName = "is_id"), inverseJoinColumns = @JoinColumn(name = "transition_is_id", referencedColumnName = "is_id"))
     @JsonIgnore
@@ -36,6 +39,14 @@ public class InternalStatus implements Serializable {
     }
 
     public InternalStatus() {
+    }
+
+    public Boolean getTerminatesTender() {
+        return terminatesTender;
+    }
+
+    public void setTerminatesTender(Boolean terminatesTender) {
+        this.terminatesTender = terminatesTender;
     }
 
     public Long getId() {
@@ -63,13 +74,13 @@ public class InternalStatus implements Serializable {
     }
 
     public void addTransitions(InternalStatus... transitions) {
-        for(InternalStatus es : transitions) {
+        for (InternalStatus es : transitions) {
             this.addTransition(es);
         }
     }
 
     public void addTransition(InternalStatus transition) {
-        if(transition == null) {
+        if (transition == null) {
             throw new IllegalArgumentException("Cannot add null-value transition.");
         }
         this.transitions.add(transition);

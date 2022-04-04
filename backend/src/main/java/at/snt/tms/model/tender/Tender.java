@@ -6,7 +6,6 @@ import at.snt.tms.model.status.InternalStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -57,8 +56,8 @@ public class Tender implements Serializable {
     private Set<TenderUpdate> updates;
 
     @ManyToOne
-    @JoinColumn(name = "te_es_latest_ex_status")
-    private ExternalStatus latestExStatus;
+    @JoinColumn(name = "te_es_latest_ext_status")
+    private ExternalStatus latestExtStatus;
 
     @ManyToOne
     @JoinColumn(name = "te_is_latest_int_status")
@@ -71,7 +70,7 @@ public class Tender implements Serializable {
     //@JoinColumn(name = "t_ais_assigned_int_statuses")
     private Set<AssignedIntStatus> assignedIntStatuses;
 
-    public Tender(Long id, String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExStatus, InternalStatus latestIntStatus) {
+    public Tender(Long id, String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExtStatus, InternalStatus latestIntStatus) {
         this.id = id;
         this.documentNumber = documentNumber;
         this.platform = platform;
@@ -81,7 +80,7 @@ public class Tender implements Serializable {
         this.description = description;
 
         // TODO: See if this is fine (just here for demo for now):
-        this.latestExStatus = latestExStatus;
+        this.latestExtStatus = latestExtStatus;
         this.latestIntStatus = latestIntStatus;
     }
 
@@ -149,12 +148,12 @@ public class Tender implements Serializable {
         return updates;
     }
 
-    public ExternalStatus getLatestExStatus() {
-        return latestExStatus;
+    public ExternalStatus getLatestExtStatus() {
+        return latestExtStatus;
     }
 
-    void setLatestExStatus(ExternalStatus latestExStatus) {
-        this.latestExStatus = latestExStatus;
+    void setLatestExtStatus(ExternalStatus latestExtStatus) {
+        this.latestExtStatus = latestExtStatus;
     }
 
     public InternalStatus getLatestIntStatus() {

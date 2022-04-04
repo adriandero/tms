@@ -23,7 +23,6 @@ public class Database {
     private final AttachmentRepository attachmentRepository;
     private final CompanyRepository companyRepository;
     private final PlatformRepository platformRepository;
-    private final TaskRepository taskRepository;
     private final TenderRepository tenderRepository;
     private final TenderUpdateRepository tenderUpdateRepository;
 
@@ -32,8 +31,8 @@ public class Database {
                     ExternalStatusRepository externalStatusRepository,
                     InternalStatusRepository internalStatusRepository,
                     AttachmentRepository attachmentRepository, CompanyRepository companyRepository,
-                    PlatformRepository platformRepository, TaskRepository taskRepository,
-                    TenderRepository tenderRepository, TenderUpdateRepository tenderUpdateRepository) {
+                    PlatformRepository platformRepository, TenderRepository tenderRepository,
+                    TenderUpdateRepository tenderUpdateRepository) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.assignedIntStatusRepository = assignedIntStatusRepository;
@@ -42,7 +41,6 @@ public class Database {
         this.attachmentRepository = attachmentRepository;
         this.companyRepository = companyRepository;
         this.platformRepository = platformRepository;
-        this.taskRepository = taskRepository;
         this.tenderRepository = tenderRepository;
         this.tenderUpdateRepository = tenderUpdateRepository;
 
