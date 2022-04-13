@@ -5,11 +5,13 @@
         <a href="/history"
           ><fa-icon [icon]="faArrowLeft" class="icons"></fa-icon>History</a
         >
-        <fa-icon
-          [icon]="faTimes"
-          (click)="closeDialog()"
-          class="icons close"
-        ></fa-icon>
+        <div id="far-right">
+          <fa-icon
+            [icon]="faTimes"
+            (click)="closeDialog()"
+            class="icons close"
+          ></fa-icon>
+        </div>
       </mat-toolbar>
       <div class="head">
         <h4 class="title">
@@ -26,9 +28,15 @@
 
         <mat-chip-list aria-label="user" class="users">
           <!-- so viele user können assigned werden wie gewünscht (nacharbeiten) -->
-          <mat-chip mat-button class="user"> Oliver Sommer </mat-chip>
-          <mat-chip mat-button class="user"> Luis Kalckstein </mat-chip>
-          <mat-chip mat-button class="user"> Dominik Fluch </mat-chip>
+          <mat-chip mat-button class="user" matTooltip="Beschreibung des tasks">
+            Oliver Sommer
+          </mat-chip>
+          <mat-chip mat-button class="user" matTooltip="Beschreibung des tasks">
+            Luis Kalckstein
+          </mat-chip>
+          <mat-chip mat-button class="user" matTooltip="Beschreibung des tasks">
+            Dominik Fluch
+          </mat-chip>
           <mat-chip mat-button matTooltip="Assign a user" id="add-user-btn"
             >+</mat-chip
           >

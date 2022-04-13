@@ -1,4 +1,9 @@
-<mat-card class="card" matBadge="3" matBadgePosition="before" matBadgeSize="medium">
+<mat-card
+  class="card"
+  matBadge="3"
+  matBadgePosition="before"
+  matBadgeSize="medium"
+>
   <div
     class="overlayclick"
     mat-button
@@ -9,10 +14,8 @@
   <!-- <mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()"
  <mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()">-->
   <mat-chip-list aria-label="Fish selection">
-    <mat-chip mat-button [matMenuTriggerFor]="extern" class="extern">{{
-      tender.latestExStatus.label
-    }}
-
+    <mat-chip mat-button [matMenuTriggerFor]="extern" class="extern"
+      >{{ tender.latestExStatus.label }}
     </mat-chip>
     <mat-chip mat-button [matMenuTriggerFor]="intern" class="intern">{{
       tender.latestIntStatus.label
@@ -36,11 +39,12 @@
         {{ tender.name }}
       </h4>
       <div class="line"></div>
-      <h5 class="auftragsgeber">{{tender.description}}</h5>
+      <h5 class="auftragsgeber">{{ tender.description }}</h5>
     </div>
 
     <!-- <button mat-button [matMenuTriggerFor]="menu" class="dropdown-btn">
       <fa-icon [icon]="faAngleDown" class="dropdown-icon"></fa-icon>
     </button> -->
+    <mat-checkbox color="primary" class="read-checkbox"></mat-checkbox>
   </div>
 </mat-card>
