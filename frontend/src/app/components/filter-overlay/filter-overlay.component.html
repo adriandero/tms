@@ -1,138 +1,121 @@
 <mat-dialog-content id="container">
   <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="General">
-      <div id="row-flex">
-        <section>
-           <!--  <form class="search-bar">
-        <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
+    <mat-tab class="tab-container" label="General">
+      <section>
+        <h5>Platform</h5>
 
-        <input
-          class="search"
-          name="search"
-          placeholder="Search"
-          size="11"
-          type="text"
-        />
-      </form>
-      
-      <mat-nav-list class="options">
-             <--     <mat-checkbox *ngFor="let status of externalStatus" color="primary" >{{status}}</mat-checkbox> ->
-      </mat-nav-list>
-    -->
-      <h5>Platforms</h5>
-      <form class="example-chip-list" class="search-bar">
-        <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
+        <mat-form-field
+          color="primary"
+          appearance="outline"
+          class="search-form example-chip-list"
+        >
+          <mat-label>What Platforms...</mat-label>
+          <input
+            matInput
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event, platforms)"
+          />
 
-        <input
-          class="search"
-          name="search"
-          size="11"
-          type="text"
-          placeholder="What Platforms..."
-          [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="addOnBlur"
-          (matChipInputTokenEnd)="add($event, platforms)"
-        />
+          <mat-chip-list #chipList> </mat-chip-list>
+        </mat-form-field>
+        <mat-chip
+          class="chip"
+          *ngFor="let platform of platforms"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(platform, platforms)"
+        >
+          {{ platform.name }}
 
-        <mat-chip-list #chipList> </mat-chip-list>
-      </form>
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </section>
+      <section>
+        <h5>Company</h5>
 
-      <mat-chip
-        class="chip"
-        *ngFor="let platform of platforms"
-        [selectable]="selectable"
-        [removable]="removable"
-        (removed)="remove(platform, platforms)"
-      >
-        {{ platform.name }}
+        <mat-form-field
+          color="primary"
+          appearance="outline"
+          class="search-form example-chip-list"
+        >
+          <mat-label>What Companies...</mat-label>
+          <input
+            matInput
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event, companies)"
+          />
 
-        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-      </mat-chip>
-        </section>
-        <section>
-          <h5>Companies</h5>
-          <form class="example-chip-list" class="search-bar">
-            <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
-    
-            <input
-              class="search"
-              name="search"
-              size="11"
-              type="text"
-              placeholder="What Companies..."
-              [matChipInputFor]="chipList"
-              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-              [matChipInputAddOnBlur]="addOnBlur"
-              (matChipInputTokenEnd)="add($event, companies)"
-            />
-    
-            <mat-chip-list #chipList> </mat-chip-list>
-          </form>
-    
-          <mat-chip
-            class="chip"
-            *ngFor="let company of companies"
-            [selectable]="selectable"
-            [removable]="removable"
-            (removed)="remove(company, companies)"
-          >
-            {{ company.name }}
-    
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-        </section>
-        <section>
-          <h5>Titles</h5>
-      <form class="example-chip-list" class="search-bar">
-        <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
+          <mat-chip-list #chipList> </mat-chip-list>
+        </mat-form-field>
+        <mat-chip
+          class="chip"
+          *ngFor="let company of companies"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(company, companies)"
+        >
+          {{ company.name }}
 
-        <input
-          class="search"
-          name="search"
-          size="11"
-          type="text"
-          placeholder="What Titles..."
-          [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="addOnBlur"
-          (matChipInputTokenEnd)="add($event, titles)"
-        />
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </section>
+      <section>
+        <h5>Title</h5>
 
-        <mat-chip-list #chipList> </mat-chip-list>
-      </form>
+        <mat-form-field
+          color="primary"
+          appearance="outline"
+          class="search-form example-chip-list"
+        >
+          <mat-label>What Titles...</mat-label>
+          <input
+            matInput
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event, titles)"
+          />
 
-      <mat-chip
-        class="chip"
-        *ngFor="let title of titles"
-        [selectable]="selectable"
-        [removable]="removable"
-        (removed)="remove(title, titles)"
-      >
-        {{ title.name }}
+          <mat-chip-list #chipList> </mat-chip-list>
+        </mat-form-field>
+        <mat-chip
+          class="chip"
+          *ngFor="let title of titles"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(title, titles)"
+        >
+          {{ title.name }}
 
-        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-      </mat-chip>
-        </section>
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </section>
+      <div class="flexible">
         <section>
           <h5>Externer status</h5>
-          <form class="example-form">
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Externer Status...</mat-label>
-              <input type="text"
-                     placeholder="Einen status auswählen"
-                     aria-label="Externer Status"
-                     matInput
-                     [formControl]="myControl"
-                     [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredExternOptions | async" [value]="option">
-                  {{option}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </form>
-          
+          <mat-form-field appearance="outline">
+            <mat-label>Externer Status...</mat-label>
+            <input
+              type="text"
+              placeholder="Einen status auswählen"
+              aria-label="Externer Status"
+              matInput
+              [formControl]="myControl"
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of filteredExternOptions | async"
+                [value]="option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </section>
         <!--        <section>-->
         <!--          <h2>Bereits zugewiesen</h2>-->
@@ -143,61 +126,64 @@
         <!--        </section>-->
         <section>
           <h5>Interner Status</h5>
-          <form class="example-form">
-            <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Interner Status...</mat-label>
-              <input type="text"
-                     placeholder="einen status auswählen"
-                     aria-label="Interner Status"
-                     matInput
-                     [formControl]="myControl"
-                     [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredInternOptions | async" [value]="option">
-                  {{option}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field>
-          </form>
+          <mat-form-field appearance="outline">
+            <mat-label>Interner Status...</mat-label>
+            <input
+              type="text"
+              placeholder="einen status auswählen"
+              aria-label="Interner Status"
+              matInput
+              [formControl]="myControl"
+              [matAutocomplete]="auto"
+            />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option
+                *ngFor="let option of filteredInternOptions | async"
+                [value]="option"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </section>
-      
-              
       </div>
     </mat-tab>
 
     <mat-tab label="Erweitert">
       <section>
         <h5>Date Range</h5>
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
           <mat-label>Enter a date range</mat-label>
           <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date">
-            <input matEndDate placeholder="End date">
+            <input matStartDate placeholder="Start date" />
+            <input matEndDate placeholder="End date" />
           </mat-date-range-input>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
       </section>
       <section>
-        <h5>Attachment Title</h5>
-        <form class="example-chip-list" class="search-bar">
-          <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
-  
+        <h5>Attachment Names</h5>
+
+        <mat-form-field
+          color="primary"
+          appearance="outline"
+          class="search-form example-chip-list"
+        >
+          <mat-label>What files...</mat-label>
           <input
-            class="search"
-            name="search"
-            size="11"
-            type="text"
-            placeholder="What files..."
+            matInput
             [matChipInputFor]="chipList"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
             (matChipInputTokenEnd)="add($event, files)"
           />
-  
+
           <mat-chip-list #chipList> </mat-chip-list>
-        </form>
-  
+        </mat-form-field>
         <mat-chip
           class="chip"
           *ngFor="let file of files"
@@ -206,30 +192,28 @@
           (removed)="remove(file, files)"
         >
           {{ file.name }}
-  
+
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
       </section>
       <section>
         <h5>Update Details</h5>
-        <form class="example-chip-list" class="search-bar">
-          <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
-  
+        <mat-form-field
+          color="primary"
+          appearance="outline"
+          class="search-form example-chip-list"
+        >
+          <mat-label>What update details...</mat-label>
           <input
-            class="search"
-            name="search"
-            size="11"
-            type="text"
-            placeholder="What update details..."
+            matInput
             [matChipInputFor]="chipList"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
             (matChipInputTokenEnd)="add($event, uptDetails)"
           />
-  
+
           <mat-chip-list #chipList> </mat-chip-list>
-        </form>
-  
+        </mat-form-field>
         <mat-chip
           class="chip"
           *ngFor="let uptDetail of uptDetails"
@@ -238,46 +222,61 @@
           (removed)="remove(uptDetail, uptDetails)"
         >
           {{ uptDetail.name }}
-  
+
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
       </section>
       <section>
-        <h5>Assignment</h5>
-        <form class="example-form">
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>User...</mat-label>
-            <input type="text"
-                   placeholder="einen status auswählen"
-                   aria-label="user"
-                   matInput
-                   [formControl]="myControl"
-                   [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of filteredUserOptions | async" [value]="option">
-                {{option}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </form>
-        <form class="example-form">
-          <mat-form-field class="select-search" appearance="fill">
+        <h5>User</h5>
+        <mat-form-field
+          color="primary"
+          class="example-full-width"
+          appearance="outline"
+        >
+          <mat-label>User...</mat-label>
+          <input
+            type="text"
+            placeholder="einen status auswählen"
+            aria-label="user"
+            matInput
+            [formControl]="myControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let option of filteredUserOptions | async"
+              [value]="option"
+            >
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <!-- <form class="example-form">
+          <mat-form-field
+            color="primary"
+            class="select-search"
+            appearance="outline"
+          >
             <mat-label>Task...</mat-label>
-            <input type="text"
-                   placeholder="einen status auswählen"
-                   aria-label="user"
-                   matInput
-                   [formControl]="myControl"
-                   [matAutocomplete]="auto">
+            <input
+              type="text"
+              placeholder="einen status auswählen"
+              aria-label="user"
+              matInput
+              [formControl]="myControl"
+              [matAutocomplete]="auto"
+            />
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of filteredTaskOptions | async" [value]="option">
-                {{option}}
+              <mat-option
+                *ngFor="let option of filteredTaskOptions | async"
+                [value]="option"
+              >
+                {{ option }}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-        </form>
+        </form> -->
       </section>
-      
 
       <!--
       <mat-nav-list class="options">
@@ -290,6 +289,5 @@
       </mat-nav-list>
     -->
     </mat-tab>
-  
   </mat-tab-group>
 </mat-dialog-content>
