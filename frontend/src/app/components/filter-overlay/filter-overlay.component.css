@@ -27,7 +27,7 @@ h5 {
   top: 0;
   z-index: 1000;
   position: sticky;
-  position: -webkit-sticky; /* macOS/iOS Safari 
+  position: -webkit-sticky; /* macOS/iOS Safari
 } */
 
 ::ng-deep
@@ -115,14 +115,14 @@ section {
   margin-top: 0px !important;
 }
 
-/* 
+/*
 .options {
   width: 90%;
   margin-left: 5%;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-} 
+}
 */
 
 mat-tab-group {
