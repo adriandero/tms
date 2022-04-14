@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Tender} from "../../model/Tender";
 import { TenderService } from 'src/app/services/tender.service';
 import { tap } from 'rxjs';
+import { BackendResponse } from 'src/app/model/protocol/Response';
 
 @Component({
   selector: 'app-tenders',
@@ -17,16 +18,12 @@ export class TendersComponent implements OnInit {
   ngOnInit(): void {
 
     this.tenderService.getTenders().subscribe({
-      next: (data: any) => {
-        for (let i = 0; i < data.length; i++) {
-          let tender: Tender = data[i].body;
-          this.tenders.push(tender);
-        }
+      next: (sent: any) => {
+        const response: BackendResponse<Tender[]> = sent;
+
+        this.tenders = response.body;
       }
-});
-        
-    
-    
+    });
   }
  
 
