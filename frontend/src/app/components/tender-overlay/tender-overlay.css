@@ -156,6 +156,12 @@ mat-chip-list {
   padding: 0px !important;
 }
 
+::ng-deep .mat-tooltip {
+  color: #555 !important;
+  background-color: #d3e1eb;
+  font-weight: bold;
+}
+
 /*
 .card-title-text {
   position: relative;
