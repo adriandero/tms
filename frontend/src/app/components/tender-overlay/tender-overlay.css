@@ -98,6 +98,12 @@ h2 {
   margin-right: 10px;
 }
 
+::ng-deep .mat-tooltip {
+  color: #555 !important;
+  background-color: #d3e1eb;
+  font-weight: bold;
+}
+
 a {
   text-decoration: none;
 }
