@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
  *
  * @author Dominik Fluch, Maximilian Wolf & Oliver Sommer
  */
+
 @Component
 public class RestAPI extends RouteBuilder {  // http://localhost:8080/
     @Override
@@ -105,6 +106,24 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .bean(CompanyService.class, "add");
         from("direct:delCompany")
                 .bean(CompanyService.class, "delete(${header.id})");
+
+        rest("/assignments")
+                .get()
+                .to("direct:allAssignments")
+                .get("{id}")
+                .to("direct:assignmentId")
+                .post()
+                .to("direct:addAssignments")
+                .delete("{id}")
+                .to("direct:delAssignments");
+        from("direct:allAssignments")
+                .bean(AssignmentService.class, "findAll");
+        from("direct:assignmentId")
+                .bean(AssignmentService.class, "findById(${header.id})");
+        from("direct:addAssignments")
+                .bean(AssignmentService.class, "add");
+        from("direct:delAssignments")
+                .bean(AssignmentService.class, "delete(${header.id})");
 
     }
 }
