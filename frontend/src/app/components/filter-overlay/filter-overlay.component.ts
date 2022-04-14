@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {faSearch} from "@fortawesome/free-solid-svg-icons"
+import { FormControl } from '@angular/forms';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
 
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 export interface Chip {
   name: string;
@@ -15,47 +15,57 @@ export interface Chip {
 @Component({
   selector: 'app-filter-overlay',
   templateUrl: './filter-overlay.component.html',
-  styleUrls: ['./filter-overlay.component.css']
+  styleUrls: ['./filter-overlay.component.css'],
 })
 export class FilterOverlayComponent implements OnInit {
-
   fontStyleControl = new FormControl();
   shownfilter?: string;
-  faSearch = faSearch
+  faSearch = faSearch;
 
-  constructor() { }
+  constructor() {}
 
   myControl = new FormControl();
-  externOptions: string[] = ['Neuausschreibung', 'Widerruf', 'Berichtigung', 'Fragenbeantwortung', 'Bekanntmachung vergebender Auftrag'];
-  internOptions: string[] = ['interessant', 'uninteressant', 'abgeschlossen', 'opportunity assessment', 'aufgeschoben'];
+  externOptions: string[] = [
+    'Neuausschreibung',
+    'Widerruf',
+    'Berichtigung',
+    'Fragenbeantwortung',
+    'Bekanntmachung vergebender Auftrag',
+  ];
+  internOptions: string[] = [
+    'interessant',
+    'uninteressant',
+    'abgeschlossen',
+    'opportunity assessment',
+    'aufgeschoben',
+  ];
 
   filteredExternOptions!: Observable<string[]>;
   filteredInternOptions!: Observable<string[]>;
 
   users: string[] = ['Dominik Fluch', 'Oliver sommer'];
-  tasks: string[] = [];
+  // tasks: string[] = [];
 
   filteredUserOptions!: Observable<string[]>;
-  filteredTaskOptions!: Observable<string[]>;
-
+  // filteredTaskOptions!: Observable<string[]>;
 
   ngOnInit() {
     this.filteredExternOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value, this.externOptions)),
+      map((value) => this._filter(value, this.externOptions))
     );
     this.filteredInternOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value, this.internOptions)),
+      map((value) => this._filter(value, this.internOptions))
     );
     this.filteredUserOptions = this.myControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value, this.users)),
+      map((value) => this._filter(value, this.users))
     );
-    this.filteredTaskOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value, this.tasks)),
-    );
+    // this.filteredTaskOptions = this.myControl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value, this.tasks)),
+    // );
   }
   visible = true;
   selectable = true;
@@ -70,11 +80,12 @@ export class FilterOverlayComponent implements OnInit {
   files: Chip[] = [];
   uptDetails: Chip[] = [];
 
-
   private _filter(value: string, options: string[]): string[] {
     const filterValue = value.toLowerCase();
 
-    return options.filter(option => option.toLowerCase().includes(filterValue));
+    return options.filter((option) =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 
   add(event: MatChipInputEvent, chipSet: Chip[]): void {
@@ -83,7 +94,7 @@ export class FilterOverlayComponent implements OnInit {
 
     // Add our platform
     if ((value || '').trim()) {
-      chipSet.push({name: value.trim()});
+      chipSet.push({ name: value.trim() });
     }
 
     // Reset the input value
@@ -99,8 +110,4 @@ export class FilterOverlayComponent implements OnInit {
       chipSet.splice(index, 1);
     }
   }
-
-
-
-
 }

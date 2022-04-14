@@ -1,9 +1,9 @@
 ::ng-deep .mat-dialog-container {
   padding: 0px 24px !important;
-  overflow: hidden;
 }
 .mat-dialog-content {
   padding: 0px;
+  overflow: hidden;
 }
 
 mat-nav-list {
@@ -19,13 +19,15 @@ mat-checkbox {
 
 h5 {
   color: #06578c;
+  font-weight: 500;
+  margin-bottom: 2px;
 }
 
 /* :host ::ng-deep .mat-tab-header {
   top: 0;
   z-index: 1000;
   position: sticky;
-  position: -webkit-sticky; /* macOS/iOS Safari 
+  position: -webkit-sticky; /* macOS/iOS Safari
 } */
 
 ::ng-deep
@@ -95,14 +97,32 @@ section {
   padding: 3px;
   overflow: hidden;
 }
-/* 
+.search-form {
+  width: 100%;
+  font-size: 1.2em;
+  overflow: hidden;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 0.8em 0 0.8em 0;
+  margin: 0px;
+}
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0px;
+  padding: 0px;
+}
+::ng-deep .mat-form-field-flex {
+  margin-top: 0px !important;
+}
+
+/*
 .options {
   width: 90%;
   margin-left: 5%;
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-} 
+}
 */
 
 mat-tab-group {
@@ -112,12 +132,22 @@ mat-tab-group {
 mat-tab {
   overflow: hidden !important;
 }
-::ng-deep .mat-tab-body-content {
-  padding: 20px;
+::ng-deep .mat-tab-label {
+  width: 50%;
 }
 
-.example-chip-list {
-  width: 100%;
+.flexible {
+  display: flex;
+  flex-wrap: wrap;
+}
+::ng-deep input.mat-chip-input {
+  width: 100% !important;
+  margin-bottom: 8px !important;
+  margin-top: 0px !important;
+}
+
+::ng-deep .mat-tab-body-content {
+  padding: 20px;
 }
 
 #search-platform {
