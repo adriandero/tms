@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author Dominik Fluch
  */
 @SpringBootApplication
-@ComponentScan(basePackages="at.snt.tms")
+//@ComponentScan(basePackages="at.snt.tms")  // redundant
 public class TenderManager extends SpringBootServletInitializer {
 
     /**

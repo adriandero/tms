@@ -11,24 +11,24 @@ import java.io.Serializable;
  * @author Oliver Sommer
  */
 @Entity
-@Table(name = "r_roles")
-public class Role implements Serializable {
+@Table(name = "pe_permissions")
+public class Permission implements Serializable {
     private static final long serialVersionUID = -430763022781473677L;
 
     @Id
     @GeneratedValue
-    @Column(name = "r_id")
+    @Column(name = "pe_id")
     private Long id;
-    @Column(name = "r_designation", length = 50)
+    @Column(name = "pe_designation", length = 50)
     private String designation;
 
     // private List<?> permissions;  // table for permissions?
 
-    public Role(String designation) {
+    public Permission(String designation) {
         this.designation = designation;
     }
 
-    public Role() {
+    public Permission() {
     }
 
     public Long getId() {

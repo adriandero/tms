@@ -11,3 +11,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+# App Properties
+tms:
+  jwtSecret: tmsSecret
+  jwtExpiration: 900_000  # 15 minutes

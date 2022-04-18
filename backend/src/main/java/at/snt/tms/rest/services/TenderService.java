@@ -1,7 +1,5 @@
 package at.snt.tms.rest.services;
 
-import at.snt.tms.model.tender.Company;
-import at.snt.tms.model.tender.Platform;
 import at.snt.tms.model.tender.Tender;
 import at.snt.tms.repositories.tender.TenderRepository;
 import org.springframework.beans.factory.annotation.Autowired;

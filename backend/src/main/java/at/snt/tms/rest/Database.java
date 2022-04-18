@@ -1,21 +1,27 @@
 package at.snt.tms.rest;
 
+import at.snt.tms.model.operator.Group;
+import at.snt.tms.model.operator.Permission;
+import at.snt.tms.model.operator.User;
 import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
 import at.snt.tms.model.tender.Company;
 import at.snt.tms.model.tender.Platform;
 import at.snt.tms.model.tender.Tender;
-import at.snt.tms.repositories.operator.RoleRepository;
+import at.snt.tms.repositories.operator.PermissionRepository;
+import at.snt.tms.repositories.operator.GroupRepository;
 import at.snt.tms.repositories.operator.UserRepository;
 import at.snt.tms.repositories.status.AssignedIntStatusRepository;
 import at.snt.tms.repositories.status.ExternalStatusRepository;
 import at.snt.tms.repositories.status.InternalStatusRepository;
 import at.snt.tms.repositories.tender.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Database {
-    private final RoleRepository roleRepository;
+    private final PermissionRepository permissionRepository;
+    private final GroupRepository groupRepository;
     private final UserRepository userRepository;
     private final AssignedIntStatusRepository assignedIntStatusRepository;
     private final ExternalStatusRepository externalStatusRepository;
@@ -26,14 +32,16 @@ public class Database {
     private final TenderRepository tenderRepository;
     private final TenderUpdateRepository tenderUpdateRepository;
 
-    public Database(RoleRepository roleRepository, UserRepository userRepository,
+    public Database(PermissionRepository permissionRepository, GroupRepository groupRepository,
+                    UserRepository userRepository,
                     AssignedIntStatusRepository assignedIntStatusRepository,
                     ExternalStatusRepository externalStatusRepository,
                     InternalStatusRepository internalStatusRepository,
                     AttachmentRepository attachmentRepository, CompanyRepository companyRepository,
                     PlatformRepository platformRepository, TenderRepository tenderRepository,
                     TenderUpdateRepository tenderUpdateRepository) {
-        this.roleRepository = roleRepository;
+        this.permissionRepository = permissionRepository;
+        this.groupRepository = groupRepository;
         this.userRepository = userRepository;
         this.assignedIntStatusRepository = assignedIntStatusRepository;
         this.externalStatusRepository = externalStatusRepository;
@@ -46,9 +54,8 @@ public class Database {
 
         // Adding demo data:
         final Tender tender = new Tender(1234L, "#1234", this.platformRepository.save(new Platform("http://demo.at")), "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), this.internalStatusRepository.save(new InternalStatus("internal")));
-
         this.tenderRepository.save(tender);
-    }
-    // TODO https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#transactions Example 108
 
+        this.userRepository.save(new User("user@snt.at", "Max", "Mustermann", new BCryptPasswordEncoder().encode("pass123"), this.groupRepository.save(new Group("tender_admin", this.permissionRepository.save(new Permission("admin"))))));
+    }
 }
