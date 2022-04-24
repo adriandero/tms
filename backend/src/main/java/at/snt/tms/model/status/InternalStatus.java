@@ -1,6 +1,7 @@
 package at.snt.tms.model.status;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "is_internal_status")
 public class InternalStatus implements Serializable {
     private static final long serialVersionUID = -8736360362075978103L;

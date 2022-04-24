@@ -1,5 +1,7 @@
 package at.snt.tms.model.operator;
 
+import org.hibernate.envers.Audited;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -11,6 +13,7 @@ import java.io.Serializable;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "pe_permissions")
 public class Permission implements Serializable {
     private static final long serialVersionUID = -430763022781473677L;
@@ -21,8 +24,6 @@ public class Permission implements Serializable {
     private Long id;
     @Column(name = "pe_designation", length = 50)
     private String designation;
-
-    // private List<?> permissions;  // table for permissions?
 
     public Permission(String designation) {
         this.designation = designation;

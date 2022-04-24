@@ -3,6 +3,7 @@ package at.snt.tms.model.tender;
 import at.snt.tms.model.status.AssignedIntStatus;
 import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "te_tenders")
 public class Tender implements Serializable {
     private static final long serialVersionUID = 3865877817478679993L;
@@ -70,8 +72,7 @@ public class Tender implements Serializable {
     //@JoinColumn(name = "t_ais_assigned_int_statuses")
     private Set<AssignedIntStatus> assignedIntStatuses;
 
-    public Tender(Long id, String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExtStatus, InternalStatus latestIntStatus) {
-        this.id = id;
+    public Tender(String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExtStatus, InternalStatus latestIntStatus) {
         this.documentNumber = documentNumber;
         this.platform = platform;
         this.link = link;

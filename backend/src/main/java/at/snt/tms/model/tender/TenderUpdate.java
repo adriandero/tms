@@ -2,6 +2,7 @@ package at.snt.tms.model.tender;
 
 import at.snt.tms.model.status.ExternalStatus;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "tu_tender_updates")
 public class TenderUpdate implements Serializable {
     private static final long serialVersionUID = -5898473558184076078L;

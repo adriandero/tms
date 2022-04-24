@@ -121,6 +121,11 @@
             <artifactId>camel-jpa-starter</artifactId>
         </dependency>
 
+        <!-- Hibernate Envers for Database Auditing -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-envers</artifactId>
+        </dependency>
 
         <!-- JWT -->
         <dependency>

@@ -1,6 +1,7 @@
 package at.snt.tms.model.operator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "g_group")
 public class Group implements Serializable {
     private static final long serialVersionUID = -430763022781473677L;
@@ -23,7 +25,7 @@ public class Group implements Serializable {
     private Long id;
     @Column(name = "g_name", length = 50)
     private String name;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "g_r_group_permissions", joinColumns = @JoinColumn(name = "g_id"), inverseJoinColumns = @JoinColumn(name = "pe_id"))
     @JsonIgnore
     private Set<Permission> permissions = new HashSet<>();
@@ -76,5 +78,14 @@ public class Group implements Serializable {
         }
 
         this.permissions.add(permissions);
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", permissions=" + permissions +
+                '}';
     }
 }

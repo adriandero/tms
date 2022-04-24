@@ -1,6 +1,7 @@
 package at.snt.tms.model.tender;
 
 import at.snt.tms.model.operator.User;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "as_assignments")
 public class Assignment implements Serializable {
     private static final long serialVersionUID = -5828276887838212585L;

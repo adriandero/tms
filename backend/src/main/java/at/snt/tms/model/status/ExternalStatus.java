@@ -2,6 +2,7 @@ package at.snt.tms.model.status;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javassist.SerialVersionUID;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "es_external_status")
 public class ExternalStatus implements Serializable {
     private static final long serialVersionUID = 8773059058258923847L;
