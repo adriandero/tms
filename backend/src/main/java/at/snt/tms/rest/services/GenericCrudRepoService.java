@@ -38,7 +38,7 @@ public class GenericCrudRepoService<T> {
 
     public ResponseEntity<?> delete(Long id) {
         T entity = repoClass.cast(findById(id).getBody());
-        repository.delete(entity);  //'Argument 'entity' might be null': IntelliJ or I too dumb ?
+        repository.delete(entity);
         return ResponseEntity.ok().body("Successfully deleted " + entityNameId(id));
     }
 
