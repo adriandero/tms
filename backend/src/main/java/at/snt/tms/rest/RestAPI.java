@@ -125,5 +125,12 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
         from("direct:delAssignments")
                 .bean(AssignmentService.class, "delete(${header.id})");
 
+        rest("assignments/tender")
+                .get("{id}")
+                .to("direct:assignmentsTenderId");
+        from("direct:assignmentsTenderId")
+                .bean(AssignmentService.class, "findAssignmentsByTenderId(${header.id})");
+
+
     }
 }
