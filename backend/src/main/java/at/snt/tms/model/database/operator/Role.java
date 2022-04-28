@@ -1,4 +1,4 @@
-package at.snt.tms.model.operator;
+package at.snt.tms.model.database.operator;
 
 import javax.persistence.*;
 import java.io.Serializable;

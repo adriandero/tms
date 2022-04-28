@@ -1,13 +1,12 @@
 package at.snt.tms.rest;
 
-import at.snt.tms.model.operator.Role;
-import at.snt.tms.model.operator.User;
-import at.snt.tms.model.status.ExternalStatus;
-import at.snt.tms.model.status.InternalStatus;
-import at.snt.tms.model.tender.Assignment;
-import at.snt.tms.model.tender.Company;
-import at.snt.tms.model.tender.Platform;
-import at.snt.tms.model.tender.Tender;
+import at.snt.tms.model.database.operator.User;
+import at.snt.tms.model.database.status.ExternalStatus;
+import at.snt.tms.model.database.status.InternalStatus;
+import at.snt.tms.model.database.tender.Assignment;
+import at.snt.tms.model.database.tender.Company;
+import at.snt.tms.model.database.tender.Platform;
+import at.snt.tms.model.database.tender.Tender;
 import at.snt.tms.repositories.operator.RoleRepository;
 import at.snt.tms.repositories.operator.UserRepository;
 import at.snt.tms.repositories.status.AssignedIntStatusRepository;

@@ -1,6 +1,6 @@
-package at.snt.tms.model.tender;
+package at.snt.tms.model.database.tender;
 
-import at.snt.tms.model.status.ExternalStatus;
+import at.snt.tms.model.database.status.ExternalStatus;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;

@@ -1,6 +1,6 @@
 package at.snt.tms.rest.services;
 
-import at.snt.tms.model.tender.Assignment;
+import at.snt.tms.model.database.tender.Assignment;
 import at.snt.tms.repositories.tender.AssignmentRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

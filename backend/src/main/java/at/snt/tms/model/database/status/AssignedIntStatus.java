@@ -1,7 +1,7 @@
-package at.snt.tms.model.status;
+package at.snt.tms.model.database.status;
 
-import at.snt.tms.model.operator.User;
-import at.snt.tms.model.tender.Tender;
+import at.snt.tms.model.database.operator.User;
+import at.snt.tms.model.database.tender.Tender;
 
 import javax.persistence.*;
 import java.io.Serializable;

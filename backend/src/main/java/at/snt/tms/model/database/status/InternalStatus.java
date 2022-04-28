@@ -1,4 +1,4 @@
-package at.snt.tms.model.status;
+package at.snt.tms.model.database.status;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
