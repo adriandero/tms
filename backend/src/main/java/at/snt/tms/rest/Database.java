@@ -5,6 +5,7 @@ import at.snt.tms.model.operator.Permission;
 import at.snt.tms.model.operator.User;
 import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
+import at.snt.tms.model.tender.Assignment;
 import at.snt.tms.model.tender.Company;
 import at.snt.tms.model.tender.Platform;
 import at.snt.tms.model.tender.Tender;
@@ -38,6 +39,7 @@ public class Database {
     private final PlatformRepository platformRepository;
     private final TenderRepository tenderRepository;
     private final TenderUpdateRepository tenderUpdateRepository;
+    private final AssignmentRepository assignmentRepository;
 
     private final EntityRevRepository revRepository;
 
@@ -62,6 +64,8 @@ public class Database {
         this.platformRepository = platformRepository;
         this.tenderRepository = tenderRepository;
         this.tenderUpdateRepository = tenderUpdateRepository;
+        this.assignmentRepository = assignmentRepository;
+
 
         this.revRepository = tenderRevRepository;
 

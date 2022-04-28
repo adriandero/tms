@@ -3,25 +3,24 @@
     <div class="toolbar">
       <!-- <img alt="logo" class="img-fluid" src="assets/logo.png" /> -->
 
-<!--      <div class="profile-box">-->
-<!--        <img-->
-<!--          src="../../../assets/defaultUserImg.svg"-->
-<!--          alt="profile-picture"-->
-<!--          class="profile-picture"-->
-<!--        />-->
+      <!--      <div class="profile-box">-->
+      <!--        <img-->
+      <!--          src="../../../assets/defaultUserImg.svg"-->
+      <!--          alt="profile-picture"-->
+      <!--          class="profile-picture"-->
+      <!--        />-->
       <img
-          [size]="50"
-          alt="profile-picture"
-
-          class="profile-picture"
-          ngxGravatar
-        />
-        <div class="profile-name h2">
-          <a>{{ user.firstname | userName }}</a>
-          <a><br />{{ user.lastname | userName }}</a>
-        </div>
+        [size]="50"
+        alt="profile-picture"
+        class="profile-picture"
+        ngxGravatar
+      />
+      <div class="profile-name h2">
+        <a>{{ user.firstname | userName }}</a>
+        <a><br />{{ user.lastname | userName }}</a>
       </div>
-<!--    </div>-->
+    </div>
+    <!--    </div>-->
 
     <form class="search-bar">
       <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
@@ -42,11 +41,11 @@
 
     <mat-nav-list class="list text-center">
       <a class="single-link" href="#">
- <fa-icon [icon]="faInbox" class="link-icons" size="lg"></fa-icon>
+        <fa-icon [icon]="faInbox" class="link-icons" size="lg"></fa-icon>
         <p class="link-text">All Tenders</p>
       </a>
       <a class="single-link" href="#">
-        <fa-icon [icon]="faArchive" class="link-icons" size="lg" ></fa-icon>
+        <fa-icon [icon]="faArchive" class="link-icons" size="lg"></fa-icon>
         <p class="link-text">My Tenders</p>
       </a>
       <a class="single-link" href="#">

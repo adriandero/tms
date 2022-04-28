@@ -20,8 +20,7 @@ export class TenderComponent implements OnInit{
    @Input() tender!: Tender;
   constructor(public dialog: MatDialog) {}
   ngOnInit(): void {
-    console.log("api-call");
-    console.log(this.tender);
+    
   }
   isOpen = false;
   faArrowRight = faArrowRight
@@ -31,7 +30,7 @@ export class TenderComponent implements OnInit{
 
 
   openDialog() {
-      console.log(this.tender);
+      
     const dialogRef = this.dialog.open(TenderOverlayComponent, {
       closeOnNavigation: true,
       maxWidth: '700px',

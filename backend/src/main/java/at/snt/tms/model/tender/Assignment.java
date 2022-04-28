@@ -39,6 +39,11 @@ public class Assignment implements Serializable {
     public Assignment() {
     }
 
+    public Assignment(Tender tender, User user){
+        this.tender = tender;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }
