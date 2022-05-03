@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class RestAPI extends RouteBuilder {  // http://localhost:8080/
+public class RestAPI extends RouteBuilder {  // http://localhost:8080/api
     @Override
     public void configure() {
         restConfiguration()
@@ -125,7 +125,7 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
         from("direct:delAssignments")
                 .bean(AssignmentService.class, "delete(${header.id})");
 
-        rest("assignments/tender")
+        rest("/assignments/tender")
                 .get("{id}")
                 .to("direct:assignmentsTenderId");
         from("direct:assignmentsTenderId")

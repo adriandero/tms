@@ -177,6 +177,10 @@ public class Tender implements Serializable {
         return assignedIntStatuses;
     }
 
+    public void setAssignedIntStatuses(Set<AssignedIntStatus> assignedIntStatuses) {
+        this.assignedIntStatuses = assignedIntStatuses;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
