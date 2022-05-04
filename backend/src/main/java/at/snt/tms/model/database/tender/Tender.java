@@ -1,12 +1,11 @@
-package at.snt.tms.model.tender;
+package at.snt.tms.model.database.tender;
 
-import at.snt.tms.model.status.AssignedIntStatus;
-import at.snt.tms.model.status.ExternalStatus;
-import at.snt.tms.model.status.InternalStatus;
+import at.snt.tms.model.database.status.AssignedIntStatus;
+import at.snt.tms.model.database.status.ExternalStatus;
+import at.snt.tms.model.database.status.InternalStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 

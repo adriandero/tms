@@ -1,6 +1,6 @@
 package at.snt.tms.repositories.tender;
 
-import at.snt.tms.model.tender.Tender;
+import at.snt.tms.model.database.tender.Tender;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**

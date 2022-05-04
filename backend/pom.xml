@@ -13,7 +13,7 @@
         <maven.compiler.target>11</maven.compiler.target>
 
         <spring.boot-version>2.6.4</spring.boot-version>
-        <camel-version>3.15.0</camel-version>
+        <camel-version>3.16.0</camel-version>
     </properties>
 
     <profiles>
@@ -92,6 +92,10 @@
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-jackson-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-mail-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>

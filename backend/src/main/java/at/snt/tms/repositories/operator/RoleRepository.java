@@ -1,6 +1,6 @@
 package at.snt.tms.repositories.operator;
 
-import at.snt.tms.model.operator.Role;
+import at.snt.tms.model.database.operator.Role;
 import org.springframework.data.repository.CrudRepository;
 
 /**

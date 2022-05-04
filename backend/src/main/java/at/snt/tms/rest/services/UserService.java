@@ -1,6 +1,6 @@
 package at.snt.tms.rest.services;
 
-import at.snt.tms.model.operator.User;
+import at.snt.tms.model.database.operator.User;
 import at.snt.tms.repositories.operator.UserRepository;
 import org.apache.camel.Header;
 import org.springframework.beans.factory.annotation.Autowired;

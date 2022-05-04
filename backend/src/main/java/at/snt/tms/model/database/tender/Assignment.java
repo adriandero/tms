@@ -1,6 +1,6 @@
-package at.snt.tms.model.tender;
+package at.snt.tms.model.database.tender;
 
-import at.snt.tms.model.operator.User;
+import at.snt.tms.model.database.operator.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;

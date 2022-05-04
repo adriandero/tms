@@ -1,6 +1,6 @@
 package at.snt.tms.repositories.tender;
 
-import at.snt.tms.model.tender.TenderUpdate;
+import at.snt.tms.model.database.tender.TenderUpdate;
 import org.springframework.data.repository.CrudRepository;
 
 /**
