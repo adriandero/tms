@@ -49,7 +49,7 @@ export interface Created {
 
 export interface AssignedIntStatus {
     id: number;
-    intStatus: IntStatus;
+    internalStatus: IntStatus;
     user: User;
     created: Created;
 }

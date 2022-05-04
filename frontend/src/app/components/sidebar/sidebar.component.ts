@@ -1,10 +1,20 @@
-import { Component } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import {Component} from '@angular/core';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {Observable} from 'rxjs';
+import {map, shareReplay} from 'rxjs/operators';
 import {User} from "../../model/User";
 import {Role} from "../../model/Roles";
-import {faArchive, faInbox, faSearch, faStar, faTrash, faTag, faCog, 	faCertificate, faSyncAlt} from "@fortawesome/free-solid-svg-icons"
+import {
+  faArchive,
+  faCertificate,
+  faCog,
+  faInbox,
+  faSearch,
+  faStar,
+  faSyncAlt,
+  faTag,
+  faTrash
+} from "@fortawesome/free-solid-svg-icons"
 
 
 @Component({

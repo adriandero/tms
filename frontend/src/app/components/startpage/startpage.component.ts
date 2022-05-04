@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { faFilter, faSort, faBars } from '@fortawesome/free-solid-svg-icons';
-import { MatDialog } from '@angular/material/dialog';
-import { TenderOverlayComponent } from '../tender-overlay/tender-overlay.component';
-import { FilterOverlayComponent } from '../filter-overlay/filter-overlay.component';
+import {Component, OnInit} from '@angular/core';
+import {faBars, faFilter, faSort} from '@fortawesome/free-solid-svg-icons';
+import {MatDialog} from '@angular/material/dialog';
+import {FilterOverlayComponent} from '../filter-overlay/filter-overlay.component';
 
 @Component({
   selector: 'app-startpage',
