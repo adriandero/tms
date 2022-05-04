@@ -21,6 +21,7 @@ public class InboundMail extends RouteBuilder {
 
     @Value("${tms.mail.receive.url}")
     private String mailReceiveUrl;
+
     @Value("${tms.mail.enabled}")
     private boolean mailEnabled;
 

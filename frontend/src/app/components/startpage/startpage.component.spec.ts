@@ -1,8 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatToolbarModule} from '@angular/material/toolbar';
 
 
-import { StartpageComponent } from './startpage.component';
+import {StartpageComponent} from './startpage.component';
 
 
 describe('StartpageComponent', () => {

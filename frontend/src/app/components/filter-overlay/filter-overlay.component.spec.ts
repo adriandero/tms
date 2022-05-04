@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { FilterOverlayComponent } from './filter-overlay.component';
+import {FilterOverlayComponent} from './filter-overlay.component';
 
 describe('FilterOverlayComponent', () => {
   let component: FilterOverlayComponent;

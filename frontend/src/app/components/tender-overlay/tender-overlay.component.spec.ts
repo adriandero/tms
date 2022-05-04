@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { TenderOverlayComponent } from './tender-overlay.component';
+import {TenderOverlayComponent} from './tender-overlay.component';
 
 describe('FloatTenderViewComponent', () => {
   let component: TenderOverlayComponent;
