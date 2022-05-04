@@ -1,9 +1,7 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { catchError, map, Observable, retry, throwError } from 'rxjs';
-import { Tender } from '../model/Tender';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { A } from '@angular/cdk/keycodes';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {catchError, retry, throwError} from 'rxjs';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +17,16 @@ export class TenderService {
     }).pipe(retry(3),
       catchError((response) => this.handleError(response))); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
-  
+
+
+  public getAssignments(id :number) {
+    return this.http.get(this.apiUrl + "assignments/tender/11", {
+      responseType: 'json'
+    }).pipe(retry(3),
+      catchError((response) => this.handleError(response))); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
+  }
+
+
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.
@@ -44,5 +51,7 @@ export class TenderService {
     // Return an observable with a user-facing error message.
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
-  
+
+
+
 }

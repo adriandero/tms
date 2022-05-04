@@ -72,7 +72,8 @@ public class Tender implements Serializable {
     //@JoinColumn(name = "t_ais_assigned_int_statuses")
     private Set<AssignedIntStatus> assignedIntStatuses;
 
-    public Tender(String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExtStatus, InternalStatus latestIntStatus) {
+    public Tender(long id, String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExtStatus, InternalStatus latestIntStatus) {
+        this.id = id;
         this.documentNumber = documentNumber;
         this.platform = platform;
         this.link = link;
@@ -175,6 +176,10 @@ public class Tender implements Serializable {
 
     public Set<AssignedIntStatus> getAssignedIntStatuses() {
         return assignedIntStatuses;
+    }
+
+    public void setAssignedIntStatuses(Set<AssignedIntStatus> assignedIntStatuses) {
+        this.assignedIntStatuses = assignedIntStatuses;
     }
 
     @Override

@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Tender} from "../../model/Tender";
-import { TenderService } from 'src/app/services/tender.service';
-import { tap } from 'rxjs';
-import { BackendResponse } from 'src/app/model/protocol/Response';
+import {TenderService} from 'src/app/services/tender.service';
+import {BackendResponse} from 'src/app/model/protocol/Response';
 
 @Component({
   selector: 'app-tenders',
@@ -22,9 +21,10 @@ export class TendersComponent implements OnInit {
         const response: BackendResponse<Tender[]> = sent;
 
         this.tenders = response.body;
+        console.log(this.tenders)
       }
     });
   }
- 
+
 
 }

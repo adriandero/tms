@@ -37,7 +37,7 @@ public class TenderManagerConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated()  // all other requests must be authenticated
                 .and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)  // exception -> unauthorized
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

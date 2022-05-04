@@ -109,7 +109,7 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
 
 
         // Authentication TODO HTTP status codes
-        rest("/api/auth/login")
+        rest("/auth/login")
                 .post().to("direct:login")
                 .consumes("application/json")
                 .type(UserLoginDto.class);
@@ -135,7 +135,7 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
         from("direct:delAssignments")
                 .bean(AssignmentService.class, "delete(${header.id})");
 
-        rest("assignments/tender")
+        rest("/assignments/tender")
                 .get("{id}")
                 .to("direct:assignmentsTenderId");
         from("direct:assignmentsTenderId")

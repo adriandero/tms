@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {faAngleDown, faUser,faTag, faFileAlt, faArrowLeft} from "@fortawesome/free-solid-svg-icons"
+import {Component} from '@angular/core';
+import {faAngleDown, faArrowLeft, faFileAlt, faTag, faUser} from "@fortawesome/free-solid-svg-icons"
 
 @Component({
   selector: 'app-history',
@@ -18,5 +18,5 @@ export class HistoryComponent {
   showText() {
      this.isReadMore = !this.isReadMore
   }
-  
+
 }

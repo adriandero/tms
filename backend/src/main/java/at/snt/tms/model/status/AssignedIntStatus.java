@@ -3,6 +3,7 @@ package at.snt.tms.model.status;
 import at.snt.tms.model.operator.User;
 import at.snt.tms.model.tender.Tender;
 import org.hibernate.envers.Audited;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,6 +29,7 @@ public class AssignedIntStatus implements Serializable {
     @JoinColumn(name = "ais_is_int_status")
     private InternalStatus internalStatus;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ais_t_tender")
     private Tender tender;
@@ -39,7 +41,8 @@ public class AssignedIntStatus implements Serializable {
     @Column(name = "ais_created")
     private Timestamp created;
 
-    public AssignedIntStatus(InternalStatus internalStatus, Tender tender, User user, Timestamp created) {
+    public AssignedIntStatus(long id, InternalStatus internalStatus, Tender tender, User user, Timestamp created) {
+        this.id = id;
         this.internalStatus = internalStatus;
         this.tender = tender;
         this.user = user;

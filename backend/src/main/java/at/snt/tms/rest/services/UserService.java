@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -23,25 +22,31 @@ import java.util.Set;
 public class UserService implements UserDetailsService {
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final UserRepository users;
-=======
-@Service
-public class UserService extends GenericCrudRepoService<User>{
-
->>>>>>> master
 
     @Autowired
     public UserService(UserRepository users) {
-        super(users, User.class);
+        this.users = users;
+    }
+
+    public Iterable<User> findAll() {
+        return users.findAll();
+    }
+
+    public User findById(Long id) {
+        Optional<User> user = users.findById(id);
+        if (user.isEmpty()) {
+            throw new IllegalStateException("User not found for given id:" + id);
+        }
+        return user.get();
     }
 
     public void add(@Header(value = "mail") String mail, @Header(value = "password") String password) {
         password = passwordEncoder.encode(password);
         User u = new User(mail, password);
         System.out.println("Add user to database: " + u);
-        repository.save(u);
+        users.save(u);
     }
 
-<<<<<<< HEAD
     public void delete(Long id){
         User u = findById(id);
         System.out.println("Deleted user: " + u);
@@ -58,6 +63,4 @@ public class UserService extends GenericCrudRepoService<User>{
 
         return user;
     }
-=======
->>>>>>> master
 }

@@ -5,6 +5,7 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -38,6 +39,7 @@ public class InternalStatus implements Serializable {
 
     public InternalStatus(String label) {
         this.label = label;
+        this.transitions = new HashSet<>();
     }
 
     public InternalStatus() {
