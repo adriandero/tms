@@ -1,14 +1,14 @@
-import { LayoutModule } from '@angular/cdk/layout';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatToolbarModule } from '@angular/material/toolbar';
+import {LayoutModule} from '@angular/cdk/layout';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatListModule} from '@angular/material/list';
+import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatStepperModule} from '@angular/material/stepper';
-import { HistoryComponent } from './history.component';
-import { TenderOverlayComponent } from '../tender-overlay/tender-overlay.component';
+import {HistoryComponent} from './history.component';
+import {TenderOverlayComponent} from '../tender-overlay/tender-overlay.component';
 
 describe('HistoryComponent', () => {
   let component: HistoryComponent;

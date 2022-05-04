@@ -2,6 +2,7 @@ package at.snt.tms.rest;
 
 import at.snt.tms.model.operator.Role;
 import at.snt.tms.model.operator.User;
+import at.snt.tms.model.status.AssignedIntStatus;
 import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
 import at.snt.tms.model.tender.Assignment;
@@ -15,6 +16,10 @@ import at.snt.tms.repositories.status.ExternalStatusRepository;
 import at.snt.tms.repositories.status.InternalStatusRepository;
 import at.snt.tms.repositories.tender.*;
 import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class Database {
@@ -53,14 +58,28 @@ public class Database {
 
 
         // Adding demo data:
-        final Tender tender = new Tender(1234L, "#1234", this.platformRepository.save(new Platform("http://demo.at")), "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), this.internalStatusRepository.save(new InternalStatus("internal")));
+        final InternalStatus intStatus = new InternalStatus("internal");
+        // terminates tender not included (from pending merge request)
+//        intStatus.addTransition(this.internalStatusRepository.save(new InternalStatus("closed"))); wrong behaviour
+        this.internalStatusRepository.save(intStatus);
+
+        final Tender tender = this.tenderRepository.save(new Tender(1234L, "#1234", this.platformRepository.save(new Platform("http://demo.at")), "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), intStatus));
         this.tenderRepository.save(tender);
+
         final User user = new User("example@gmail.com", "secret");
-        final Assignment assignment = new Assignment(
-                this.tenderRepository.save(new Tender(12345L, "#1234", this.platformRepository.save(new Platform("http://demo.at")), "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), this.internalStatusRepository.save(new InternalStatus("internal"))))
-                , this.userRepository.save(user));
+        this.userRepository.save(user);
+
+        final Tender tender1 = this.tenderRepository.save(new Tender(12345L, "#123", this.platformRepository.save(new Platform("http://demo.at")), "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), this.internalStatusRepository.save(new InternalStatus("internal"))));
+
+        final AssignedIntStatus assignedIntStatus = new AssignedIntStatus(999, intStatus, tender1, user, new Timestamp(1));
+        Set<AssignedIntStatus> assInt = new HashSet<>();
+        assInt.add(this.assignedIntStatusRepository.save(assignedIntStatus));
+        tender1.setAssignedIntStatuses(assInt);
+        this.tenderRepository.save(tender1);
+
+        final Assignment assignment = new Assignment(tender1, user);
         this.assignmentRepository.save(assignment);
     }
-    // TODO https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#transactions Example 108
+//     TODO https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#transactions Example 108
 
 }

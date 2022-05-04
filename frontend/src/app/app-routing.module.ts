@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {StartpageComponent} from "./components/startpage/startpage.component";
 import {LoginComponent} from "./components/login/login.component";
 import {HistoryComponent} from "./components/history/history.component";
