@@ -230,27 +230,31 @@
         <h5>User</h5>
         <mat-form-field
           color="primary"
-          class="example-full-width"
           appearance="outline"
+          class="search-form example-chip-list"
         >
-          <mat-label>User...</mat-label>
+          <mat-label>Which users...</mat-label>
           <input
-            type="text"
-            placeholder="einen status auswählen"
-            aria-label="user"
             matInput
-            [formControl]="myControl"
-            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event, users)"
           />
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option
-              *ngFor="let option of filteredUserOptions | async"
-              [value]="option"
-            >
-              {{ option }}
-            </mat-option>
-          </mat-autocomplete>
+
+          <mat-chip-list #chipList> </mat-chip-list>
         </mat-form-field>
+        <mat-chip
+          class="chip"
+          *ngFor="let user of users"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(user, users)"
+        >
+          {{ user.name }}
+
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
         <!-- <form class="example-form">
           <mat-form-field
             color="primary"

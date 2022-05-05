@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
 
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 export interface Chip {
   name: string;
@@ -42,11 +42,7 @@ export class FilterOverlayComponent implements OnInit {
 
   filteredExternOptions!: Observable<string[]>;
   filteredInternOptions!: Observable<string[]>;
-
-  users: string[] = ['Dominik Fluch', 'Oliver sommer'];
   // tasks: string[] = [];
-
-  filteredUserOptions!: Observable<string[]>;
   // filteredTaskOptions!: Observable<string[]>;
 
   ngOnInit() {
@@ -57,10 +53,6 @@ export class FilterOverlayComponent implements OnInit {
     this.filteredInternOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value, this.internOptions))
-    );
-    this.filteredUserOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map((value) => this._filter(value, this.users))
     );
     // this.filteredTaskOptions = this.myControl.valueChanges.pipe(
     //   startWith(''),
@@ -79,6 +71,7 @@ export class FilterOverlayComponent implements OnInit {
   extStatus: Chip[] = [];
   files: Chip[] = [];
   uptDetails: Chip[] = [];
+  users: Chip[] = [];
 
   private _filter(value: string, options: string[]): string[] {
     const filterValue = value.toLowerCase();
