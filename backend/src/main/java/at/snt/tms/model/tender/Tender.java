@@ -1,8 +1,9 @@
-package at.snt.tms.model.database.tender;
+package at.snt.tms.model.tender;
 
-import at.snt.tms.model.database.status.AssignedIntStatus;
-import at.snt.tms.model.database.status.ExternalStatus;
-import at.snt.tms.model.database.status.InternalStatus;
+import at.snt.tms.model.status.AssignedIntStatus;
+import at.snt.tms.model.status.ExternalStatus;
+import at.snt.tms.model.status.InternalStatus;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "te_tenders")
 public class Tender implements Serializable {
     private static final long serialVersionUID = 3865877817478679993L;
@@ -56,8 +58,8 @@ public class Tender implements Serializable {
     private Set<TenderUpdate> updates;
 
     @ManyToOne
-    @JoinColumn(name = "te_es_latest_ex_status")
-    private ExternalStatus latestExStatus;
+    @JoinColumn(name = "te_es_latest_ext_status")
+    private ExternalStatus latestExtStatus;
 
     @ManyToOne
     @JoinColumn(name = "te_is_latest_int_status")
@@ -70,7 +72,7 @@ public class Tender implements Serializable {
     //@JoinColumn(name = "t_ais_assigned_int_statuses")
     private Set<AssignedIntStatus> assignedIntStatuses;
 
-    public Tender(Long id, String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExStatus, InternalStatus latestIntStatus) {
+    public Tender(long id, String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExtStatus, InternalStatus latestIntStatus) {
         this.id = id;
         this.documentNumber = documentNumber;
         this.platform = platform;
@@ -80,7 +82,7 @@ public class Tender implements Serializable {
         this.description = description;
 
         // TODO: See if this is fine (just here for demo for now):
-        this.latestExStatus = latestExStatus;
+        this.latestExtStatus = latestExtStatus;
         this.latestIntStatus = latestIntStatus;
     }
 
@@ -148,12 +150,12 @@ public class Tender implements Serializable {
         return updates;
     }
 
-    public ExternalStatus getLatestExStatus() {
-        return latestExStatus;
+    public ExternalStatus getLatestExtStatus() {
+        return latestExtStatus;
     }
 
-    void setLatestExStatus(ExternalStatus latestExStatus) {
-        this.latestExStatus = latestExStatus;
+    void setLatestExtStatus(ExternalStatus latestExtStatus) {
+        this.latestExtStatus = latestExtStatus;
     }
 
     public InternalStatus getLatestIntStatus() {

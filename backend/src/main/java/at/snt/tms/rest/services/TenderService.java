@@ -1,6 +1,6 @@
 package at.snt.tms.rest.services;
 
-import at.snt.tms.model.database.tender.Tender;
+import at.snt.tms.model.tender.Tender;
 import at.snt.tms.repositories.tender.TenderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

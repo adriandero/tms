@@ -12,8 +12,11 @@ spring:
     hibernate:
       ddl-auto: update
 
-# Mail
+# App Properties
 tms:
+  jwt:
+    secret: tmsSecret
+    expiration: 900_000  # 15 minutes
   mail:
     enabled: true
     receive:

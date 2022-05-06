@@ -1,6 +1,6 @@
 package at.snt.tms.repositories.tender;
 
-import at.snt.tms.model.database.tender.Task;
+import at.snt.tms.model.tender.Task;
 import org.springframework.data.repository.CrudRepository;
 
 /**

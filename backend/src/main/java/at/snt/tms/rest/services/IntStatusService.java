@@ -1,6 +1,6 @@
 package at.snt.tms.rest.services;
 
-import at.snt.tms.model.database.status.InternalStatus;
+import at.snt.tms.model.status.InternalStatus;
 import at.snt.tms.repositories.status.InternalStatusRepository;
 import org.apache.camel.Header;
 import org.springframework.beans.factory.annotation.Autowired;

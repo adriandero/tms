@@ -1,4 +1,6 @@
-package at.snt.tms.model.database.tender;
+package at.snt.tms.model.tender;
+
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +14,7 @@ import java.util.Objects;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "p_platforms")
 public class Platform implements Serializable {
     private static final long serialVersionUID = -2331276148933404188L;

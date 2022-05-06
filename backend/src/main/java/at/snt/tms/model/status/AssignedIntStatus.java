@@ -1,7 +1,8 @@
-package at.snt.tms.model.database.status;
+package at.snt.tms.model.status;
 
-import at.snt.tms.model.database.operator.User;
-import at.snt.tms.model.database.tender.Tender;
+import at.snt.tms.model.operator.User;
+import at.snt.tms.model.tender.Tender;
+import org.hibernate.envers.Audited;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "ais_assigned_int_status")
 public class AssignedIntStatus implements Serializable {
     private static final long serialVersionUID = -2353155447689327872L;

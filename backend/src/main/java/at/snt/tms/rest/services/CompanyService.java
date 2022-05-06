@@ -1,6 +1,6 @@
 package at.snt.tms.rest.services;
 
-import at.snt.tms.model.database.tender.Company;
+import at.snt.tms.model.tender.Company;
 import at.snt.tms.repositories.tender.CompanyRepository;
 import org.apache.camel.Header;
 import org.springframework.beans.factory.annotation.Autowired;

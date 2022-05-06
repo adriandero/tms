@@ -1,4 +1,4 @@
-package at.snt.tms.model.database.tender;
+package at.snt.tms.model.tender;
 
 import javax.persistence.*;
 

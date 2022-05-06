@@ -1,4 +1,6 @@
-package at.snt.tms.model.database.tender;
+package at.snt.tms.model.tender;
+
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +13,7 @@ import java.sql.SQLException;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "at_attachments")
 public class Attachment implements Serializable {
     private static final long serialVersionUID = -2001662624259726346L;

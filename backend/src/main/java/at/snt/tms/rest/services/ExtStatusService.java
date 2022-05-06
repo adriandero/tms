@@ -1,6 +1,6 @@
 package at.snt.tms.rest.services;
 
-import at.snt.tms.model.database.status.ExternalStatus;
+import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.repositories.status.ExternalStatusRepository;
 import org.apache.camel.Header;
 import org.springframework.beans.factory.annotation.Autowired;
