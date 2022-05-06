@@ -4,8 +4,6 @@ import at.snt.tms.auditing.MyRevisionsListener;
 import at.snt.tms.model.operator.User;
 import org.hibernate.envers.DefaultRevisionEntity;
 import org.hibernate.envers.RevisionEntity;
-import org.hibernate.envers.RevisionNumber;
-import org.hibernate.envers.RevisionTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;

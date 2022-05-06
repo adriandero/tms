@@ -8,7 +8,6 @@ import at.snt.tms.payload.response.MessageResponse;
 import at.snt.tms.repositories.operator.PermissionRepository;
 import at.snt.tms.repositories.operator.UserRepository;
 import at.snt.tms.security.JwtUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.Body;
 import org.slf4j.Logger;

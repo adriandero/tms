@@ -1,7 +1,6 @@
 package at.snt.tms.model.status;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import javassist.SerialVersionUID;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;

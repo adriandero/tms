@@ -3,7 +3,7 @@
 }
 .mat-dialog-content {
   padding: 0px;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 mat-nav-list {
