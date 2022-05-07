@@ -18,6 +18,8 @@ import java.util.Map;
 /**
  * Class {@code AuthEntryPointJwt}
  *
+ * This class is necessary for sending {@code 401 Unauthorized} responses back to the client.
+ *
  * @author Oliver Sommer
  */
 @Component
@@ -26,7 +28,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
-            throws IOException, ServletException {
+            throws IOException {
         logger.debug("Unauthorized error: {}", authException.getMessage());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
