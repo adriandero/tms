@@ -81,7 +81,7 @@ public class Database {
         final Tender tender = this.tenderRepository.save(new Tender(1234L, "#1234", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), intStatus));
         this.tenderRepository.save(tender);
 
-        final User user = new User("example@gmail.com", "secret");
+        final User user = new User("example@gmail.com", new BCryptPasswordEncoder().encode("secret"));
         this.userRepository.save(user);
 
         final Tender tender1 = this.tenderRepository.save(new Tender(12345L, "#123", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), this.internalStatusRepository.save(new InternalStatus("internal"))));
@@ -101,6 +101,6 @@ public class Database {
 
         Permission permission = this.permissionRepository.save(new Permission("admin"));
         Group g = this.groupRepository.save(new Group("tender_admin", permission));
-        User u = this.userRepository.save(new User("user@snt.at", "Max", "Mustermann", new BCryptPasswordEncoder().encode("pass123"), g));
+        this.userRepository.save(new User("user@snt.at", "Max", "Mustermann", new BCryptPasswordEncoder().encode("pass123"), g));
     }
 }

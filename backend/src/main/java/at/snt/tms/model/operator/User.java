@@ -1,5 +1,6 @@
 package at.snt.tms.model.operator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,6 +42,10 @@ public class User implements UserDetails, Serializable {  // TODO https://www.ja
     @ManyToOne
     @JoinColumn(name = "u_g_group", foreignKey = @ForeignKey(name = "g_id"))
     private Group group;
+    @Column(name = "u_refresh_token_secret", length = 500)
+    @NotAudited
+    @JsonIgnore
+    private String refreshTokenSecret;
 
     public User(String mail, String passwordHash) {
         this.mail = mail;
@@ -136,6 +141,14 @@ public class User implements UserDetails, Serializable {  // TODO https://www.ja
 
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public String getRefreshTokenSecret() {
+        return refreshTokenSecret;
+    }
+
+    public void setRefreshTokenSecret(String refreshTokenSecret) {
+        this.refreshTokenSecret = refreshTokenSecret;
     }
 
     @Override

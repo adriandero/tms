@@ -1,5 +1,7 @@
 package at.snt.tms.payload.response;
 
+import at.snt.tms.payload.AccessRefreshTokenDto;
+
 import java.util.List;
 
 /**
@@ -8,23 +10,23 @@ import java.util.List;
  * @author Oliver Sommer
  */
 public class JwtResponse {
-    private String token;
+    private AccessRefreshTokenDto tokens;
     private String type = "Bearer";
     private String mail;
     private List<String> roles;
 
-    public JwtResponse(String accessToken, String mail, List<String> roles) {
-        this.token = accessToken;
+    public JwtResponse(AccessRefreshTokenDto tokens, String mail, List<String> roles) {
+        this.tokens = tokens;
         this.mail = mail;
         this.roles = roles;
     }
 
-    public String getAccessToken() {
-        return token;
+    public AccessRefreshTokenDto getTokens() {
+        return tokens;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.token = accessToken;
+    public void setAccessToken(AccessRefreshTokenDto tokens) {
+        this.tokens = tokens;
     }
 
     public String getTokenType() {

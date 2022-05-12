@@ -1,8 +1,8 @@
 package at.snt.tms.rest.services;
 
 import at.snt.tms.model.operator.User;
+import at.snt.tms.payload.AccessRefreshTokenDto;
 import at.snt.tms.payload.request.UserLoginDto;
-import at.snt.tms.payload.request.UserSignUpDto;
 import at.snt.tms.payload.response.JwtResponse;
 import at.snt.tms.payload.response.MessageResponse;
 import at.snt.tms.repositories.operator.PermissionRepository;
@@ -24,6 +24,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,34 +58,69 @@ public class AuthService {
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getMail(), loginRequest.getPassword()));
-        } catch(BadCredentialsException e) {
+        } catch (BadCredentialsException e) {
             logger.info("Invalid credentials used for authentication.");
             return ResponseEntity.badRequest().body(new MessageResponse("Invalid credentials."));
         }
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
-        JwtResponse response = new JwtResponse(jwt, userDetails.getUsername(),  // username is mail
-                roles);
-        return ResponseEntity.ok(response);
-    }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String accessToken = jwtUtils.generateJwtAccessToken(authentication);
 
-    public ResponseEntity<?> registerUser(@Body UserSignUpDto signUpDto) {  // unimplemented
-        if(userRepository.existsByMailIgnoreCase(signUpDto.getMail())) {
-            return ResponseEntity.badRequest().body(new MessageResponse("Error: Mail is already taken!"));
-        }
+        String secret = randomBase64();
+        String refreshToken = jwtUtils.generateJwtRefreshToken(secret);
 
-        // Create new user's account
-        User user = new User(signUpDto.getMail(), encoder.encode(signUpDto.getPassword()));
-
-        // add roles/permissions
-
+        // store refresh-token in database
+        User user = userRepository.findByMailIgnoreCase(userDetails.getUsername());
+        user.setRefreshTokenSecret(secret);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(
+                new JwtResponse(
+                        new AccessRefreshTokenDto(accessToken, refreshToken),
+                        userDetails.getUsername(),  // username is mail
+                        roles)
+        );
+    }
+
+    public ResponseEntity<?> logoutUser() {
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal().getClass() == User.class)  {
+            // delete refresh-token-secret for logged-in users
+            User user =  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            user.setRefreshTokenSecret(null);
+            userRepository.save(user);
+        }
+        return ResponseEntity.ok(new MessageResponse("Successfully logged out."));
+    }
+
+    public ResponseEntity<?> refreshTokens(@Body AccessRefreshTokenDto tokens) {
+        if (!jwtUtils.jwtIsRefreshable(tokens.getAccessToken()) || !jwtUtils.validateJwtToken(tokens.getRefreshToken())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid tokens provided."));
+        }
+
+        User user = userRepository.findByMailIgnoreCase(jwtUtils.getMailFromJwtAccessToken(tokens.getAccessToken()));
+
+        // check if the secret in the refresh-token is correct
+        if (!user.getRefreshTokenSecret().equals(jwtUtils.getSecretFromJwtRefreshToken(tokens.getRefreshToken()))) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid tokens provided."));
+        }
+
+        String secret = randomBase64();  // generate random Base64-value
+        // store refresh-token in database
+        user.setRefreshTokenSecret(secret);
+        userRepository.save(user);
+
+        String refresh = jwtUtils.generateJwtRefreshToken(secret);
+        String access = jwtUtils.refreshExpiredJwtAccessToken(tokens.getAccessToken());
+
+        return ResponseEntity.ok(new AccessRefreshTokenDto(access, refresh));
+    }
+
+    private String randomBase64() {
+        byte[] key = new byte[64];
+        new SecureRandom().nextBytes(key);
+        return Base64.getEncoder().encodeToString(key);
     }
 }

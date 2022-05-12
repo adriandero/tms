@@ -1,5 +1,6 @@
 package at.snt.tms.rest;
 
+import at.snt.tms.payload.AccessRefreshTokenDto;
 import at.snt.tms.payload.request.UserLoginDto;
 import at.snt.tms.rest.services.*;
 import org.apache.camel.builder.RouteBuilder;
@@ -106,16 +107,6 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .bean(CompanyService.class, "add");
         from("direct:delCompany")
                 .bean(CompanyService.class, "delete(${header.id})");
-
-
-        // Authentication TODO HTTP status codes
-        rest("/auth/login")
-                .post().to("direct:login")
-                .consumes("application/json")
-                .type(UserLoginDto.class);
-        from("direct:login")
-//                .log("Received: ${body}")
-                .bean(AuthService.class, "authenticateUser");
                 
         rest("/assignments")
                 .get()
@@ -142,5 +133,27 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .bean(AssignmentService.class, "findAssignmentsByTenderId(${header.id})");
 
 
+
+        // Authentication TODO HTTP status codes
+        rest("/auth/login")
+                .post().to("direct:login")
+                .consumes("application/json")
+                .type(UserLoginDto.class);
+        from("direct:login")
+//                .log("Received: ${body}")
+                .bean(AuthService.class, "authenticateUser");
+
+        rest("/auth/logout")
+                .get().to("direct:logout");
+        from("direct:logout")
+                .bean(AuthService.class, "logoutUser");
+
+        rest("/auth/refresh")
+                .post().to("direct:refresh")
+                .consumes("application/json")
+                .type(AccessRefreshTokenDto.class);
+        from("direct:refresh")
+//                .log("Received: ${body}")
+                .bean(AuthService.class, "refreshTokens");
     }
 }
