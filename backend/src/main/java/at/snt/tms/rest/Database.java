@@ -30,6 +30,7 @@ import java.util.Set;
 @Component
 @Transactional
 public class Database {
+
     private final PermissionRepository permissionRepository;
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
@@ -67,9 +68,9 @@ public class Database {
         this.tenderRepository = tenderRepository;
         this.tenderUpdateRepository = tenderUpdateRepository;
         this.assignmentRepository = assignmentRepository;
-
-
         this.revRepository = tenderRevRepository;
+
+
 
         // Adding demo data:
         final Platform platform = this.platformRepository.save(new Platform("http://demo.at"));

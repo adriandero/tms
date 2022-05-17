@@ -1,4 +1,4 @@
-package at.snt.tms.model.mailing;
+package at.snt.tms.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

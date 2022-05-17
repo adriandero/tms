@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class AssignmentService extends GenericCrudRepoService<Assignment> {
+public class AssignmentService extends GenericCrudRepoService<Assignment, Long> {
     public AssignmentService (AssignmentRepository assignmentRepository){
         super(assignmentRepository, Assignment.class);
     }

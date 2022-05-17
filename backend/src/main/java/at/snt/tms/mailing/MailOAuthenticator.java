@@ -1,10 +1,8 @@
 package at.snt.tms.mailing;
 
-import at.snt.tms.model.mailing.OAuthResponseDetails;
+import at.snt.tms.model.OAuthResponseDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.net.MediaType;
 import org.apache.camel.component.mail.MailAuthenticator;
-import org.apache.camel.util.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,16 +11,11 @@ import org.springframework.stereotype.Component;
 
 import javax.mail.PasswordAuthentication;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.StringJoiner;
 
 /**

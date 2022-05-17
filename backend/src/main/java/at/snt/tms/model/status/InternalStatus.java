@@ -22,10 +22,6 @@ public class InternalStatus implements Serializable {
     private static final long serialVersionUID = -8736360362075978103L;
 
     @Id
-    @GeneratedValue
-    @Column(name = "is_id")
-    private Long id;
-
     @Column(name = "is_label")
     private String label;
 
@@ -33,7 +29,7 @@ public class InternalStatus implements Serializable {
     private Boolean terminatesTender;
 
     @ManyToMany
-    @JoinTable(name = "is_status_transitions", joinColumns = @JoinColumn(name = "is_id", referencedColumnName = "is_id"), inverseJoinColumns = @JoinColumn(name = "transition_is_id", referencedColumnName = "is_id"))
+    @JoinTable(name = "is_status_transitions", joinColumns = @JoinColumn(name = "is_label", referencedColumnName = "is_label"), inverseJoinColumns = @JoinColumn(name = "transition_is_label", referencedColumnName = "is_label"))
     @JsonIgnore
     private Set<InternalStatus> transitions;
 
@@ -53,20 +49,14 @@ public class InternalStatus implements Serializable {
         this.terminatesTender = terminatesTender;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    private void setId(Long id) {
-        this.id = id;
-    }
-
     public String getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
+    public InternalStatus setLabel(String label) {
         this.label = label;
+
+        return this;
     }
 
     public Set<InternalStatus> getTransitions() {
