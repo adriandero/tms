@@ -21,15 +21,20 @@ import java.util.Set;
 public class InternalStatus implements Serializable {
     private static final long serialVersionUID = -8736360362075978103L;
 
+    @Transient
+    public static final InternalStatus INTERESTING = new InternalStatus("Interesting");
+    @Transient
+    public static final InternalStatus IRRELEVANT = new InternalStatus("Irrelevant");
+
     @Id
     @GeneratedValue
     @Column(name = "is_id")
     private Long id;
 
-    @Column(name = "is_label")
+    @Column(name = "is_label", nullable = false, unique = true, length = 50)
     private String label;
 
-    @Column(name = "es_terminates_tender")
+    @Column(name = "is_terminates_tender")
     private Boolean terminatesTender;
 
     @ManyToMany

@@ -71,6 +71,9 @@ public class Database {
 
         this.revRepository = tenderRevRepository;
 
+        this.internalStatusRepository.save(InternalStatus.INTERESTING);
+        this.internalStatusRepository.save(InternalStatus.IRRELEVANT);
+
         // Adding demo data:
         final Platform platform = this.platformRepository.save(new Platform("http://demo.at"));
         final InternalStatus intStatus = new InternalStatus("internal");
@@ -84,7 +87,7 @@ public class Database {
         final User user = new User("example@gmail.com", new BCryptPasswordEncoder().encode("secret"));
         this.userRepository.save(user);
 
-        final Tender tender1 = this.tenderRepository.save(new Tender(12345L, "#123", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), this.internalStatusRepository.save(new InternalStatus("internal"))));
+        final Tender tender1 = this.tenderRepository.save(new Tender(12345L, "#123", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status2")), this.internalStatusRepository.save(new InternalStatus("internal2"))));
 
         final AssignedIntStatus assignedIntStatus = new AssignedIntStatus(999, intStatus, tender1, user, new Timestamp(1));
         Set<AssignedIntStatus> assInt = new HashSet<>();
