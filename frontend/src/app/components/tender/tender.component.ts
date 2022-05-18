@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {faAngleDown, faArrowRight, faTag, faUser} from "@fortawesome/free-solid-svg-icons"
+import {faArrowRight, faTag, faUser} from "@fortawesome/free-solid-svg-icons"
 import {Tender} from "../../model/Tender";
 import {MatDialog} from "@angular/material/dialog";
 import {TenderOverlayComponent} from "../tender-overlay/tender-overlay.component";
@@ -13,14 +13,14 @@ import {TenderOverlayComponent} from "../tender-overlay/tender-overlay.component
 
 export class TenderComponent implements OnInit{
 
+
    @Input() tender!: Tender;
   constructor(public dialog: MatDialog) {}
   ngOnInit(): void {
-
   }
+
   isOpen = false;
   faArrowRight = faArrowRight
-  faAngleDown=faAngleDown
   faUser=faUser
   faTag=faTag
 

@@ -19,9 +19,9 @@ export class TendersComponent implements OnInit {
     this.tenderService.getTenders().subscribe({
       next: (sent: any) => {
         const response: BackendResponse<Tender[]> = sent;
-
+        let ten :Tender= response.body[0]
+        console.log(ten)
         this.tenders = response.body;
-        console.log(this.tenders)
       }
     });
   }
