@@ -25,6 +25,6 @@ public interface MailHandler {
      * @param message
      * @return true if the given message could be processed by the handler.
      */
-    public boolean handle(Message message);
+    //public boolean handle(Message message);
 
 }

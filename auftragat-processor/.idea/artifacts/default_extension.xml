@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="default-extension">
+    <output-path>$PROJECT_DIR$/out/artifacts/default_extension</output-path>
+    <root id="archive" name="default-extension.jar">
+      <element id="module-output" name="default-processors" />
+    </root>
+  </artifact>
+</component>

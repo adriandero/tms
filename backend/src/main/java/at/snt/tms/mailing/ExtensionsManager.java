@@ -1,7 +1,12 @@
 package at.snt.tms.mailing;
 
 import com.google.common.reflect.ClassPath;
+import org.apache.juli.logging.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.io.Closeable;
@@ -10,8 +15,12 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -25,13 +34,44 @@ import java.util.function.Function;
 @Component
 public class ExtensionsManager {
 
-    @Value("${tms.mail.receive.url}")
+    private static final Logger LOGGER = LoggerFactory.getLogger(MailOAuthenticator.class);
+
+    @Value("${tms.mail.extensions}")
     private String extensionsFolder;
 
     private final Map<ClassLoader, MailHandler[]> loaded;
 
     public ExtensionsManager() {
         this.loaded = new HashMap<>();
+    }
+
+    /**
+     * Loads all extensions in the extensions folder.
+     */
+    @EventListener(ApplicationReadyEvent.class)
+    public void loadDefault() {
+        LOGGER.info("Loading extensions from: " + this.extensionsFolder);
+        try {
+            final Path extensionsFolder = Paths.get(this.extensionsFolder);
+
+            if(!Files.exists(extensionsFolder)) Files.createDirectory(extensionsFolder);
+
+            final long start = System.currentTimeMillis();
+            final Iterator<Path> extensions = Files.list(extensionsFolder).iterator();
+
+            while(extensions.hasNext()) {
+                final Path extension = extensions.next();
+                try {
+                    this.load(extension.toUri().toURL());
+                } catch(Exception exception) {
+                    LOGGER.error("Failed loading extension in \"" + extension.getFileName() + "\".", exception);
+                }
+            }
+
+            LOGGER.info("Done loading extensions: Took " + (System.currentTimeMillis() - start) + "ms");
+        } catch(IOException exception) {
+            LOGGER.error("Failed to load extensions.", exception);
+        }
     }
 
     /**
@@ -47,8 +87,8 @@ public class ExtensionsManager {
         for(int i = 0; i < mailHandlers.length; i++) {
             final Class<?> clasz = loader.loadClass(handlers[i]);
 
-            if(clasz.isAssignableFrom(MailHandler.class)) {
-                mailHandlers[i] = (MailHandler) clasz.getConstructor().newInstance();
+            if(MailHandler.class.isAssignableFrom(clasz)) {
+                (mailHandlers[i] = (MailHandler) clasz.getConstructor().newInstance()).onLoad();
             } else throw new InstantiationException("Class \"" + clasz.getName() + "\" is not subtype of \"" + MailHandler.class.getName() + "\".");
         }
 
@@ -68,10 +108,4 @@ public class ExtensionsManager {
         return loaded;
     }
 
-    /**
-     * @return the directory that contains all extensions.
-     */
-    public File getExtensionsFolder() {
-        return new File(this.extensionsFolder);
-    }
 }

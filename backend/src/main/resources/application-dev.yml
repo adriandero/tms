@@ -20,6 +20,7 @@ tms:
     refresh-token-expiration: 86_400_000  # 24 hours
   mail:
     enabled: true
+    extensions: extensions
     receive:
       url: imaps://outlook.office365.com?authenticator=#customOAuth&unseen=true&delay=5000&mail.imaps.sasl.enable=true&mail.imaps.sasl.mechanisms=XOAUTH2&moveTo=tms
     oauth2:
