@@ -1,5 +1,6 @@
 package at.snt.tms.repositories.status;
 
+import at.snt.tms.model.operator.User;
 import at.snt.tms.model.status.InternalStatus;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @author Oliver Sommer
  */
 @Repository
-public interface InternalStatusRepository extends CrudRepository<InternalStatus, Long> {
+public interface InternalStatusRepository extends CrudRepository<InternalStatus, String> {
 
 }

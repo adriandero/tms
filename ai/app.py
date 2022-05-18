@@ -35,3 +35,7 @@ def info() -> Response:
     response = svm_manager.info()
     return flask.jsonify(response)
 
+if __name__ == '__main__':
+    from waitress import serve
+    serve(app, port=5000)
+
