@@ -41,6 +41,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {AuthModule} from "./auth/auth.module";
 
 
 @NgModule({
@@ -90,7 +91,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatRippleModule,
     MatTabsModule,
     MatDatepickerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

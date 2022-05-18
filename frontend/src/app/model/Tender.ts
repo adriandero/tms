@@ -1,71 +1,73 @@
 export interface Platform {
-    id: number;
-    link: string;
-}
-export interface ExStatus{
-    id: number,
-    label: string,
-    transitions: [
-        ExStatus
-    ]
-}
-export interface IntStatus {
-    id: number;
-    label: string;
-    transitions: string[];
+  id: number;
+  link: string;
 }
 
-export interface ValidFrom2 { // todo remove ?
-    time: number;
+export interface Status {
+  id: number,
+  label: string,
+  terminatesTender: any
 }
 
-export interface ValidTo2 {  // todo remove ?
-    time: number;
+
+export interface ValidFrom2 { // todo remove ? agree-lili
+  time: number;
 }
 
-export interface TenderUpdate{
-    id: number;
-    externalStatus: ExStatus;
-    validFrom: number;
-    validTo: number;
-    details: string;
-    attachedFiles: [string];
+export interface ValidTo2 {  // todo remove ? agree-lili
+  time: number;
+}
+
+export interface TenderUpdate {
+  id: number;
+  externalStatus: Status;
+  validFrom: number;
+  validTo: number;
+  details: string;
+  attachedFiles: [string];
 }
 
 export interface Role {
-    id: number;
-    designation: string;
+  id: number;
+  designation: string;
 }
 
 export interface User {
-    id: number;
-    mail: string;
-    role: Role;
+  id: number;
+  mail: string;
+  role: Role;
 }
 
 export interface Created {
-    time: number;
+  time: number;
 }
 
 export interface AssignedIntStatus {
-    id: number;
-    internalStatus: IntStatus;
-    user: User;
-    created: Created;
+  id: number;
+  internalStatus: Status;
+  user: User;
+  created: Created;
 }
 
 export interface Tender {
-    id: number;
-    documentNumber: string;
-    platform: Platform;
-    link: string;
-    name: string;
-    description: string;
-    latestUpdate: TenderUpdate;
-    updates: TenderUpdate[];
-    latestExStatus: ExStatus;
-    latestIntStatus: IntStatus;
-    assignedIntStatuses: AssignedIntStatus[];
+  assignedIntStatuses: AssignedIntStatus[];
+  company: Company
+  description: string;
+  documentNumber: string;
+  id: number;
+  latestExtStatus: Status;
+  latestIntStatus: Status;
+  latestUpdate: TenderUpdate;
+  link: string;
+  name: string;
+  platform: Platform;
+  updates: TenderUpdate[];
+
+}
+
+export interface Company {
+  id: number;
+  name: string;
 }
 
 

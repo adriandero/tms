@@ -14,6 +14,7 @@
         alt="profile-picture"
         class="profile-picture"
         ngxGravatar
+        [email]=user.mail
       />
       <div class="profile-name h2">
         <a>{{ user.firstname | userName }}</a>
@@ -59,9 +60,9 @@
     </mat-nav-list>
 
     <mat-nav-list class="list-bottom">
-      <a class="single-link" href="#">
+      <a class="single-link" href="#"  (click)="refresh()">
         <fa-icon [icon]="faCog" class="link-icons" size="lg"></fa-icon>
-        <p class="link-text">Settings</p>
+        <p class="link-text" >Settings</p>
       </a>
     </mat-nav-list>
     <!--    &lt;!&ndash;-->
