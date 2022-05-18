@@ -66,7 +66,7 @@ class SvmManager:
 
         return {
             'tenderId': tender['tenderId'],
-            'label': int(prediction[0]),
+            'label': prediction[0],
             'confidence': int(confidence * 100)
         }
 

@@ -12,7 +12,7 @@ import at.snt.tms.model.status.InternalStatus;
 public class ClassifierPredictionDetails {
     private long tenderId;
     private InternalStatus.Static label;
-    private double confidence;
+    private short confidence;
 
     protected ClassifierPredictionDetails() {}
 
@@ -32,11 +32,11 @@ public class ClassifierPredictionDetails {
         this.label = label;
     }
 
-    public double getConfidence() {
+    public short getConfidence() {
         return confidence;
     }
 
-    protected void setConfidence(double confidence) {
+    protected void setConfidence(short confidence) {
         this.confidence = confidence;
     }
 }

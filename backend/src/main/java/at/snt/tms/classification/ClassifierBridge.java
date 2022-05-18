@@ -8,10 +8,13 @@ import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
 import at.snt.tms.model.tender.Company;
 import at.snt.tms.model.tender.Tender;
+import at.snt.tms.rest.services.TenderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -55,6 +58,24 @@ public class ClassifierBridge {
         this.currentNodes = new HashSet<>(this.threshold);
     }
 
+    /*
+    @EventListener(ApplicationReadyEvent.class)
+    public void test() {
+        for(int i = 0; i < 102; i++) {
+            final Tender tender = new Tender(i, "#123", null, "http://link.demo.at", "test", null, "seas", null, null);
+
+            this.manualClassification(tender, i % 2 == 0 ? InternalStatus.Static.INTERESTING : InternalStatus.Static.IRRELEVANT);
+        }
+
+        try {
+            final Tender tender = new Tender(1, "#123", null, "http://link.demo.at", "test", null, "seas", null, null);
+
+            System.out.println("Prediction: " + this.predict(tender).get().getConfidence());
+        } catch(Exception exception) {
+            exception.printStackTrace();
+        }
+    }*/
+
     /**
      * Remembers the details of the manual classification.
      * @param tender
@@ -75,10 +96,14 @@ public class ClassifierBridge {
     private synchronized void triggerTrain() {
         try {
             final HttpClient client = HttpClient.newHttpClient();
-            final HttpRequest request = HttpRequest.newBuilder().uri(new URI(this.url)).POST(HttpRequest.BodyPublishers.ofByteArray(ClassifierBridge.OBJECT_MAPPER.writeValueAsBytes(this.currentNodes))).build();
+            final HttpRequest request = HttpRequest.newBuilder().header("Content-Type", "application/json").uri(new URI(this.url).resolve("/train")).POST(HttpRequest.BodyPublishers.ofString(ClassifierBridge.OBJECT_MAPPER.writeValueAsString(this.currentNodes))).build();
 
-            client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray());
-        } catch (IOException | URISyntaxException exception) {
+            final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if(response.statusCode() != 200) throw new IllegalStateException("AI service returned code: " + response.statusCode());
+
+            LOGGER.info("Trained successfully: " + response.body().replace("\n", " "));
+        } catch (IOException | URISyntaxException | InterruptedException | IllegalStateException exception) {
             LOGGER.error("Failed to process classification data: " + exception.getMessage());
         } finally {
             this.currentNodes.clear(); // We don't want exception to loop.
@@ -88,13 +113,13 @@ public class ClassifierBridge {
     /**
      * Makes the service predict the probability of the tender being interesting ({@link InternalStatus.Static}).
      * @param tender
-     * @return
+     * @return the AI services prediction.
      */
-    public CompletableFuture<ClassifierPredictionDetails> predict(Tender tender) throws IOException {
+    public CompletableFuture<ClassifierPredictionDetails> predict(Tender tender) throws IOException, URISyntaxException {
         final HttpClient client = HttpClient.newHttpClient();
-        final HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.ofByteArray(ClassifierBridge.OBJECT_MAPPER.writeValueAsBytes(new ClassifierPredictionRequest(tender.getId(), tender.getName() + tender.getDescription())))).build();
+        final HttpRequest request = HttpRequest.newBuilder().header("Content-Type", "application/json").uri(new URI(this.url).resolve("/predict")).POST(HttpRequest.BodyPublishers.ofByteArray(ClassifierBridge.OBJECT_MAPPER.writeValueAsBytes(new ClassifierPredictionRequest(tender.getId(), tender.getName() + tender.getDescription())))).build();
 
-        return client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray()).thenApplyAsync(data -> {
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApplyAsync(data -> {
             try {
                 return ClassifierBridge.OBJECT_MAPPER.readValue(data.body(), ClassifierPredictionDetails.class);
             } catch (IOException e) {

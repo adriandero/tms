@@ -3,6 +3,7 @@ package at.snt.tms.rest.services;
 import at.snt.tms.model.tender.Tender;
 import at.snt.tms.repositories.tender.TenderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 //@Controller
@@ -13,4 +14,5 @@ public class TenderService extends GenericCrudRepoService<Tender, Long> {
     public TenderService(TenderRepository tenders){
         super(tenders, Tender.class);
     }
+
 }
