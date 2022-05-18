@@ -19,26 +19,40 @@ import java.util.Set;
 @Audited
 @Table(name = "is_internal_status")
 public class InternalStatus implements Serializable {
+
+    /**
+     * Enum {@code InternalStatus.Static}
+     * <p>
+     * Enum of all static built-in internal states.
+     *
+     * @author Dominik Fluch
+     */
+    public static enum Static {
+        INTERESTING(new InternalStatus("Interesting")),
+        IRRELEVANT(new InternalStatus("Irrelevant"));
+
+        private final InternalStatus internalStatus;
+
+        private Static(InternalStatus internalStatus) {
+            this.internalStatus = internalStatus;
+        }
+
+        public InternalStatus getInternalStatus() {
+            return internalStatus;
+        }
+    }
+
     private static final long serialVersionUID = -8736360362075978103L;
 
-    @Transient
-    public static final InternalStatus INTERESTING = new InternalStatus("Interesting");
-    @Transient
-    public static final InternalStatus IRRELEVANT = new InternalStatus("Irrelevant");
-
     @Id
-    @GeneratedValue
-    @Column(name = "is_id")
-    private Long id;
-
-    @Column(name = "is_label", nullable = false, unique = true, length = 50)
+    @Column(name = "is_label", length = 50)
     private String label;
 
     @Column(name = "is_terminates_tender")
     private Boolean terminatesTender;
 
     @ManyToMany
-    @JoinTable(name = "is_status_transitions", joinColumns = @JoinColumn(name = "is_id", referencedColumnName = "is_id"), inverseJoinColumns = @JoinColumn(name = "transition_is_id", referencedColumnName = "is_id"))
+    @JoinTable(name = "is_status_transitions", joinColumns = @JoinColumn(name = "is_label", referencedColumnName = "is_label"), inverseJoinColumns = @JoinColumn(name = "transition_is_label", referencedColumnName = "is_label"))
     @JsonIgnore
     private Set<InternalStatus> transitions;
 
@@ -58,20 +72,14 @@ public class InternalStatus implements Serializable {
         this.terminatesTender = terminatesTender;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    private void setId(Long id) {
-        this.id = id;
-    }
-
     public String getLabel() {
         return label;
     }
 
-    public void setLabel(String label) {
+    public InternalStatus setLabel(String label) {
         this.label = label;
+
+        return this;
     }
 
     public Set<InternalStatus> getTransitions() {
