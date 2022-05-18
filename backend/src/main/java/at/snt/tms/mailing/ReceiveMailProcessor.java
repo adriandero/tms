@@ -33,23 +33,22 @@ public class ReceiveMailProcessor implements Processor {
         try {
             AttachmentMessage attachmentMessage = exchange.getMessage(AttachmentMessage.class);
             Map<String, DataHandler> rawAttachments = attachmentMessage.getAttachments();
-            if (rawAttachments.size() > 0) {
-                for (String name : rawAttachments.keySet()) {
-                    DataHandler dh = rawAttachments.get(name);
 
-                    String filename = dh.getName();
+            for (String name : rawAttachments.keySet()) {
+                DataHandler dh = rawAttachments.get(name);
 
-                    byte[] data = exchange.getContext().getTypeConverter()
-                            .convertTo(byte[].class, dh.getInputStream());
-                    attachments.put(filename, data);
-                }
+                String filename = dh.getName();
+
+                byte[] data = exchange.getContext().getTypeConverter()
+                        .convertTo(byte[].class, dh.getInputStream());
+                attachments.put(filename, data);
             }
         } catch (Exception e) {}
 
         Message in = exchange.getIn();
         String xml = in.getBody(String.class) + "";
         String senders = (String) in.getHeader("from");
-
+        System.out.println(in.getHeaders());
         System.out.println(xml + " --- " + senders);
     }
 
