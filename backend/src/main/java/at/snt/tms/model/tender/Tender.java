@@ -159,6 +159,10 @@ public class Tender implements Serializable {
         return updates;
     }
 
+    public void setUpdates(Set<TenderUpdate> updates) {
+        this.updates = updates;
+    }
+
     public ExternalStatus getLatestExtStatus() {
         return latestExtStatus;
     }

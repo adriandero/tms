@@ -1,6 +1,7 @@
 package at.snt.tms.model.tender;
 
 import at.snt.tms.model.status.ExternalStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.envers.Audited;
 
@@ -25,6 +26,7 @@ public class TenderUpdate implements Serializable {
     @Column(name = "tu_id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "tu_t_tender")
     private Tender tender;

@@ -6,10 +6,7 @@ import at.snt.tms.model.operator.User;
 import at.snt.tms.model.status.AssignedIntStatus;
 import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
-import at.snt.tms.model.tender.Assignment;
-import at.snt.tms.model.tender.Company;
-import at.snt.tms.model.tender.Platform;
-import at.snt.tms.model.tender.Tender;
+import at.snt.tms.model.tender.*;
 import at.snt.tms.repositories.EntityRevRepository;
 import at.snt.tms.repositories.operator.PermissionRepository;
 import at.snt.tms.repositories.operator.GroupRepository;
@@ -24,6 +21,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -82,6 +81,7 @@ public class Database {
         this.internalStatusRepository.save(intStatus);
 
         final Tender tender = this.tenderRepository.save(new Tender(1234L, "#1234", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), intStatus));
+        tender.setUpdates(new HashSet<>(Arrays.asList(new TenderUpdate[]{tenderUpdateRepository.save(new TenderUpdate(tender, this.externalStatusRepository.save(new ExternalStatus("external status0")), Timestamp.from(Instant.now()), "Hello hello hello", new HashSet<>()))})));
         this.tenderRepository.save(tender);
 
         final User user = new User("example@gmail.com", new BCryptPasswordEncoder().encode("secret"));
