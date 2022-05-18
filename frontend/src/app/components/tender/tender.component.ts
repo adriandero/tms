@@ -16,13 +16,24 @@ import { TenderOverlayComponent } from '../tender-overlay/tender-overlay.compone
 })
 export class TenderComponent implements OnInit {
   @Input() tender!: Tender;
-  constructor(public dialog: MatDialog) {}
-  ngOnInit(): void {}
+  matBadge: number = 0;
+
   isOpen = false;
   faArrowRight = faArrowRight;
   faAngleDown = faAngleDown;
   faUser = faUser;
   faTag = faTag;
+
+  hidden = true;
+
+  constructor(public dialog: MatDialog) {}
+  ngOnInit(): void {
+    if (this.tender.latestUpdate != null) this.matBadge += 1;
+    if (this.tender.updates != null)
+      this.matBadge += this.tender.updates.length;
+
+    if (this.matBadge > 0) this.hidden = false;
+  }
 
   openDialog() {
     const dialogRef = this.dialog.open(TenderOverlayComponent, {

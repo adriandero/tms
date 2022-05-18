@@ -2,12 +2,20 @@
   <mat-card class="card">
     <div class="content">
       <mat-toolbar>
-        <a
-          [routerLink]="['/history']"
-          (click)="closeDialog()"
-          [state]="dummydata"
+        <!-- [routerLink]="['/history', data.id]"-->
+        <a (click)="changeRoute()" id="history-btn"
           ><fa-icon [icon]="faArrowLeft" class="icons"></fa-icon>History</a
         >
+        <a
+          id="history-btn-disabled"
+          #tooltip="matTooltip"
+          matTooltip="Keine Updates vorhanden"
+          matTooltipPosition="right"
+          aria-tooltip="Button that routes to the history view of this tender"
+        >
+          <fa-icon [icon]="faArrowLeft" class="icons"></fa-icon>History</a
+        >
+
         <div id="far-right">
           <fa-icon
             [icon]="faTimes"

@@ -23,7 +23,7 @@ mat-toolbar {
   background-color: white;
   padding: 20px 0px 15px 0px;
   height: auto;
-  color: #06578c;
+  color: #06568c;
   position: -webkit-sticky; /* Safari & IE */
   position: sticky;
   top: 0px;
@@ -87,19 +87,18 @@ a {
   background-color: #aaa;
   margin: 0 0 0 0;
 }
-.flexbox-assignment{
+.flexbox-assignment {
   display: flex;
   flex-direction: column;
-padding: 3px;
+  padding: 3px;
 }
 
-.assignment-list{
+.assignment-list {
   margin-top: 10px;
 }
 
-.assign{
+.assign {
   background-color: #d3e1eb;
-
 }
 .info-title {
   color: #598fb2;
@@ -191,11 +190,15 @@ mat-chip-list {
 }
 
 ::ng-deep .mat-tooltip {
-  color: #555 !important;
-  background-color: #d3e1eb;
+  color: #fff !important;
+  background-color: #55555570;
   font-weight: bold;
 }
 
+#history-btn-disabled,
+#history-btn-disabled > * {
+  color: #555555ad !important;
+}
 /*
 .card-title-text {
   position: relative;

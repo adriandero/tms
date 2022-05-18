@@ -13,8 +13,27 @@ import {
   Validators,
   FormArray,
 } from '@angular/forms';
-import { Tender } from '../../model/Tender';
+import { Tender, TenderUpdate } from '../../model/Tender';
 import { Location } from '@angular/common';
+
+import { TenderService } from 'src/app/services/tender.service';
+import { BackendResponse } from 'src/app/model/protocol/Response';
+import { ConditionalExpr } from '@angular/compiler';
+import { Router } from '@angular/router';
+
+/**
+ * Todo
+ * overlay component gibt id weiter an history
+ * dort fetch den spezifischen tender
+ * schau welche tenders mit ihm in verbindung liegen
+ * packs in ein array
+ * bau den stepper
+ *
+ * tender hat id - (ist in json angegeben) - wird weitergegeben und kannst dan einzelt fetchen das tender
+ *
+ *
+ * do it in reverse - request data from parent? - or do it on load or something - cuz if u just press on it then it wont get fetched by just calling the page
+ */
 
 @Component({
   selector: 'app-history',
@@ -46,20 +65,71 @@ export class HistoryComponent {
   formGroup!: FormGroup;
   form!: FormArray;
 
-  constructor(private _formBuilder: FormBuilder, private location: Location) {}
+  tender?: Tender = this.router.getCurrentNavigation()!.extras.state as Tender;
 
-  dates: String[] = [history.state];
+  updates: TenderUpdate[] = [];
+  dates: string[] = [];
+  hasUpdates: boolean = true;
+
+  constructor(
+    private _formBuilder: FormBuilder,
+    private location: Location,
+    private tenderService: TenderService,
+    private router: Router
+  ) {
+    console.log(this.tender);
+
+    for (let i = 0; i <= this.updates.length; i++) {
+      if (this.updates[i] != null) {
+        this.dates.push(
+          new Date(this.updates[i].validFrom * 1000)
+            .toISOString()
+            .replace(/T.*/, '')
+            .split('-')
+            .reverse()
+            .join('.')
+        );
+      }
+    }
+
+    console.log(this.dates);
+
+    //parse or smth
+
+    /*
+    let numOfUpd: number = this.tender?.updates.length!;
+    for (let i = 0; i <= numOfUpd; i++) {
+      this.updates.push(this.tender.updates);
+      console.log('update added');
+    }
+    */
+  }
+
+  ngOnInit(): void {
+    this.updates = this.tender?.updates!;
+    this.tender?.latestUpdate != null
+      ? this.updates.unshift(this.tender?.latestUpdate!)
+      : (this.hasUpdates = false);
+    /*
+    this.tenderService.getTenders().subscribe({
+      next: (sent: any) => {
+        const response: BackendResponse<Tender[]> = sent;
+
+        this.tenders = response.body;
+        console.log(this.tenders);
+      },
+    });
+    */
+    this.formGroup = this._formBuilder.group({
+      form: this._formBuilder.array(this.updates),
+    });
+  }
 
   get refArray() {
     return this.formGroup.get('form') as FormArray;
   }
 
-  ngOnInit() {
-    this.formGroup = this._formBuilder.group({
-      form: this._formBuilder.array(this.dates),
-    });
-    console.log(this.location.getState());
-  }
+  ngAfterContentInit() {}
 
   init() {
     return this._formBuilder.group({

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Injectable } from '@angular/core';
 import {
   faArrowLeft,
   faArrowRight,
@@ -10,6 +10,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'; // import
 import { AssignedIntStatus, Tender } from 'src/app/model/Tender';
 import { TenderService } from '../../services/tender.service';
 import { User } from '../../model/User';
+import { Hidden } from '@material-ui/core';
 
 interface assignment {
   tender: Tender;
@@ -28,8 +29,7 @@ export class TenderOverlayComponent {
   faFileAlt = faFileAlt;
   faArrowLeft = faArrowLeft;
 
-  dummydata: String[] = ['123'];
-
+  hasUpdates: boolean = true;
   // CloseIcon = CloseIcon
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Tender,
@@ -37,7 +37,39 @@ export class TenderOverlayComponent {
     private route: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.data.latestUpdate == null) {
+      this.hasUpdates = false;
+
+      document.getElementById('history-btn')!.style.display = 'none';
+
+      /*
+      let historyBtn = document.getElementById('history-btn');
+
+      historyBtn!.style.color = '#555555ad';
+      let nodes = document
+        .getElementById('history-btn')!
+        .getElementsByTagName('fa-icon') as HTMLCollectionOf<HTMLElement>;
+      for (var i = 0; i < nodes.length; i++) {
+        nodes[i].style.color = '#555555ad';
+      }
+      */
+    } else {
+      document.getElementById('history-btn-disabled')!.style.display = 'none';
+    }
+  }
+
+  changeRoute(): void {
+    if (this.hasUpdates) {
+      this.dialog.closeAll();
+
+      this.route.navigate(['/history', this.data.id], {
+        state: this.data,
+      });
+
+      console.log('noo');
+    }
+  }
 
   closeDialog() {
     this.dialog.closeAll();
