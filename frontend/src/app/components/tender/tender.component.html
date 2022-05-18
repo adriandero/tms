@@ -14,12 +14,11 @@
   <!-- <mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()"
  <mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()">-->
   <mat-chip-list aria-label="Fish selection">
-    <mat-chip mat-button [matMenuTriggerFor]="extern" class="extern"
-      >{{ tender.latestExStatus.label }}
+   <mat-chip mat-button [matMenuTriggerFor]="extern" class="extern"
+    >{{ tender.latestExtStatus.label }}
     </mat-chip>
     <mat-chip mat-button [matMenuTriggerFor]="intern" class="intern">{{
-      tender.latestIntStatus.label
-    }}</mat-chip>
+      tender.latestIntStatus.label      }}</mat-chip>
     <mat-chip mat-button  class="user">
       inform
     </mat-chip>
