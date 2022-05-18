@@ -1,10 +1,11 @@
 package at.snt.tms.rest;
 
+import at.snt.tms.payload.AccessRefreshTokenDto;
+import at.snt.tms.payload.request.UserLoginDto;
 import at.snt.tms.rest.services.*;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.stereotype.Component;
-
 
 /**
  * Class {@code RestAPI.java}
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class RestAPI extends RouteBuilder {  // http://localhost:8080/api
+public class RestAPI extends RouteBuilder {  // http://localhost:8080/
     @Override
     public void configure() {
         restConfiguration()
@@ -27,9 +28,9 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/api
 
         rest("/tenders")
                 .get()
-                    .to("direct:allTenders")
+                .to("direct:allTenders")
                 .get("{id}")
-                    .to("direct:tenderId");
+                .to("direct:tenderId");
         from("direct:allTenders")
                 .bean(TenderService.class, "findAll");
         from("direct:tenderId")
@@ -37,13 +38,13 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/api
 
         rest("/users")
                 .get()
-                    .to("direct:allUsers")
+                .to("direct:allUsers")
                 .get("{id}")
-                    .to("direct:userId")
+                .to("direct:userId")
                 .post()
-                    .to("direct:addUser")
+                .to("direct:addUser")
                 .delete("{id}")
-                    .to("direct:delUser");
+                .to("direct:delUser");
         from("direct:allUsers")
                 .bean(UserService.class, "findAll");
         from("direct:userId")
@@ -55,13 +56,13 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/api
 
         rest("/internalStatus")
                 .get()
-                    .to("direct:allIntStatus")
+                .to("direct:allIntStatus")
                 .get("{id}")
-                    .to("direct:intStatusId")
+                .to("direct:intStatusId")
                 .post()
-                    .to("direct:addIntStatus")
+                .to("direct:addIntStatus")
                 .delete("{id}")
-                    .to("direct:delIntStatus");
+                .to("direct:delIntStatus");
         from("direct:allIntStatus")
                 .bean(IntStatusService.class, "findAll");
         from("direct:intStatusId")
@@ -73,13 +74,13 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/api
 
         rest("/externalStatus")
                 .get()
-                    .to("direct:allExtStatus")
+                .to("direct:allExtStatus")
                 .get("{id}")
-                    .to("direct:extStatusId")
+                .to("direct:extStatusId")
                 .post()
-                    .to("direct:addExtStatus")
+                .to("direct:addExtStatus")
                 .delete("{id}")
-                    .to("direct:delExtStatus");
+                .to("direct:delExtStatus");
         from("direct:allExtStatus")
                 .bean(ExtStatusService.class, "findAll");
         from("direct:extStatusId")
@@ -91,13 +92,13 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/api
 
         rest("/companies")
                 .get()
-                    .to("direct:allCompanies")
+                .to("direct:allCompanies")
                 .get("{id}")
-                    .to("direct:companyId")
+                .to("direct:companyId")
                 .post()
-                    .to("direct:addCompany")
+                .to("direct:addCompany")
                 .delete("{id}")
-                    .to("direct:delCompany");
+                .to("direct:delCompany");
         from("direct:allCompanies")
                 .bean(CompanyService.class, "findAll");
         from("direct:companyId")
@@ -106,7 +107,7 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/api
                 .bean(CompanyService.class, "add");
         from("direct:delCompany")
                 .bean(CompanyService.class, "delete(${header.id})");
-
+                
         rest("/assignments")
                 .get()
                 .to("direct:allAssignments")
@@ -132,5 +133,27 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/api
                 .bean(AssignmentService.class, "findAssignmentsByTenderId(${header.id})");
 
 
+
+        // Authentication TODO HTTP status codes
+        rest("/auth/login")
+                .post().to("direct:login")
+                .consumes("application/json")
+                .type(UserLoginDto.class);
+        from("direct:login")
+//                .log("Received: ${body}")
+                .bean(AuthService.class, "authenticateUser");
+
+        rest("/auth/logout")
+                .get().to("direct:logout");
+        from("direct:logout")
+                .bean(AuthService.class, "logoutUser");
+
+        rest("/auth/refresh")
+                .post().to("direct:refresh")
+                .consumes("application/json")
+                .type(AccessRefreshTokenDto.class);
+        from("direct:refresh")
+//                .log("Received: ${body}")
+                .bean(AuthService.class, "refreshTokens");
     }
 }

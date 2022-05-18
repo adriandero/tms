@@ -1,8 +1,10 @@
 package at.snt.tms.model.status;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -11,17 +13,21 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "es_external_status")
-public class ExternalStatus {
-    // https://stackoverflow.com/questions/28949853/is-it-possible-to-force-hibernate-to-embed-an-entity
+public class ExternalStatus implements Serializable {
+    private static final long serialVersionUID = 8773059058258923847L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "es_id", nullable = false)
     private Long id;
 
-    @Column(name = "es_label", nullable = false, length = 35)
+    @Column(name = "es_label", nullable = false, unique = true, length = 50)
     private String label;
+
+    @Column(name = "es_terminates_tender")
+    private Boolean terminatesTender;
 
     @ManyToMany
     @JoinTable(name = "es_status_transitions", joinColumns = @JoinColumn(name = "es_id", referencedColumnName = "es_id"), inverseJoinColumns = @JoinColumn(name = "transition_es_id", referencedColumnName = "es_id"))
@@ -35,6 +41,14 @@ public class ExternalStatus {
     public ExternalStatus() {
     }
 
+    public Boolean getTerminatesTender() {
+        return terminatesTender;
+    }
+
+    public void setTerminatesTender(Boolean terminatesTender) {
+        this.terminatesTender = terminatesTender;
+    }
+
     public Set<ExternalStatus> getTransitions() {
         return transitions;
     }
@@ -44,13 +58,13 @@ public class ExternalStatus {
     }
 
     public void addTransitions(ExternalStatus... transitions) {
-        for(ExternalStatus es : transitions) {
+        for (ExternalStatus es : transitions) {
             this.addTransition(es);
         }
     }
 
     public void addTransition(ExternalStatus transition) {
-        if(transition == null) {
+        if (transition == null) {
             throw new IllegalArgumentException("Cannot add null-value transition.");
         }
         this.transitions.add(transition);
@@ -72,8 +86,3 @@ public class ExternalStatus {
         this.label = label;
     }
 }
-
-/*@Embeddable
-public class EmbedExternalStatus extends ExternalStatus {
-
-}*/

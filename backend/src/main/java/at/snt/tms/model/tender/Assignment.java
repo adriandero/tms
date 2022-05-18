@@ -1,11 +1,10 @@
 package at.snt.tms.model.tender;
 
 import at.snt.tms.model.operator.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
 
 /**
  * Class {@code Assignment}
@@ -13,6 +12,7 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "as_assignments")
 public class Assignment implements Serializable {
     private static final long serialVersionUID = -5828276887838212585L;
@@ -30,13 +30,11 @@ public class Assignment implements Serializable {
     @JoinColumn(name = "as_u_user")
     private User user;
 
-    @ManyToMany
-    @JoinTable(name = "ast_assignment_tasks",
-            joinColumns = @JoinColumn(name = "ast_as_assignment", referencedColumnName = "as_id"),
-            inverseJoinColumns = @JoinColumn(name = "ast_ta_type", referencedColumnName = "ta_id")
-    )
-    @JsonIgnore
-    private Set<Task> tasks;
+    @Column(name = "as_instruction")
+    private String instruction;
+
+    @Column(name = "as_has_unseen_changes")
+    private Boolean hasUnseenChanges;
 
     public Assignment() {
     }
@@ -70,7 +68,19 @@ public class Assignment implements Serializable {
         this.user = user;
     }
 
-    public Set<Task> getTasks() {
-        return tasks;
+    public String getInstruction() {
+        return instruction;
+    }
+
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
+    }
+
+    public Boolean getHasUnseenChanges() {
+        return hasUnseenChanges;
+    }
+
+    public void setHasUnseenChanges(Boolean hasUnseenChanges) {
+        this.hasUnseenChanges = hasUnseenChanges;
     }
 }

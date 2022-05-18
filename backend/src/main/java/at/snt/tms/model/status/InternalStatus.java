@@ -1,6 +1,7 @@
 package at.snt.tms.model.status;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,17 +16,26 @@ import java.util.Set;
  * @author Oliver Sommer
  */
 @Entity
+@Audited
 @Table(name = "is_internal_status")
 public class InternalStatus implements Serializable {
     private static final long serialVersionUID = -8736360362075978103L;
+
+    @Transient
+    public static final InternalStatus INTERESTING = new InternalStatus("Interesting");
+    @Transient
+    public static final InternalStatus IRRELEVANT = new InternalStatus("Irrelevant");
 
     @Id
     @GeneratedValue
     @Column(name = "is_id")
     private Long id;
 
-    @Column(name = "is_label")
+    @Column(name = "is_label", nullable = false, unique = true, length = 50)
     private String label;
+
+    @Column(name = "is_terminates_tender")
+    private Boolean terminatesTender;
 
     @ManyToMany
     @JoinTable(name = "is_status_transitions", joinColumns = @JoinColumn(name = "is_id", referencedColumnName = "is_id"), inverseJoinColumns = @JoinColumn(name = "transition_is_id", referencedColumnName = "is_id"))
@@ -38,6 +48,14 @@ public class InternalStatus implements Serializable {
     }
 
     public InternalStatus() {
+    }
+
+    public Boolean getTerminatesTender() {
+        return terminatesTender;
+    }
+
+    public void setTerminatesTender(Boolean terminatesTender) {
+        this.terminatesTender = terminatesTender;
     }
 
     public Long getId() {
@@ -65,13 +83,13 @@ public class InternalStatus implements Serializable {
     }
 
     public void addTransitions(InternalStatus... transitions) {
-        for(InternalStatus es : transitions) {
+        for (InternalStatus es : transitions) {
             this.addTransition(es);
         }
     }
 
     public void addTransition(InternalStatus transition) {
-        if(transition == null) {
+        if (transition == null) {
             throw new IllegalArgumentException("Cannot add null-value transition.");
         }
         this.transitions.add(transition);
