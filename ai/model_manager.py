@@ -18,6 +18,8 @@ SAVE_FILE = os.path.join(dirname, 'saves/model_manager.pkl')
 
 class SvmManager:
     def __init__(self):
+        self.vectorizer = TfidfVectorizer(stop_words=stop_words)
+
         self.linear_svc = svm.SVC(kernel='linear', probability=True)
         self.rbf_svc = svm.SVC(probability=True)
 
@@ -30,9 +32,9 @@ class SvmManager:
 
     def create_pipes(self) -> List[Pipeline]:
         pipes = []
-        vec = TfidfVectorizer(stop_words=stop_words)
+        # vec = TfidfVectorizer(stop_words=stop_words)
         for svc in self.svcs:
-            pipes.append(Pipeline([('vectorizer', vec),
+            pipes.append(Pipeline([('vectorizer', self.vectorizer),
                                    ('classifier', svc)]))
         return pipes
 
@@ -41,9 +43,11 @@ class SvmManager:
 
         X_train, X_test, y_train, y_test = split_data(tenders_df)
 
+        accuracies = []
         for pipe in self.pipes:
             pipe.fit(X_train, y_train)
-            self.accuracies.append(pipe.score(X_test, y_test))
+            accuracies.append(pipe.score(X_test, y_test))
+        self.accuracies = accuracies
         self.best_model_idx = self.accuracies.index(max(self.accuracies))
 
         save(self)
@@ -51,7 +55,9 @@ class SvmManager:
 
     def predict(self, tender: PredictTender) -> Prediction:
         x = [clean(tender['text'])]
-
+        # print(self.pipes)
+        # print(self.accuracies)
+        # print(self.best_model_idx)
         best_model = self.pipes[self.best_model_idx]
         prediction = best_model.predict(x)
 

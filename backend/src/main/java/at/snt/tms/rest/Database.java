@@ -1,5 +1,6 @@
 package at.snt.tms.rest;
 
+import at.snt.tms.classification.ClassifierBridge;
 import at.snt.tms.model.operator.Group;
 import at.snt.tms.model.operator.Permission;
 import at.snt.tms.model.operator.User;

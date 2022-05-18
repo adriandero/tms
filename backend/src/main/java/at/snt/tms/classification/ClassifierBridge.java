@@ -4,7 +4,9 @@ import at.snt.tms.mailing.MailOAuthenticator;
 import at.snt.tms.model.classifier.ClassifierPredictionDetails;
 import at.snt.tms.model.classifier.ClassifierPredictionRequest;
 import at.snt.tms.model.classifier.ClassifierTrainNode;
+import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
+import at.snt.tms.model.tender.Company;
 import at.snt.tms.model.tender.Tender;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -71,10 +75,10 @@ public class ClassifierBridge {
     private synchronized void triggerTrain() {
         try {
             final HttpClient client = HttpClient.newHttpClient();
-            final HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.ofByteArray(ClassifierBridge.OBJECT_MAPPER.writeValueAsBytes(this.currentNodes))).build();
+            final HttpRequest request = HttpRequest.newBuilder().uri(new URI(this.url)).POST(HttpRequest.BodyPublishers.ofByteArray(ClassifierBridge.OBJECT_MAPPER.writeValueAsBytes(this.currentNodes))).build();
 
             client.sendAsync(request, HttpResponse.BodyHandlers.ofByteArray());
-        } catch (IOException exception) {
+        } catch (IOException | URISyntaxException exception) {
             LOGGER.error("Failed to process classification data: " + exception.getMessage());
         } finally {
             this.currentNodes.clear(); // We don't want exception to loop.
