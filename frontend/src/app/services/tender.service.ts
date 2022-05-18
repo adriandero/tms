@@ -18,14 +18,12 @@ export class TenderService {
       catchError((response) => this.handleError(response))); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
 
-
   public getAssignments(id :number) {
     return this.http.get(this.apiUrl + "assignments/tender/" + id, {
       responseType: 'json'
-    })
-    catchError((response) => this.handleError(response)); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
+    }).pipe(retry(3),
+    catchError((response) => this.handleError(response))); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
-
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {

@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-     if(this.authService.tokenIsValid() .subscribe((item) => item !== 204)){
+     if(this.authService.tokenIsValid().subscribe((item) => item !== 204)){
       return true;
     } else {
       this.router.navigate(['login'], {
