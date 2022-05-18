@@ -4,6 +4,7 @@ import at.snt.tms.model.status.AssignedIntStatus;
 import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -69,8 +70,16 @@ public class Tender implements Serializable {
     // TODO: See if fetch type is fine here.
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tender")
     @OrderBy(value = "created")
-    //@JoinColumn(name = "t_ais_assigned_int_statuses")
     private Set<AssignedIntStatus> assignedIntStatuses;
+
+    @ManyToOne
+    @JoinColumn(name = "te_is_predicted_int_status")
+    @NotAudited
+    private InternalStatus predictedIntStatus;
+
+    @JoinColumn(name = "te_prediction_accuracy")
+    @NotAudited
+    private double predictionAccuracy;
 
     public Tender(long id, String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExtStatus, InternalStatus latestIntStatus) {
         this.id = id;

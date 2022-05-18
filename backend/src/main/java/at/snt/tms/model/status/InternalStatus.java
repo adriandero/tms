@@ -19,13 +19,36 @@ import java.util.Set;
 @Audited
 @Table(name = "is_internal_status")
 public class InternalStatus implements Serializable {
+
+    /**
+     * Enum {@code InternalStatus.Static}
+     * <p>
+     * Enum of all static built-in internal states.
+     *
+     * @author Dominik Fluch
+     */
+    public static enum Static {
+        INTERESTING(new InternalStatus("Interesting")),
+        IRRELEVANT(new InternalStatus("Irrelevant"));
+
+        private final InternalStatus internalStatus;
+
+        private Static(InternalStatus internalStatus) {
+            this.internalStatus = internalStatus;
+        }
+
+        public InternalStatus getInternalStatus() {
+            return internalStatus;
+        }
+    }
+
     private static final long serialVersionUID = -8736360362075978103L;
 
     @Id
-    @Column(name = "is_label")
+    @Column(name = "is_label", length = 50)
     private String label;
 
-    @Column(name = "es_terminates_tender")
+    @Column(name = "is_terminates_tender")
     private Boolean terminatesTender;
 
     @ManyToMany
