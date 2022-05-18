@@ -76,26 +76,31 @@ export class AuthService {
   }
 
 
-  async refreshToken(): Promise<number> {
+  async refreshToken(): Promise<Observable<any>> {
     console.log("refresh token")
     const refreshToken = localStorage.getItem('refresh_token');
     const accessToken = localStorage.getItem('access_token');
-    let status = 0;
 
-    const response = this.http
-      .post<RefreshRes>(`${this.apiUrl}auth/refresh`, {"accessToken": accessToken, "refreshToken": refreshToken})
-      .subscribe((x) => {
-        console.log("statuscodevalue:    " + JSON.stringify(x))
-        if (x.statusCodeValue == 200) {
-          console.log("refresh token response " + x)
-          localStorage.setItem('access_token', x.body.accessToken);
-          localStorage.setItem('refresh_token', x.body.refreshToken);
-          localStorage.setItem('login-event', 'login' + Math.random());
-        }
-        status = x.statusCodeValue
-      });
-    await response;
-    return status;
+    return this.http
+      .post<HttpResponse<any>>(`${this.apiUrl}auth/refresh`, {"accessToken": accessToken, "refreshToken": refreshToken})
+      .pipe(
+        map((item: HttpResponse<any>) => {
+          return item;
+        }))
+
+
+    // pipe(
+    // map((x) => {
+    //   console.log("statuscodevalue:    " + JSON.stringify(x))
+    //   if (x.statusCodeValue == 200) {
+    //     console.log("refresh token response " + x)
+    //     localStorage.setItem('access_token', x.body.accessToken);
+    //     localStorage.setItem('refresh_token', x.body.refreshToken);
+    //     localStorage.setItem('login-event', 'login' + Math.random());
+    //   }
+    //   status = x.statusCodeValue
+    //   return status;
+    // }))
     /*    map((x) => {
               console.log("statuscodevalue:    " + x.statusCodeValue)
               if (x.statusCodeValue == 200) {

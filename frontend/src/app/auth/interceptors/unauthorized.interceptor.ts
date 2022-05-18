@@ -37,11 +37,20 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
   private async handleawait(request: HttpRequest<any>, next: HttpHandler) {
 
     const newRequest =   await this.authService.refreshToken()
-    if ( newRequest !== 200) {
-      console.log("request failed")
-      this.authService.clearLocalStorage()
-      this.router.navigate(['/','login']);
-    }
+    newRequest.subscribe(data => {
+      if (data.statusCodeValue != 200){
+        console.log("request failed")
+        this.authService.clearLocalStorage()
+        this.router.navigate(['/','login']);
+      }
+      else{
+            console.log("refresh token response ")
+           localStorage.setItem('access_token', data.body.accessToken);
+           localStorage.setItem('refresh_token',data.body.refreshToken);
+         localStorage.setItem('login-event', 'login' + Math.random());
+      }
+    })
+
     return next.handle(request).toPromise();
   }
 
