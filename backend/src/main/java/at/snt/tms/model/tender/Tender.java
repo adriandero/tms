@@ -72,16 +72,14 @@ public class Tender implements Serializable {
     @OrderBy(value = "created")
     private Set<AssignedIntStatus> assignedIntStatuses;
 
-    @ManyToOne
-    @JoinColumn(name = "te_is_predicted_int_status")
     @NotAudited
-    private InternalStatus predictedIntStatus;
+    private InternalStatus.Static predictedIntStatus;
 
     @JoinColumn(name = "te_prediction_accuracy")
     @NotAudited
-    private double predictionAccuracy;
+    private int predictionAccuracy;
 
-    public Tender(long id, String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExtStatus, InternalStatus latestIntStatus) {
+    public Tender(long id, String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExtStatus, InternalStatus latestIntStatus, InternalStatus.Static predicted, int predictionAccuracy) {
         this.id = id;
         this.documentNumber = documentNumber;
         this.platform = platform;
@@ -93,6 +91,9 @@ public class Tender implements Serializable {
         // TODO: See if this is fine (just here for demo for now):
         this.latestExtStatus = latestExtStatus;
         this.latestIntStatus = latestIntStatus;
+
+        this.predictedIntStatus = predicted;
+        this.predictionAccuracy = predictionAccuracy;
     }
 
     public Tender() {
@@ -215,6 +216,22 @@ public class Tender implements Serializable {
     @Override
     public String toString() {
         return "Tender{" + "id=" + id + ", documentNumber='" + documentNumber + '\'' + ", platform=" + platform + ", link='" + link + '\'' + ", name='" + name + '\'' + ", description='" + description + '\'' + '}';
+    }
+
+    public InternalStatus.Static getPredictedIntStatus() {
+        return predictedIntStatus;
+    }
+
+    public void setPredictedIntStatus(InternalStatus.Static predictedIntStatus) {
+        this.predictedIntStatus = predictedIntStatus;
+    }
+
+    public int getPredictionAccuracy() {
+        return predictionAccuracy;
+    }
+
+    public void setPredictionAccuracy(int predictionAccuracy) {
+        this.predictionAccuracy = predictionAccuracy;
     }
 
     public static class Builder {  // Builder-Pattern TODO
