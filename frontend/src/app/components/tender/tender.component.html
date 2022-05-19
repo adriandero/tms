@@ -5,6 +5,7 @@
   matBadgeSize="medium"
   [matBadgeHidden]="hidden"
 >
+  <!--Todo external status raus-->
   <div
     class="overlayclick"
     mat-button
@@ -15,13 +16,17 @@
   <!-- <mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()"
  <mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()">-->
   <mat-chip-list aria-label="Fish selection">
-   <mat-chip mat-button [matMenuTriggerFor]="extern" class="extern"
-    >{{ tender.latestExtStatus.label }}
+    <mat-chip mat-button [matMenuTriggerFor]="extern" class="extern"
+      >{{ tender.latestExtStatus?.label }}
     </mat-chip>
     <mat-chip mat-button [matMenuTriggerFor]="intern" class="intern">{{
       tender.latestIntStatus.label
     }}</mat-chip>
     <mat-chip mat-button class="user"> inform </mat-chip>
+    <mat-chip class="prediction"
+      >{{ tender.predictionAccuracy }}%
+      {{ tender.predictedIntStatus }}</mat-chip
+    >
   </mat-chip-list>
   <mat-menu class="dropdown-menu" #extern="matMenu">
     <button mat-menu-item>

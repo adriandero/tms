@@ -42,7 +42,7 @@
         </div>
       </mat-card>
       <!-- dynamic -->
-      <form [formGroup]="formGroup">
+      <form class="stepper-container" [formGroup]="formGroup">
         <mat-stepper
           class="stepper"
           orientation="vertical"
@@ -53,26 +53,25 @@
             [formGroupName]="i"
             *ngFor="let customerGroup of refArray.controls; let i = index"
           >
-            <ng-template matStepLabel> {{ dates[i] }}</ng-template>
+            <ng-template matStepLabel> {{ updates[i].validFrom }}</ng-template>
+            <!-- new Date(this.updates[i].validFrom).toString() -->
             <ng-template ="done"></ng-template>
             <ng-template matStepContent>
               <h5 class="info">
                 <span class="info-title">Details:</span>
                 {{ updates[i].details }}
               </h5>
-              <h5 class="info">
-                <span class="info-title">Anhänge:</span>
-                <mat-list>
-                  <a mat-list-item
-                    ><fa-icon [icon]="faFileAlt" class="icons"></fa-icon
-                    >dummy1.pdf</a
-                  >
-                  <a mat-list-item
-                    ><fa-icon [icon]="faFileAlt" class="icons"></fa-icon
-                    >dummy2.pdf
-                  </a>
-                </mat-list>
-              </h5>
+              <div *ngIf="this.updates[i].attachedFiles.length > 0">
+                <h5 class="info" id="anhaenge">
+                  <span class="info-title">Anhänge:</span>
+                  <mat-list *ngFor="let file of this.updates[i].attachedFiles">
+                    <a mat-list-item
+                      ><fa-icon [icon]="faFileAlt" class="icons"></fa-icon
+                      >{{ file.fileName }}</a
+                    >
+                  </mat-list>
+                </h5>
+              </div>
             </ng-template>
           </mat-step>
         </mat-stepper>

@@ -33,6 +33,10 @@ export class TenderComponent implements OnInit {
       this.matBadge += this.tender.updates.length;
 
     if (this.matBadge > 0) this.hidden = false;
+
+    if (this.tender.predictedIntStatus == 'interesting') {
+      document.getElementById('prediction')!.style.backgroundColor = '#93e0a0';
+    }
   }
 
   openDialog() {

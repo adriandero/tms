@@ -79,21 +79,6 @@ export class HistoryComponent {
   ) {
     console.log(this.tender);
 
-    for (let i = 0; i <= this.updates.length; i++) {
-      if (this.updates[i] != null) {
-        this.dates.push(
-          new Date(this.updates[i].validFrom * 1000)
-            .toISOString()
-            .replace(/T.*/, '')
-            .split('-')
-            .reverse()
-            .join('.')
-        );
-      }
-    }
-
-    console.log(this.dates);
-
     //parse or smth
 
     /*
@@ -110,6 +95,7 @@ export class HistoryComponent {
     this.tender?.latestUpdate != null
       ? this.updates.unshift(this.tender?.latestUpdate!)
       : (this.hasUpdates = false);
+
     /*
     this.tenderService.getTenders().subscribe({
       next: (sent: any) => {
@@ -120,9 +106,21 @@ export class HistoryComponent {
       },
     });
     */
+    for (let i = 0; i < this.updates.length; i++) {
+      this.updates[i].validFrom = new Date(
+        this.updates[i].validFrom
+      ).toLocaleDateString();
+    }
+    console.log(this.dates);
+
     this.formGroup = this._formBuilder.group({
       form: this._formBuilder.array(this.updates),
     });
+    for (let i = 0; i < this.updates.length; i++) {
+      if (this.updates[i].attachedFiles.length < 1) {
+        console.log(document.getElementById('anhaenge'));
+      }
+    }
   }
 
   get refArray() {
