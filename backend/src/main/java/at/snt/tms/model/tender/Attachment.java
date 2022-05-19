@@ -1,5 +1,6 @@
 package at.snt.tms.model.tender;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
@@ -29,9 +30,12 @@ public class Attachment implements Serializable {
     @Column(name = "at_file_size")
     private Long fileSize;
 
+    @JsonIgnore
     @Lob
     @Column(name = "at_file")
     private Blob file;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "at_tu_update")
     private TenderUpdate tenderUpdate;
