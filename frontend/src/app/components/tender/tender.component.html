@@ -22,7 +22,6 @@
     <mat-chip mat-button [matMenuTriggerFor]="intern" class="intern">{{
       tender.latestIntStatus.label
     }}</mat-chip>
-    <mat-chip mat-button class="user"> inform </mat-chip>
     <mat-chip class="prediction"
       >{{ tender.predictionAccuracy }}%
       {{ tender.predictedIntStatus }}</mat-chip
@@ -39,7 +38,11 @@
     </button>
   </mat-menu>
   <mat-menu class="dropdown-menu" #intern="matMenu"> </mat-menu>
-
+  <mat-chip-list aria-label="Fish selection" class="user-assign-list">
+  <mat-chip mat-button  class="user">
+    inform
+  </mat-chip>
+  </mat-chip-list>
   <div class="container">
     <div class="content">
       <h4 class="title">
