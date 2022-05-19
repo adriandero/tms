@@ -4,6 +4,12 @@ services:
     build:
       context: ./backend/
     image: tms/backend
+    environment:
+      - todo=todo
+  ai:
+    build:
+      context: ./ai
+    image: tms/ai
   frontend:
     build:
       context: ./frontend/

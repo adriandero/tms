@@ -76,10 +76,10 @@ public class Database {
 
         // Adding demo data:
         final Platform platform = this.platformRepository.save(new Platform("http://demo.at"));
-        final InternalStatus intStatus = new InternalStatus("internal");
+        final InternalStatus intStatus = this.internalStatusRepository.save(new InternalStatus("internal"));
         // terminates tender not included (from pending merge request)
 //        intStatus.addTransition(this.internalStatusRepository.save(new InternalStatus("closed"))); wrong behaviour
-        this.internalStatusRepository.save(intStatus);
+
 
         final Tender tender = this.tenderRepository.save(new Tender(1234L, "#1234", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), intStatus, InternalStatus.Static.IRRELEVANT, 30));
         tender.setUpdates(new HashSet<>(Arrays.asList(new TenderUpdate[]{tenderUpdateRepository.save(new TenderUpdate(tender, this.externalStatusRepository.save(new ExternalStatus("external status0")), Timestamp.from(Instant.now()), "Hello hello hello", new HashSet<>()))})));
