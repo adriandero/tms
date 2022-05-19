@@ -25,4 +25,25 @@ spring:
       hibernate:
         format_sql: true
         use_sql_comment: true
-    #database-platform: org.hibernate.dialect.MySQL8Dialect
+    #database-platform: org.hibernate.dialect.
+
+
+# App Properties
+tms:
+  jwt:
+    secret: ${tms.jwt.secret}
+    access-token-expiration: ${tms.jwt.access-expiration}
+    refresh-token-expiration: ${tms.jwt.refresh-secret}
+  mail:
+    enabled: ${tms.mail.enabled}
+    receive:
+      url: ${tms.mail.receive.url}
+    oauth2:
+      user: ${tms.mail.oauth2.user}
+      password: ${tms.mail.oauth2.password}
+      tenant: ${tms.mail.oauth2.tenant}
+      clientId: ${tms.mail.oauth2.clientId}
+      scope: ${tms.mail.oauth2.scope}
+  classification:
+    threshold: ${tms.classification.threshold}
+    url: ${tms.classification.url}

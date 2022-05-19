@@ -4,27 +4,33 @@ export interface Platform {
 }
 
 export interface Status {
-  id: number,
-  label: string,
-  terminatesTender: any
+  id: number;
+  label: string;
+  terminatesTender: any;
 }
 
-
-export interface ValidFrom2 { // todo remove ? agree-lili
+export interface ValidFrom2 {
+  // todo remove ? agree-lili
   time: number;
 }
 
-export interface ValidTo2 {  // todo remove ? agree-lili
+export interface ValidTo2 {
+  // todo remove ? agree-lili
   time: number;
 }
 
 export interface TenderUpdate {
   id: number;
   externalStatus: Status;
-  validFrom: number;
-  validTo: number;
+  validFrom: any;
+  validTo: any;
   details: string;
-  attachedFiles: [string];
+  attachedFiles: Attachement[];
+}
+export interface Attachement {
+  id: number;
+  fileName: string;
+  fileSize: number;
 }
 
 export interface Role {
@@ -51,7 +57,7 @@ export interface AssignedIntStatus {
 
 export interface Tender {
   assignedIntStatuses: AssignedIntStatus[];
-  company: Company
+  company: Company;
   description: string;
   documentNumber: string;
   id: number;
@@ -62,13 +68,11 @@ export interface Tender {
   name: string;
   platform: Platform;
   updates: TenderUpdate[];
-
+  predictionAccuracy: number;
+  predictedIntStatus: string;
 }
 
 export interface Company {
   id: number;
   name: string;
 }
-
-
-

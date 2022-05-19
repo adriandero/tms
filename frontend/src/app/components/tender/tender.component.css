@@ -134,3 +134,8 @@ mat-chip-list {
 .extern {
   background-color: #d3e1eb;
 }
+
+.prediction {
+  background-color: #93e0a0;
+  /*e09393*/
+}

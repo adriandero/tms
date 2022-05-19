@@ -2,9 +2,20 @@
   <mat-card class="card">
     <div class="content">
       <mat-toolbar>
-        <a href="/history"
-        ><fa-icon [icon]="faArrowLeft" class="icons"></fa-icon>History</a
+        <!-- [routerLink]="['/history', data.id]"-->
+        <a (click)="changeRoute()" id="history-btn"
+          ><fa-icon [icon]="faArrowLeft" class="icons"></fa-icon>History</a
         >
+        <a
+          id="history-btn-disabled"
+          #tooltip="matTooltip"
+          matTooltip="Keine Updates vorhanden"
+          matTooltipPosition="right"
+          aria-tooltip="Button that routes to the history view of this tender"
+        >
+          <fa-icon [icon]="faArrowLeft" class="icons"></fa-icon>History</a
+        >
+
         <div id="far-right">
           <fa-icon
             [icon]="faTimes"
@@ -53,15 +64,18 @@
            </div>
          </div>-->
 
-        <mat-chip-list aria-label="assignment" class="assignment-list" >
-          <mat-chip mat-button class="assign" *ngFor="let ass of data.assignedIntStatuses" >
+        <mat-chip-list aria-label="assignment" class="assignment-list">
+          <mat-chip
+            mat-button
+            class="assign"
+            *ngFor="let ass of data.assignedIntStatuses"
+          >
             <div class="flexbox-assignment">
-              {{ass.user.mail}}
+              {{ ass.user.mail }}
               <div class="line-modified"></div>
-              {{ass.internalStatus.label}}
+              {{ ass.internalStatus.label }}
             </div>
           </mat-chip>
-
         </mat-chip-list>
         <mat-menu class="dropdown-menu" #extern="matMenu">
           <button mat-menu-item>
@@ -85,12 +99,13 @@
             <span class="info-title">Bekanntmachnugsart:</span> Bekanntmachnug
           </h5>
           <h5 class="info">
-            <span class="info-title">Auftragsgeber:</span> Wiener Tourismusverband
+            <span class="info-title">Auftragsgeber:</span> Wiener
+            Tourismusverband
           </h5>
           <!-- <h5 class="info" [ngClass]="{ limitTextHeight: isReadMore }"> -->
           <h5 class="info">
             <span class="info-title">Beschreibung:</span>
-            {{data.description}}
+            {{ data.description }}
           </h5>
           <!--
           <button mat-flat-button id="more-btn" type="button" (click)="showText()">
@@ -98,18 +113,19 @@
           </button> -->
           <h5 class="info">
             <span class="info-title">Details:</span> Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint
-            commodirepudiandae consequuntur voluptatum laborum numquam blanditiis
-            harum quisqua
+            consectetur adipisicing elit. Maxime mollitia, molestiae quas vel
+            sint commodirepudiandae consequuntur voluptatum laborum numquam
+            blanditiis harum quisqua
           </h5>
           <h5 class="info">
             <span class="info-title">Anhänge:</span>
             <mat-list>
               <a mat-list-item class="file"
-              ><fa-icon [icon]="faFileAlt" class="icons"></fa-icon>dummy1.pdf</a
+                ><fa-icon [icon]="faFileAlt" class="icons"></fa-icon
+                >dummy1.pdf</a
               >
               <a mat-list-item class="file"
-              ><fa-icon [icon]="faFileAlt" class="icons"></fa-icon>dummy2.pdf
+                ><fa-icon [icon]="faFileAlt" class="icons"></fa-icon>dummy2.pdf
               </a>
             </mat-list>
           </h5>

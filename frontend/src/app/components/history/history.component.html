@@ -13,13 +13,10 @@
     <div class="container">
       <mat-card class="card">
         <div class="content">
-          <h4 class="title">
-            Österreich-Wien: IT-Dienste: Beratung, Software-Entwicklung,
-            Internet und Hilfestellung
-          </h4>
+          <h4 class="title">test</h4>
           <div class="line"></div>
           <h5 class="info">
-            <span class="info-title">Dokumentennummer:</span> EU546015-2021
+            <span class="info-title">Dokumentennummer:</span> #1234
           </h5>
 
           <h5 class="info">
@@ -31,12 +28,7 @@
           </h5>
           <h5 class="info" [ngClass]="{ limitTextHeight: isReadMore }">
             <span class="info-title">Beschreibung:</span>
-            1060 Wien, Lehargasse 6, Obj. 11 - : Abbruch und Neubau BT BF (ehem.
-            BT BD Tonne) / Beleuchtung, Gegenstand dieses
-            Leistungsverzeichnisses sind sämtliche Leistungen über die
-            Herstellung der Beleuchtung zur Errichtung des Institutsgebäudes BF
-            für die Fakultät Maschinenwesen und Betriebswissenschaften an der TU
-            Wien auf dem Areal Getreidemarkt, in der Lehargasse 6, 1060 Wien.
+            Example demo fetched from database
           </h5>
 
           <button
@@ -50,7 +42,47 @@
         </div>
       </mat-card>
       <!-- dynamic -->
-      <mat-stepper class="stepper" orientation="vertical">
+      <form class="stepper-container" [formGroup]="formGroup">
+        <mat-stepper
+          class="stepper"
+          orientation="vertical"
+          formArrayName="form"
+        >
+          <mat-step
+            [completed]="false"
+            [formGroupName]="i"
+            *ngFor="let customerGroup of refArray.controls; let i = index"
+          >
+            <ng-template matStepLabel> {{ updates[i].validFrom }}</ng-template>
+            <!-- new Date(this.updates[i].validFrom).toString() -->
+            <ng-template ="done"></ng-template>
+            <ng-template matStepContent>
+              <h5 class="info">
+                <span class="info-title">Details:</span>
+                {{ updates[i].details }}
+              </h5>
+              <div *ngIf="this.updates[i].attachedFiles.length > 0">
+                <h5 class="info" id="anhaenge">
+                  <span class="info-title">Anhänge:</span>
+                  <mat-list *ngFor="let file of this.updates[i].attachedFiles">
+                    <a mat-list-item
+                      ><fa-icon [icon]="faFileAlt" class="icons"></fa-icon
+                      >{{ file.fileName }}</a
+                    >
+                  </mat-list>
+                </h5>
+              </div>
+            </ng-template>
+          </mat-step>
+        </mat-stepper>
+      </form>
+      <!-- <button mat-raised-button (click)="addItem()">add item</button> -->
+    </div>
+  </div>
+</div>
+
+<!--
+  <mat-stepper class="stepper" orientation="vertical">
         <mat-step [completed]="false">
           <ng-template matStepLabel>02.09.2021</ng-template>
           <ng-template ="done"></ng-template>
@@ -125,6 +157,4 @@
           </ng-template>
         </mat-step>
       </mat-stepper>
-    </div>
-  </div>
-</div>
+-->
