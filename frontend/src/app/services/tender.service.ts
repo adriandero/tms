@@ -1,4 +1,4 @@
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {catchError, retry, throwError} from 'rxjs';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -18,14 +18,12 @@ export class TenderService {
       catchError((response) => this.handleError(response))); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
 
-
   public getAssignments(id :number) {
-    return this.http.get(this.apiUrl + "assignments/tender/11", {
+    return this.http.get(this.apiUrl + "assignments/tender/" + id, {
       responseType: 'json'
     }).pipe(retry(3),
-      catchError((response) => this.handleError(response))); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
+    catchError((response) => this.handleError(response))); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
-
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
@@ -39,7 +37,9 @@ export class TenderService {
       this.snackBar.open("API-call failed: URL not found", "Retry", {
         duration: 2000
       });
-    } else {
+    } else if (error.status == 401){
+      console.error("the user is not authenticated");
+    }else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
       this.snackBar.open("An error occured.", "Retry", {

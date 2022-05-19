@@ -3,10 +3,12 @@ import {Role} from "./Roles";
 
 
 export type User = {
-  img?: string,
+  id: number
+  mail: string,
+  img: string | undefined,
   firstname: string,
   lastname: string,
-  mail: string,
-  roles: Role[]
+  roles: Role[],
+  latestRefreshToken: string
 }
 

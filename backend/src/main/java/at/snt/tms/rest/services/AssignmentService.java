@@ -1,6 +1,6 @@
 package at.snt.tms.rest.services;
 
-import at.snt.tms.model.database.tender.Assignment;
+import at.snt.tms.model.tender.Assignment;
 import at.snt.tms.repositories.tender.AssignmentRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class AssignmentService extends GenericCrudRepoService<Assignment> {
+public class AssignmentService extends GenericCrudRepoService<Assignment, Long> {
     public AssignmentService (AssignmentRepository assignmentRepository){
         super(assignmentRepository, Assignment.class);
     }

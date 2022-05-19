@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
-import {Observable} from 'rxjs';
+import {finalize, Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
 import {User} from "../../model/User";
 import {Role} from "../../model/Roles";
@@ -15,6 +15,7 @@ import {
   faTag,
   faTrash
 } from "@fortawesome/free-solid-svg-icons"
+import {AuthService} from "../../auth";
 
 
 @Component({
@@ -30,6 +31,7 @@ export class SidebarComponent {
       shareReplay()
     );
     user: User = {
+      id: 0, img: undefined, latestRefreshToken: "",
       firstname: "mAXimilian",
       lastname: "MuSTERmann",
       mail: "maximilian.mustermann@snt.at",
@@ -45,6 +47,9 @@ export class SidebarComponent {
     faCertificate = faCertificate
     faSyncAlt = faSyncAlt
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver,    private authService: AuthService) {}
 
+ refresh(){
+      this.authService.refreshToken();
+  }
 }

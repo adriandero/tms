@@ -12,11 +12,6 @@ import { TenderService } from '../../services/tender.service';
 import { User } from '../../model/User';
 import { Hidden } from '@material-ui/core';
 
-interface assignment {
-  tender: Tender;
-  user: User;
-}
-
 // import CloseIcon from '@material-ui/icons/Close';
 @Component({
   selector: 'app-float-tender-view',
@@ -38,7 +33,7 @@ export class TenderOverlayComponent {
   ) {}
 
   ngOnInit(): void {
-    if (this.data.latestUpdate == null) {
+    if (this.data.updates.length == 0) {
       this.hasUpdates = false;
 
       document.getElementById('history-btn')!.style.display = 'none';
@@ -66,8 +61,6 @@ export class TenderOverlayComponent {
       this.route.navigate(['/history', this.data.id], {
         state: this.data,
       });
-
-      console.log('noo');
     }
   }
 
