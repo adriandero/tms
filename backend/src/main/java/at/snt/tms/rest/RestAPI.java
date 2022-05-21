@@ -3,6 +3,7 @@ package at.snt.tms.rest;
 import at.snt.tms.payload.AccessRefreshTokenDto;
 import at.snt.tms.payload.request.UserLoginDto;
 import at.snt.tms.rest.services.*;
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.stereotype.Component;
@@ -134,26 +135,28 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
 
 
 
-        // Authentication TODO HTTP status codes
+        // Authentication
         rest("/auth/login")
                 .post().to("direct:login")
                 .consumes("application/json")
                 .type(UserLoginDto.class);
         from("direct:login")
 //                .log("Received: ${body}")
-                .bean(AuthService.class, "authenticateUser");
+                .bean(AuthService.class, "authenticateUser")
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("${body.statusCodeValue}"));
 
         rest("/auth/logout")
                 .get().to("direct:logout");
         from("direct:logout")
-                .bean(AuthService.class, "logoutUser");
+                .bean(AuthService.class, "logoutUser")
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("${body.statusCodeValue}"));
 
         rest("/auth/refresh")
                 .post().to("direct:refresh")
                 .consumes("application/json")
                 .type(AccessRefreshTokenDto.class);
         from("direct:refresh")
-//                .log("Received: ${body}")
-                .bean(AuthService.class, "refreshTokens");
+                .bean(AuthService.class, "refreshTokens")
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("${body.statusCodeValue}"));
     }
 }
