@@ -6,6 +6,8 @@ import {
 import { Injectable } from '@angular/core';
 import { catchError, retry, throwError } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {Chip} from "@material-ui/core";
+import {Filter} from "../model/Tender";
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +18,7 @@ export class TenderService {
   constructor(private http: HttpClient, public snackBar: MatSnackBar) {}
 
   public getTenders() {
+    console.log("getTenders()")
     let i = this.http
       .get(this.apiUrl + 'tenders', {
         responseType: 'json',
@@ -37,6 +40,22 @@ export class TenderService {
         retry(3),
         catchError((response) => this.handleError(response))
       ); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
+  }
+
+  public getTendersWithCondition(filter :string  ) {
+    let filterObj: Filter = JSON.parse(filter)
+    console.log("http filter call:" + filter)
+
+    let i = this.http //TODO add conditions
+      .get(this.apiUrl + 'tenders', {
+        responseType: 'json',
+      })
+      .pipe(
+        retry(3),
+        catchError((response) => this.handleError(response))
+      );
+    console.log(i);
+    return i; // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
 
   private handleError(error: HttpErrorResponse) {

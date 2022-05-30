@@ -76,3 +76,14 @@ export interface Company {
   id: number;
   name: string;
 }
+
+export interface Filter{ //TODO kann es mehr als einen ext oder int status geben?
+   platforms : string[];
+   companies : string[];
+   titles :   string[];
+   intStatus :   string[];
+   extStatus :   string[];
+   files :   string[];
+   uptDetails :   string[];
+   users :   string[];
+}
