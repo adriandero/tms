@@ -32,6 +32,10 @@
   font-size: large;
   color: #06578c;
 }
+
+.user-assign-list{
+  margin-top: 30px;
+}
 .tag-icon {
   font-size: large;
   color: #06578c;
@@ -129,4 +133,9 @@ mat-chip-list {
 .intern,
 .extern {
   background-color: #d3e1eb;
+}
+
+.prediction {
+  background-color: #93e0a0;
+  /*e09393*/
 }

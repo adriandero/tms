@@ -103,7 +103,7 @@ public class AuthService {
         User user = userRepository.findByMailIgnoreCase(jwtUtils.getMailFromJwtAccessToken(tokens.getAccessToken()));
 
         // check if the secret in the refresh-token is correct
-        if (!user.getRefreshTokenSecret().equals(jwtUtils.getSecretFromJwtRefreshToken(tokens.getRefreshToken()))) {
+        if (user == null || user.getRefreshTokenSecret() == null || tokens == null || !user.getRefreshTokenSecret().equals(jwtUtils.getSecretFromJwtRefreshToken(tokens.getRefreshToken()))) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid tokens provided."));
         }
 

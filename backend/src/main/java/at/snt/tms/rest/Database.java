@@ -1,15 +1,13 @@
 package at.snt.tms.rest;
 
+import at.snt.tms.classification.ClassifierBridge;
 import at.snt.tms.model.operator.Group;
 import at.snt.tms.model.operator.Permission;
 import at.snt.tms.model.operator.User;
 import at.snt.tms.model.status.AssignedIntStatus;
 import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
-import at.snt.tms.model.tender.Assignment;
-import at.snt.tms.model.tender.Company;
-import at.snt.tms.model.tender.Platform;
-import at.snt.tms.model.tender.Tender;
+import at.snt.tms.model.tender.*;
 import at.snt.tms.repositories.EntityRevRepository;
 import at.snt.tms.repositories.operator.PermissionRepository;
 import at.snt.tms.repositories.operator.GroupRepository;
@@ -24,12 +22,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 @Component
 @Transactional
 public class Database {
+
     private final PermissionRepository permissionRepository;
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
@@ -67,27 +68,27 @@ public class Database {
         this.tenderRepository = tenderRepository;
         this.tenderUpdateRepository = tenderUpdateRepository;
         this.assignmentRepository = assignmentRepository;
-
-
         this.revRepository = tenderRevRepository;
 
-        this.internalStatusRepository.save(InternalStatus.INTERESTING);
-        this.internalStatusRepository.save(InternalStatus.IRRELEVANT);
+        for(InternalStatus.Static status : InternalStatus.Static.values()) {
+            this.internalStatusRepository.save(status.getInternalStatus());
+        }
 
         // Adding demo data:
         final Platform platform = this.platformRepository.save(new Platform("http://demo.at"));
-        final InternalStatus intStatus = new InternalStatus("internal");
+        final InternalStatus intStatus = this.internalStatusRepository.save(new InternalStatus("internal"));
         // terminates tender not included (from pending merge request)
 //        intStatus.addTransition(this.internalStatusRepository.save(new InternalStatus("closed"))); wrong behaviour
-        this.internalStatusRepository.save(intStatus);
 
-        final Tender tender = this.tenderRepository.save(new Tender(1234L, "#1234", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), intStatus));
+
+        final Tender tender = this.tenderRepository.save(new Tender(1234L, "#1234", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), intStatus, InternalStatus.Static.IRRELEVANT, 30));
+        tender.setUpdates(new HashSet<>(Arrays.asList(new TenderUpdate[]{tenderUpdateRepository.save(new TenderUpdate(tender, this.externalStatusRepository.save(new ExternalStatus("external status0")), Timestamp.from(Instant.now()), "Hello hello hello", new HashSet<>()))})));
         this.tenderRepository.save(tender);
 
         final User user = new User("example@gmail.com", new BCryptPasswordEncoder().encode("secret"));
         this.userRepository.save(user);
 
-        final Tender tender1 = this.tenderRepository.save(new Tender(12345L, "#123", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status2")), this.internalStatusRepository.save(new InternalStatus("internal2"))));
+        final Tender tender1 = this.tenderRepository.save(new Tender(12345L, "#123", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status2")), this.internalStatusRepository.save(new InternalStatus("internal2")), InternalStatus.Static.INTERESTING, 67));
 
         final AssignedIntStatus assignedIntStatus = new AssignedIntStatus(999, intStatus, tender1, user, new Timestamp(1));
         Set<AssignedIntStatus> assInt = new HashSet<>();
@@ -105,5 +106,57 @@ public class Database {
         Permission permission = this.permissionRepository.save(new Permission("admin"));
         Group g = this.groupRepository.save(new Group("tender_admin", permission));
         this.userRepository.save(new User("user@snt.at", "Max", "Mustermann", new BCryptPasswordEncoder().encode("pass123"), g));
+    }
+
+    public AssignedIntStatusRepository getAssignedIntStatusRepository() {
+        return assignedIntStatusRepository;
+    }
+
+    public AssignmentRepository getAssignmentRepository() {
+        return assignmentRepository;
+    }
+
+    public AttachmentRepository getAttachmentRepository() {
+        return attachmentRepository;
+    }
+
+    public CompanyRepository getCompanyRepository() {
+        return companyRepository;
+    }
+
+    public EntityRevRepository getRevRepository() {
+        return revRepository;
+    }
+
+    public ExternalStatusRepository getExternalStatusRepository() {
+        return externalStatusRepository;
+    }
+
+    public GroupRepository getGroupRepository() {
+        return groupRepository;
+    }
+
+    public InternalStatusRepository getInternalStatusRepository() {
+        return internalStatusRepository;
+    }
+
+    public PermissionRepository getPermissionRepository() {
+        return permissionRepository;
+    }
+
+    public PlatformRepository getPlatformRepository() {
+        return platformRepository;
+    }
+
+    public TenderRepository getTenderRepository() {
+        return tenderRepository;
+    }
+
+    public TenderUpdateRepository getTenderUpdateRepository() {
+        return tenderUpdateRepository;
+    }
+
+    public UserRepository getUserRepository() {
+        return userRepository;
     }
 }

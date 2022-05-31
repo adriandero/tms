@@ -1,9 +1,12 @@
 package at.snt.tms.mailing;
 
+import at.snt.tms.classification.ClassifierBridge;
+import at.snt.tms.rest.Database;
 import com.google.common.reflect.ClassPath;
 import org.apache.juli.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -40,6 +43,12 @@ public class ExtensionsManager {
     private String extensionsFolder;
 
     private final Map<ClassLoader, MailHandler[]> loaded;
+
+    @Autowired
+    private Database database;
+
+    @Autowired
+    private ClassifierBridge classifierBridge;
 
     public ExtensionsManager() {
         this.loaded = new HashMap<>();
@@ -88,7 +97,7 @@ public class ExtensionsManager {
             final Class<?> clasz = loader.loadClass(handlers[i]);
 
             if(MailHandler.class.isAssignableFrom(clasz)) {
-                (mailHandlers[i] = (MailHandler) clasz.getConstructor().newInstance()).onLoad();
+                (mailHandlers[i] = (MailHandler) clasz.getConstructor().newInstance()).onLoad(this);
             } else throw new InstantiationException("Class \"" + clasz.getName() + "\" is not subtype of \"" + MailHandler.class.getName() + "\".");
         }
 
@@ -100,12 +109,20 @@ public class ExtensionsManager {
      * @param extension
      */
     public void unload(ClassLoader extension) throws IOException {
-        for(MailHandler handler : this.getLoaded().remove(extension)) handler.onUnload();
+        for(MailHandler handler : this.getLoaded().remove(extension)) handler.onUnload(this);
         if(extension instanceof Closeable) ((Closeable) extension).close();
     }
 
     public Map<ClassLoader, MailHandler[]> getLoaded() {
         return loaded;
+    }
+
+    public Database getDatabase() {
+        return database;
+    }
+
+    public ClassifierBridge getClassifierBridge() {
+        return classifierBridge;
     }
 
 }

@@ -7,15 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class IntStatusService extends GenericCrudRepoService<InternalStatus>{
+public class IntStatusService extends GenericCrudRepoService<InternalStatus, String>{
+
     @Autowired
     public IntStatusService(InternalStatusRepository internalStates) {
         super(internalStates, InternalStatus.class);
     }
 
-    public void add(@Header(value = "label") String label) {
+    public InternalStatus add(@Header(value = "label") String label) {
         InternalStatus intS = new InternalStatus(label);
         System.out.println("Add internal status to database: " + intS);
-        repository.save(intS);
+        return repository.save(intS);
     }
 }

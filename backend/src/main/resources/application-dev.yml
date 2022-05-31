@@ -29,3 +29,6 @@ tms:
       tenant: 6a43a57b-d4ab-4108-8849-2803ae065303
       clientId: ebfd3a25-8a34-4a6d-ac9c-29e6bc07f76c
       scope: https://outlook.office.com/IMAP.AccessAsUser.All
+  classification:
+    threshold: 100
+    url: http://localhost:5000

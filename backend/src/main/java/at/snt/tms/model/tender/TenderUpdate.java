@@ -1,6 +1,7 @@
 package at.snt.tms.model.tender;
 
 import at.snt.tms.model.status.ExternalStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.envers.Audited;
 
@@ -25,6 +26,7 @@ public class TenderUpdate implements Serializable {
     @Column(name = "tu_id")
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "tu_t_tender")
     private Tender tender;
@@ -47,7 +49,7 @@ public class TenderUpdate implements Serializable {
     /*@ElementCollection
     @CollectionTable(name = "tud_tender_updates_documents", joinColumns = @JoinColumn(name = "tu_id"))
     @Column(name = "tu_documents")*/
-    @OneToMany(mappedBy = "tenderUpdate")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tenderUpdate")
     private Set<Attachment> attachedFiles;
 
     public TenderUpdate(Tender tender, ExternalStatus externalStatus, Timestamp validFrom, String details, Set<Attachment> attachedFiles) {

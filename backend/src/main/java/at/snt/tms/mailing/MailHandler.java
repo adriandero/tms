@@ -1,5 +1,6 @@
 package at.snt.tms.mailing;
 
+import at.snt.tms.rest.Database;
 import org.apache.camel.Message;
 
 /**
@@ -12,19 +13,22 @@ import org.apache.camel.Message;
 public interface MailHandler {
 
     /**
+     * @param extensionsManager
      * Method that gets called when the handler is loaded.
      */
-    public void onLoad();
+    public void onLoad(ExtensionsManager extensionsManager);
 
     /**
+     * @param extensionsManager
      * Method that is called when the handler is unloaded.
      */
-    public void onUnload();
+    public void onUnload(ExtensionsManager extensionsManager);
 
     /**
-     * @param message
+     * @param extensionsManager
+     * @param mail
      * @return true if the given message could be processed by the handler.
      */
-    //public boolean handle(Message message);
+    public boolean handle(ExtensionsManager extensionsManager, HandleableMail mail);
 
 }

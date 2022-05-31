@@ -94,6 +94,12 @@ h2 {
   border-radius: 8px;
 }
 
+.stepper-container {
+  width: calc(100% - 20px);
+  display: flex;
+  justify-content: center;
+}
+
 ::ng-deep .mat-step-header .mat-step-icon {
   background-color: #d3e1eb;
   color: #06578c;

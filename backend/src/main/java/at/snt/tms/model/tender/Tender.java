@@ -8,6 +8,7 @@ import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -34,17 +35,17 @@ public class Tender implements Serializable {
     @JoinColumn(name = "te_p_platform", nullable = false)
     private Platform platform;
 
-    @Column(name = "te_link", length = 150, nullable = false)
+    @Column(name = "te_link", length = 2048, nullable = false)
     private String link;
 
-    @Column(name = "te_name", length = 150, nullable = false)
+    @Column(name = "te_name", length = 2048, nullable = false)
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "te_c_company")
     private Company company;
 
-    @Column(name = "te_description", length = 500)
+    @Column(name = "te_description", length = 2048)
     private String description;  // Beschreibung der Ausschreibung
 
     @ManyToOne
@@ -72,16 +73,14 @@ public class Tender implements Serializable {
     @OrderBy(value = "created")
     private Set<AssignedIntStatus> assignedIntStatuses;
 
-    @ManyToOne
-    @JoinColumn(name = "te_is_predicted_int_status")
     @NotAudited
-    private InternalStatus predictedIntStatus;
+    private InternalStatus.Static predictedIntStatus;
 
     @JoinColumn(name = "te_prediction_accuracy")
     @NotAudited
-    private double predictionAccuracy;
+    private int predictionAccuracy;
 
-    public Tender(long id, String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExtStatus, InternalStatus latestIntStatus) {
+    public Tender(long id, String documentNumber, Platform platform, String link, String name, Company company, String description, ExternalStatus latestExtStatus, InternalStatus latestIntStatus, InternalStatus.Static predicted, int predictionAccuracy) {
         this.id = id;
         this.documentNumber = documentNumber;
         this.platform = platform;
@@ -89,10 +88,14 @@ public class Tender implements Serializable {
         this.name = name;
         this.company = company;
         this.description = description;
+        this.updates = new HashSet<>();
 
         // TODO: See if this is fine (just here for demo for now):
         this.latestExtStatus = latestExtStatus;
         this.latestIntStatus = latestIntStatus;
+
+        this.predictedIntStatus = predicted;
+        this.predictionAccuracy = predictionAccuracy;
     }
 
     public Tender() {
@@ -159,6 +162,10 @@ public class Tender implements Serializable {
         return updates;
     }
 
+    public void setUpdates(Set<TenderUpdate> updates) {
+        this.updates = updates;
+    }
+
     public ExternalStatus getLatestExtStatus() {
         return latestExtStatus;
     }
@@ -211,6 +218,22 @@ public class Tender implements Serializable {
     @Override
     public String toString() {
         return "Tender{" + "id=" + id + ", documentNumber='" + documentNumber + '\'' + ", platform=" + platform + ", link='" + link + '\'' + ", name='" + name + '\'' + ", description='" + description + '\'' + '}';
+    }
+
+    public InternalStatus.Static getPredictedIntStatus() {
+        return predictedIntStatus;
+    }
+
+    public void setPredictedIntStatus(InternalStatus.Static predictedIntStatus) {
+        this.predictedIntStatus = predictedIntStatus;
+    }
+
+    public int getPredictionAccuracy() {
+        return predictionAccuracy;
+    }
+
+    public void setPredictionAccuracy(int predictionAccuracy) {
+        this.predictionAccuracy = predictionAccuracy;
     }
 
     public static class Builder {  // Builder-Pattern TODO

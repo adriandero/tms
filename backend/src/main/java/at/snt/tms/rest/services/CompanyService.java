@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CompanyService extends GenericCrudRepoService<Company>{
+public class CompanyService extends GenericCrudRepoService<Company, Long>{
 
     @Autowired
     public CompanyService(CompanyRepository companies) {
