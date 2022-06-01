@@ -96,7 +96,7 @@ public class AuftragAt implements MailHandler {
                 final String title = titleMatcher.group(1);
                 //System.out.println(title);
                 if(!(bekanntmachungArtMatcher.find() && beschreibungMatcher.find() && auftraggeberMatcher.find() && linkMatcher.find())) {
-                    System.err.println("Failed to parse incoming tender."); // TODO: Use logger
+                    LOGGER.error("Failed to parse incoming tender."); // TODO: Use logger
                     break;
                 }
 
@@ -107,7 +107,6 @@ public class AuftragAt implements MailHandler {
                 final String link = linkMatcher.group(1);
                 final Company company = extensionsManager.getDatabase().getCompanyRepository().findByName(auftraggeber);
                 String documentNumber = null;
-                POSSIBLE_STATES.add(bekanntmachungsArt);
 
                 try {
                     documentNumber = fetchDocumentNumber(link);
