@@ -4,17 +4,12 @@ import at.snt.tms.mailing.MailOAuthenticator;
 import at.snt.tms.model.classifier.ClassifierPredictionDetails;
 import at.snt.tms.model.classifier.ClassifierPredictionRequest;
 import at.snt.tms.model.classifier.ClassifierTrainNode;
-import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
-import at.snt.tms.model.tender.Company;
 import at.snt.tms.model.tender.Tender;
-import at.snt.tms.rest.services.TenderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
