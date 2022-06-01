@@ -5,7 +5,7 @@ import {
   faTag,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
-import { Tender } from '../../model/Tender';
+import { Tender, Status } from '../../model/Tender';
 import { MatDialog } from '@angular/material/dialog';
 import { TenderOverlayComponent } from '../tender-overlay/tender-overlay.component';
 
@@ -16,6 +16,10 @@ import { TenderOverlayComponent } from '../tender-overlay/tender-overlay.compone
 })
 export class TenderComponent implements OnInit {
   @Input() tender!: Tender;
+
+  intStatus: Status[] = this.tender?.latestIntStatus.transitions;
+  extStatus: Status[] = this.tender?.latestExtStatus.transitions;
+
   matBadge: number = 0;
 
   isOpen = false;
@@ -34,8 +38,18 @@ export class TenderComponent implements OnInit {
 
     if (this.matBadge > 0) this.hidden = false;
 
-    if (this.tender.predictedIntStatus == 'interesting') {
-      document.getElementById('prediction')!.style.backgroundColor = '#93e0a0';
+    const predictClass = document.getElementsByClassName(
+      'prediction'
+    ) as HTMLCollectionOf<HTMLElement>;
+
+    for (let i = 0; i < predictClass.length; i++) {
+      if (this.tender.predictionAccuracy < 0) {
+        predictClass[i].style.display = 'none';
+      }
+      if (this.tender.predictedIntStatus != 'IRRELEVANT') {
+        //todo - weird behaviour - look into it
+        predictClass[i].style.backgroundColor = '#93e0a0';
+      }
     }
   }
 

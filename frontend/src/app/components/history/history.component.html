@@ -16,19 +16,21 @@
           <h4 class="title">test</h4>
           <div class="line"></div>
           <h5 class="info">
-            <span class="info-title">Dokumentennummer:</span> #1234
+            <span class="info-title">Dokumentennummer:</span>
+            {{ tender?.documentNumber }}
           </h5>
 
           <h5 class="info">
-            <span class="info-title">Bekanntmachnugsart:</span> Bekanntmachnug
+            <span class="info-title">Bekanntmachungsart:</span>
+            {{ tender?.latestExtStatus }}
           </h5>
           <h5 class="info">
-            <span class="info-title">Auftragsgeber:</span> Wiener
-            Tourismusverband
+            <span class="info-title">Auftragsgeber:</span>
+            {{ tender?.company?.name }}
           </h5>
           <h5 class="info" [ngClass]="{ limitTextHeight: isReadMore }">
             <span class="info-title">Beschreibung:</span>
-            Example demo fetched from database
+            {{ tender?.description }}
           </h5>
 
           <button

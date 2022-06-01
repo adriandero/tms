@@ -3,9 +3,11 @@
   flex-direction: row;
   height: 100vh;
   width: 100%;
+  position: fixed;
+  overflow-y: scroll;
 }
 app-sidebar {
-  position: relative; /* Fixed Sidebar (stay in place on scroll) */
+  position: sticky; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
@@ -43,7 +45,7 @@ mat-toolbar {
   border-radius: 8px;
 }
 
-#sort-menu{
+#sort-menu {
   display: flex;
   flex-direction: column !important;
   text-align: left;
@@ -54,7 +56,7 @@ mat-toolbar {
   margin-left: 5px;
 }
 
-#sort-options{
+#sort-options {
   margin-left: 0;
   text-align: left;
 }
