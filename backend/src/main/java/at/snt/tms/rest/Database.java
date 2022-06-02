@@ -107,4 +107,56 @@ public class Database {
         Group g = this.groupRepository.save(new Group("tender_admin", permission));
         this.userRepository.save(new User("user@snt.at", "Max", "Mustermann", new BCryptPasswordEncoder().encode("pass123"), g));
     }
+
+    public AssignedIntStatusRepository getAssignedIntStatusRepository() {
+        return assignedIntStatusRepository;
+    }
+
+    public AssignmentRepository getAssignmentRepository() {
+        return assignmentRepository;
+    }
+
+    public AttachmentRepository getAttachmentRepository() {
+        return attachmentRepository;
+    }
+
+    public CompanyRepository getCompanyRepository() {
+        return companyRepository;
+    }
+
+    public EntityRevRepository getRevRepository() {
+        return revRepository;
+    }
+
+    public ExternalStatusRepository getExternalStatusRepository() {
+        return externalStatusRepository;
+    }
+
+    public GroupRepository getGroupRepository() {
+        return groupRepository;
+    }
+
+    public InternalStatusRepository getInternalStatusRepository() {
+        return internalStatusRepository;
+    }
+
+    public PermissionRepository getPermissionRepository() {
+        return permissionRepository;
+    }
+
+    public PlatformRepository getPlatformRepository() {
+        return platformRepository;
+    }
+
+    public TenderRepository getTenderRepository() {
+        return tenderRepository;
+    }
+
+    public TenderUpdateRepository getTenderUpdateRepository() {
+        return tenderUpdateRepository;
+    }
+
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
 }

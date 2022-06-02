@@ -4,6 +4,8 @@ import at.snt.tms.payload.AccessRefreshTokenDto;
 import at.snt.tms.payload.request.UserLoginDto;
 import at.snt.tms.rest.services.*;
 import org.apache.camel.Exchange;
+import at.snt.tms.rest.services.tender.FilterConfiguration;
+import at.snt.tms.rest.services.tender.TenderService;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.stereotype.Component;
@@ -30,10 +32,12 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
         rest("/tenders")
                 .get()
                 .to("direct:allTenders")
+                .consumes("application/json")
+                .type(FilterConfiguration.class)
                 .get("{id}")
                 .to("direct:tenderId");
         from("direct:allTenders")
-                .bean(TenderService.class, "findAll");
+                .bean(TenderService.class, "findFiltered");
         from("direct:tenderId")
                 .bean(TenderService.class, "findById(${header.id})");
 
