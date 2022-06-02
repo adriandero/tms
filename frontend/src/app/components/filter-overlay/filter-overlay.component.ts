@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {faSearch} from '@fortawesome/free-solid-svg-icons';
 
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {MatChipInputEvent} from '@angular/material/chips';
 
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import {Filter} from "../../model/Tender";
+import {Router} from "@angular/router";
 
 export interface Chip {
   name: string;
@@ -17,12 +19,14 @@ export interface Chip {
   templateUrl: './filter-overlay.component.html',
   styleUrls: ['./filter-overlay.component.css'],
 })
-export class FilterOverlayComponent implements OnInit {
+export class FilterOverlayComponent implements OnInit, OnDestroy {
   fontStyleControl = new FormControl();
   shownfilter?: string;
   faSearch = faSearch;
 
-  constructor() {}
+
+  constructor(private router: Router) {
+  }
 
   myControl = new FormControl();
   externOptions: string[] = [
@@ -42,9 +46,17 @@ export class FilterOverlayComponent implements OnInit {
 
   filteredExternOptions!: Observable<string[]>;
   filteredInternOptions!: Observable<string[]>;
+
+  platforms: Chip[] = [];
+  companies: Chip[] = [];
+  titles: Chip[] = [];
+  intStatus: Chip[] = [];
+  extStatus: Chip[] = [];
+  files: Chip[] = [];
+  uptDetails: Chip[] = [];
+  users: Chip[] = [];
   // tasks: string[] = [];
   // filteredTaskOptions!: Observable<string[]>;
-
   ngOnInit() {
     this.filteredExternOptions = this.myControl.valueChanges.pipe(
       startWith(''),
@@ -54,28 +66,36 @@ export class FilterOverlayComponent implements OnInit {
       startWith(''),
       map((value) => this._filter(value, this.internOptions))
     );
+    let filterResult = localStorage.getItem("filter");
+    if (filterResult != null) {
+      console.log("apply preFilter")
+      let pre_filter: Filter = JSON.parse(filterResult);
+      pre_filter.platforms.map(e => this.platforms.push({name: e}));
+      pre_filter.companies.map(e => this.companies.push({name: e}));
+      pre_filter.titles.map(e => this.titles.push({name: e}));
+      pre_filter.intStatus.map(e => this.intStatus.push({name: e}));
+      pre_filter.extStatus.map(e => this.extStatus.push({name: e}));
+      pre_filter.files.map(e => this.files.push({name: e}));
+      pre_filter.uptDetails.map(e => this.uptDetails.push({name: e}));
+      pre_filter.users.map(e => this.users.push({name: e}));
+    }
+
+
     // this.filteredTaskOptions = this.myControl.valueChanges.pipe(
     //   startWith(''),
     //   map(value => this._filter(value, this.tasks)),
     // );
   }
+
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  platforms: Chip[] = [];
-  companies: Chip[] = [];
-  titles: Chip[] = [];
-  intStatus: Chip[] = [];
-  extStatus: Chip[] = [];
-  files: Chip[] = [];
-  uptDetails: Chip[] = [];
-  users: Chip[] = [];
+
 
   private _filter(value: string, options: string[]): string[] {
     const filterValue = value.toLowerCase();
-
     return options.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );
@@ -87,7 +107,7 @@ export class FilterOverlayComponent implements OnInit {
 
     // Add our platform
     if ((value || '').trim()) {
-      chipSet.push({ name: value.trim() });
+      chipSet.push({name: value.trim()});
     }
 
     // Reset the input value
@@ -102,5 +122,26 @@ export class FilterOverlayComponent implements OnInit {
     if (index >= 0) {
       chipSet.splice(index, 1);
     }
+  }
+
+  submit() {
+    let filter: Filter = {
+      "platforms": this.platforms.map(e => e.name),
+      "companies": this.companies.map(e => e.name),
+      "titles": this.titles.map(e => e.name),
+      "intStatus": this.intStatus.map(e => e.name),
+      "extStatus": this.extStatus.map(e => e.name),
+      "files": this.files.map(e => e.name),
+      "uptDetails": this.uptDetails.map(e => e.name),
+      "users": this.users.map(e => e.name),
+    }
+    console.log("Filters submitted" + JSON.stringify(filter))
+    localStorage.setItem("filter", JSON.stringify(filter))
+    this.router.navigateByUrl('/home');
+
+  }
+
+  ngOnDestroy(): void {
+    this.submit()
   }
 }
