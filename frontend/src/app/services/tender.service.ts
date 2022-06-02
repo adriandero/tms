@@ -17,17 +17,6 @@ export class TenderService {
 
   constructor(private http: HttpClient, public snackBar: MatSnackBar) {}
 
-  public getTenders() {
-    return this.http
-    .get(`${environment.apiUrl}tenders`, {
-      responseType: 'json',
-    })
-    .pipe(
-      retry(3),
-      catchError((response) => this.handleError(response))
-    );; // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
-  }
-
   public getAssignments(id: number) {
     return this.http
       .get(`${environment.apiUrl}assignments/tender/${id}`, {
@@ -39,12 +28,9 @@ export class TenderService {
       ); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
 
-  public getTendersWithCondition(filter :string  ) {
-    let filterObj: Filter = JSON.parse(filter)
-    console.log("http filter call:" + filter)
-
+  public getTenders(filter: Filter) {
     let i = this.http //TODO add conditions
-      .get(this.apiUrl + 'tenders', {
+      .post(`${environment.apiUrl}tenders`, filter, {
         responseType: 'json',
       })
       .pipe(
