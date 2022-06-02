@@ -38,6 +38,7 @@ public class InboundMail extends RouteBuilder {
         this.getContext().getRegistry().bind("customOAuth", customOAuth);
 
         from(this.mailReceiveUrl)
+                //.convertBodyTo(byte[].class)
                 .routeId(this.getClass().getSimpleName())
                 //try interpretation
                 .doTry()
