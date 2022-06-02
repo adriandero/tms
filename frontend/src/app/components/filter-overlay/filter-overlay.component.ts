@@ -78,7 +78,6 @@ export class FilterOverlayComponent implements OnInit, OnDestroy {
       pre_filter.files.map(e => this.files.push({name: e}));
       pre_filter.uptDetails.map(e => this.uptDetails.push({name: e}));
       pre_filter.users.map(e => this.users.push({name: e}));
-
     }
 
 
