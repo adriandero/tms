@@ -28,20 +28,17 @@
     >
   </mat-chip-list>
   <mat-menu class="dropdown-menu" #extern="matMenu">
-    <button mat-menu-item>
-      <!-- <fa-icon [icon]="faUser" class="user-icon"></fa-icon> -->
-      Interesting
-    </button>
-    <button mat-menu-item>
-      <!-- <fa-icon [icon]="faTag" class="tag-icon"></fa-icon> -->
-      Uninteresting
+    <button mat-menu-item *ngFor="let extStat of extStatus">
+      {{ extStat.label }}
     </button>
   </mat-menu>
-  <mat-menu class="dropdown-menu" #intern="matMenu"> </mat-menu>
+  <mat-menu class="dropdown-menu" #intern="matMenu">
+    <button mat-menu-item *ngFor="let intStat of intStatus">
+      {{ intStat.label }}
+    </button>
+  </mat-menu>
   <mat-chip-list aria-label="Fish selection" class="user-assign-list">
-  <mat-chip mat-button  class="user">
-    inform
-  </mat-chip>
+    <mat-chip mat-button class="user"> inform </mat-chip>
   </mat-chip-list>
   <div class="container">
     <div class="content">

@@ -7,6 +7,7 @@ export interface Status {
   id: number;
   label: string;
   terminatesTender: any;
+  transitions: Status[];
 }
 
 export interface ValidFrom2 {

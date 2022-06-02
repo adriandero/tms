@@ -33,7 +33,7 @@
   color: #06578c;
 }
 
-.user-assign-list{
+.user-assign-list {
   margin-top: 30px;
 }
 .tag-icon {
@@ -136,6 +136,6 @@ mat-chip-list {
 }
 
 .prediction {
-  background-color: #93e0a0;
+  background-color: #e09393;
   /*e09393*/
 }
