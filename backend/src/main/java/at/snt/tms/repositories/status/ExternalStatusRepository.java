@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ExternalStatusRepository extends CrudRepository<ExternalStatus, Long> {
-
+    ExternalStatus findByLabel(String label);
 }

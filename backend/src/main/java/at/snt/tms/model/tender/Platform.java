@@ -24,7 +24,7 @@ public class Platform implements Serializable {
     @Column(name = "p_id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "p_link", length = 50)
+    @Column(name = "p_link", length = 2048)
     private String link;
 
     public Platform(String link) {
