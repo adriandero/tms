@@ -62,10 +62,12 @@ export class AuthService {
     return this.http
       .post<AuthRes>(`${this.apiUrl}auth/login`, {mail, password})
       .pipe(
-        catchError((err: HttpErrorResponse) => {
+    catchError((err: HttpErrorResponse) => {
+          console.log("error data")
           return throwError(() => new Error("password or username invalid"));
         }),
         map((x) => {
+          console.log("set data")
           this.setLocalStorage(x); //TODO store only tokens
           this.router.navigate(['/login'], {
             queryParams: {returnUrl: this.router.routerState.snapshot.url},
@@ -73,6 +75,7 @@ export class AuthService {
 
         })
       )
+
   }
 
 

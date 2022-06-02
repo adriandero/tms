@@ -30,7 +30,7 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .bindingMode(RestBindingMode.json);
 
         rest("/tenders")
-                .get()
+                .post()
                 .to("direct:allTenders")
                 .consumes("application/json")
                 .type(FilterConfiguration.class)

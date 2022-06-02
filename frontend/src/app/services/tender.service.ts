@@ -7,6 +7,8 @@ import { Injectable } from '@angular/core';
 import { catchError, retry, throwError } from 'rxjs';
 import {environment} from "../../environments/environment";
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {Chip} from "@material-ui/core";
+import {Filter} from "../model/Tender";
 
 @Injectable({
   providedIn: 'root',
@@ -14,17 +16,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class TenderService {
 
   constructor(private http: HttpClient, public snackBar: MatSnackBar) {}
-
-  public getTenders() {
-    return this.http
-    .get(`${environment.apiUrl}tenders`, {
-      responseType: 'json',
-    })
-    .pipe(
-      retry(3),
-      catchError((response) => this.handleError(response))
-    );; // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
-  }
 
   public getAssignments(id: number) {
     return this.http
@@ -35,6 +26,19 @@ export class TenderService {
         retry(3),
         catchError((response) => this.handleError(response))
       ); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
+  }
+
+  public getTenders(filter: Filter) {
+    let i = this.http //TODO add conditions
+      .post(`${environment.apiUrl}tenders`, filter, {
+        responseType: 'json',
+      })
+      .pipe(
+        retry(3),
+        catchError((response) => this.handleError(response))
+      );
+    console.log(i);
+    return i; // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
 
   private handleError(error: HttpErrorResponse) {
