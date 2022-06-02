@@ -8,6 +8,7 @@ import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -34,17 +35,17 @@ public class Tender implements Serializable {
     @JoinColumn(name = "te_p_platform", nullable = false)
     private Platform platform;
 
-    @Column(name = "te_link", length = 150, nullable = false)
+    @Column(name = "te_link", length = 2048, nullable = false)
     private String link;
 
-    @Column(name = "te_name", length = 150, nullable = false)
+    @Column(name = "te_name", length = 2048, nullable = false)
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "te_c_company")
     private Company company;
 
-    @Column(name = "te_description", length = 500)
+    @Column(name = "te_description", length = 2048)
     private String description;  // Beschreibung der Ausschreibung
 
     @ManyToOne
@@ -87,6 +88,7 @@ public class Tender implements Serializable {
         this.name = name;
         this.company = company;
         this.description = description;
+        this.updates = new HashSet<>();
 
         // TODO: See if this is fine (just here for demo for now):
         this.latestExtStatus = latestExtStatus;
