@@ -1,9 +1,13 @@
 package at.snt.tms.mailing;
 
+import at.snt.tms.rest.Database;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
 import org.apache.camel.attachment.AttachmentMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.activation.DataHandler;
@@ -25,15 +29,20 @@ import java.util.Map;
 @Component
 public class ReceiveMailProcessor implements Processor {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReceiveMailProcessor.class);
+
+    @Autowired
+    private ExtensionsManager extensionsManager;
+
     @Override
     public void process(Exchange exchange) throws Exception {
-        // demo code
         final Map<String, byte[]> attachments = new HashMap<>();
 
         try {
             AttachmentMessage attachmentMessage = exchange.getMessage(AttachmentMessage.class);
             Map<String, DataHandler> rawAttachments = attachmentMessage.getAttachments();
-            if (rawAttachments.size() > 0) {
+
+            if(rawAttachments != null) {
                 for (String name : rawAttachments.keySet()) {
                     DataHandler dh = rawAttachments.get(name);
 
@@ -46,11 +55,20 @@ public class ReceiveMailProcessor implements Processor {
             }
         } catch (Exception e) {}
 
-        Message in = exchange.getIn();
-        String xml = in.getBody(String.class) + "";
-        String senders = (String) in.getHeader("from");
+        final HandleableMail mail = new HandleableMail(exchange.getIn().getHeaders(), exchange.getIn().getBody(String.class), attachments);
 
-        System.out.println(xml + " --- " + senders);
+        for(MailHandler[] handlers : this.extensionsManager.getLoaded().values()) {
+            for(MailHandler handler : handlers) {
+                try {
+                    if(handler.handle(this.extensionsManager, mail)) {
+                        return;
+                    }
+                } catch(Throwable exception) {
+                    exception.printStackTrace();
+                }
+            }
+        }
+        LOGGER.warn("Couldn't handle mail from \"" + mail.getHeaders().get("from") + "\".");
     }
 
 }
