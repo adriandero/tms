@@ -97,9 +97,14 @@ a {
   margin-top: 10px;
 }
 
+#create-assign,
 .assign {
-  background-color: #d3e1eb;
+  background-color: #e0e0e0;
 }
+#create-assign {
+  padding: 0 7px;
+}
+
 .info-title {
   color: #598fb2;
   font-weight: bold;

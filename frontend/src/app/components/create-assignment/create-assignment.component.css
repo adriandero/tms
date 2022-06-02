@@ -1,9 +1,18 @@
 ::ng-deep .mat-dialog-container {
   padding: 0px 0px !important;
 }
+
 .mat-dialog-content {
   padding: 0px;
-  /*overflow: hidden;*/
+  margin: 0px;
+}
+#main {
+  padding: 20px;
+  overflow: hidden;
+}
+
+.mat-dialog-actions {
+  padding: 8px 20px;
 }
 
 mat-nav-list {
@@ -24,11 +33,11 @@ h5 {
 }
 
 /* :host ::ng-deep .mat-tab-header {
-  top: 0;
-  z-index: 1000;
-  position: sticky;
-  position: -webkit-sticky; /* macOS/iOS Safari
-} */
+    top: 0;
+    z-index: 1000;
+    position: sticky;
+    position: -webkit-sticky; /* macOS/iOS Safari
+  } */
 
 ::ng-deep
   .mat-checkbox-checked.mat-accent
@@ -116,14 +125,14 @@ section {
 }
 
 /*
-.options {
-  width: 90%;
-  margin-left: 5%;
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-}
-*/
+  .options {
+    width: 90%;
+    margin-left: 5%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  }
+  */
 
 mat-tab-group {
   overflow: hidden;
@@ -134,16 +143,6 @@ mat-tab {
 }
 ::ng-deep .mat-tab-label {
   width: 50%;
-}
-
-.flexible {
-  display: flex;
-  flex-wrap: wrap;
-}
-::ng-deep input.mat-chip-input {
-  width: 100% !important;
-  margin-bottom: 8px !important;
-  margin-top: 0px !important;
 }
 
 ::ng-deep .mat-tab-body-content {
@@ -163,11 +162,4 @@ mat-tab {
   font-family: Roboto;
   margin-top: 4vh;
   overflow: hidden;
-}
-
-.chip {
-  margin: 10px 10px 0px 0px;
-}
-
-.select-search {
 }

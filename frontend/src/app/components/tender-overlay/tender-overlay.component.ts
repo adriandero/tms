@@ -12,6 +12,8 @@ import { TenderService } from '../../services/tender.service';
 import { User } from '../../model/User';
 import { Hidden } from '@material-ui/core';
 
+import { CreateAssignmentComponent } from '../create-assignment/create-assignment.component';
+
 // import CloseIcon from '@material-ui/icons/Close';
 @Component({
   selector: 'app-float-tender-view',
@@ -52,6 +54,16 @@ export class TenderOverlayComponent {
     } else {
       document.getElementById('history-btn-disabled')!.style.display = 'none';
     }
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(CreateAssignmentComponent, {
+      closeOnNavigation: true,
+      maxWidth: '400px',
+      minWidth: '100px',
+      maxHeight: '300px',
+      minHeight: '200px',
+    });
   }
 
   changeRoute(): void {
