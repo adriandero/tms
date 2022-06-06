@@ -78,7 +78,7 @@ export interface Company {
   name: string;
 }
 
-export interface Filter{ //TODO kann es mehr als einen ext oder int status geben?
+export interface Filter{
    platforms : string[];
    companies : string[];
    titles :   string[];
@@ -87,4 +87,7 @@ export interface Filter{ //TODO kann es mehr als einen ext oder int status geben
    files :   string[];
    uptDetails :   string[];
    users :   string[];
+   startDate : Date;
+   endDate : Date;
+   sortBy : string;
 }

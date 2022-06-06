@@ -9,7 +9,9 @@ import {FilterOverlayComponent} from '../filter-overlay/filter-overlay.component
   styleUrls: ['./startpage.component.css'],
 })
 export class StartpageComponent implements OnInit {
-  constructor(public filterDialog: MatDialog, public sortDialog: MatDialog) {}
+  constructor(public filterDialog: MatDialog, public sortDialog: MatDialog) {
+  }
+
   public showfilter: boolean = true;
   public showsort: boolean = true;
 
@@ -21,7 +23,10 @@ export class StartpageComponent implements OnInit {
   public toggleSort() {
     this.showsort = !this.showsort;
   }
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    localStorage.setItem("sort", "default")
+  }
 
   faFilter = faFilter;
   faBars = faBars;
@@ -33,6 +38,20 @@ export class StartpageComponent implements OnInit {
     'Latest',
     'Oldest',
   ];
+
+  isSort(sort: string) {
+    return sort === localStorage.getItem("sort");
+
+  }
+
+  setSorting(sort: string) {
+    if (localStorage.getItem("sort") === sort) {
+      localStorage.setItem("sort", "default")
+
+    } else {
+      localStorage.setItem("sort", sort)
+    }
+  }
 
   openDialog() {
     const dialogRef = this.filterDialog.open(FilterOverlayComponent, {

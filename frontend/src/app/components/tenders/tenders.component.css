@@ -2,3 +2,8 @@
   width: 100%;
   margin-left:0;
 }
+.not-found{
+  color: #4e4e4e;
+  font-size: 2rem;
+  margin-left: 10px;
+}
