@@ -11,9 +11,9 @@ import {Router} from "@angular/router";
 })
 export class TendersComponent implements OnInit {
   tenders: Tender[] = [];
-
+  noResult :boolean = false;
   constructor(private tenderService : TenderService, private router: Router){
-    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+   this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
   }
@@ -23,7 +23,12 @@ export class TendersComponent implements OnInit {
     this.tenderService.getTenders(JSON.parse(_filter)).subscribe({
       next: (sent: any) => {
         const response: BackendResponse<Tender[]> = sent;
-        let ten: Tender = response.body[0];
+        if (response.body.length < 1){
+          this.noResult = true;
+        }
+        else{
+          this.noResult = false;
+        }
         this.tenders = response.body;
       },
     });
