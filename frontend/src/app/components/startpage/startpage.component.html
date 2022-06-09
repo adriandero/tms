@@ -11,9 +11,9 @@
 
       <mat-menu #menu="matMenu"  overlapTrigger="false" >
         <div id="sort-menu">
-        <button mat-button *ngFor="let sort of sorts" class="sorts"[value]="sort"  (click)="setSorting(sort)" id="sort-options">
-          <div *ngIf="isSort(sort)" style="color: #2b709d">{{sort}}</div>
-          <div *ngIf="!isSort(sort)">{{sort}}</div>
+        <button mat-button *ngFor="let sort of sortCategories()" class="sorts"[value]="sort"  (click)="setSorting(sort)" id="sort-options">
+          <div *ngIf="isSort(sort)" style="color: #2b709d">{{categoryName(sort)}}</div>
+          <div *ngIf="!isSort(sort)">{{categoryName(sort)}}</div>
         </button>
         </div>
       </mat-menu>

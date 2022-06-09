@@ -8,7 +8,9 @@ import { catchError, retry, throwError } from 'rxjs';
 import {environment} from "../../environments/environment";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {Chip} from "@material-ui/core";
-import {Filter} from "../model/Tender";
+import {Filter, Tender} from "../model/Tender";
+import {BackendResponse} from "../model/protocol/Response";
+import {RefreshRes} from "../auth";
 
 @Injectable({
   providedIn: 'root',
@@ -29,16 +31,14 @@ export class TenderService {
   }
 
   public getTenders(filter: Filter) {
-    let i = this.http //TODO add conditions
-      .post(`${environment.apiUrl}tenders`, filter, {
+    return this.http
+      .post<BackendResponse<Tender[]>>(`${environment.apiUrl}tenders`, filter, {
         responseType: 'json',
       })
       .pipe(
-        retry(3),
+        retry(0),
         catchError((response) => this.handleError(response))
       );
-    console.log(i);
-    return i; // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
 
   private handleError(error: HttpErrorResponse) {

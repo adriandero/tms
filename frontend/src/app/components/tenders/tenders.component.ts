@@ -13,7 +13,7 @@ export class TendersComponent implements OnInit {
   tenders: Tender[] = [];
   noResult :boolean = false;
   constructor(private tenderService : TenderService, private router: Router){
-    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+   this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
   }

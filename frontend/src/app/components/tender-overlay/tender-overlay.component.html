@@ -96,11 +96,10 @@
           </h5>
 
           <h5 class="info">
-            <span class="info-title">Bekanntmachnugsart:</span> Bekanntmachnug
+            <span class="info-title">Bekanntmachnugsart:</span> {{data.latestExtStatus.label}}
           </h5>
           <h5 class="info">
-            <span class="info-title">Auftragsgeber:</span> Wiener
-            Tourismusverband
+            <span class="info-title">Auftragsgeber:</span> {{data.company.name}}
           </h5>
           <!-- <h5 class="info" [ngClass]="{ limitTextHeight: isReadMore }"> -->
           <h5 class="info">
@@ -111,24 +110,7 @@
           <button mat-flat-button id="more-btn" type="button" (click)="showText()">
             {{ isReadMore ? "Read More" : "Read Less" }}
           </button> -->
-          <h5 class="info">
-            <span class="info-title">Details:</span> Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Maxime mollitia, molestiae quas vel
-            sint commodirepudiandae consequuntur voluptatum laborum numquam
-            blanditiis harum quisqua
-          </h5>
-          <h5 class="info">
-            <span class="info-title">Anhänge:</span>
-            <mat-list>
-              <a mat-list-item class="file"
-                ><fa-icon [icon]="faFileAlt" class="icons"></fa-icon
-                >dummy1.pdf</a
-              >
-              <a mat-list-item class="file"
-                ><fa-icon [icon]="faFileAlt" class="icons"></fa-icon>dummy2.pdf
-              </a>
-            </mat-list>
-          </h5>
+
         </div>
       </div>
     </div>

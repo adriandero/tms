@@ -106,7 +106,7 @@ export class FilterOverlayComponent implements OnInit, OnDestroy {
     "users": this.users.map(e => e.name),
     "startDate": this.startDate,
     "endDate": this.endDate,
-    "sortBy": localStorage.getItem("sort") || "default",
+    "sortBy": localStorage.getItem("sort") ?? "DEFAULT",
   }
   filter$ = new BehaviorSubject<Filter>(this.filter);
 
@@ -153,13 +153,11 @@ export class FilterOverlayComponent implements OnInit, OnDestroy {
       "users": this.users.map(e => e.name),
       "startDate": this.startDate,
       "endDate": this.endDate,
-      "sortBy": localStorage.getItem("sort") || "default",
-
+      "sortBy": localStorage.getItem("sort") ?? "DEFAULT",
     }
     console.log("Filters submitted" + JSON.stringify(this.filter))
     localStorage.setItem("filter", JSON.stringify(this.filter))
     this.router.navigateByUrl('/home');
-
   }
 
   resetDates() {

@@ -12,13 +12,14 @@ import {
   throwError
 } from "rxjs";
 import {Router} from "@angular/router";
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
 import {map} from "rxjs/operators";
 import {Role} from "../../model/Roles";
 import {User} from "../../model/User";
 import {environment} from "../../../environments/environment";
 import {decode} from "jsonwebtoken";
 import {error} from "@angular/compiler/src/util";
+import {BackendResponse} from "../../model/protocol/Response";
 
 
 interface AuthRes {
@@ -33,13 +34,9 @@ interface AuthRes {
   }
 }
 
-interface RefreshRes {
-  body: {
+export interface RefreshRes {
     accessToken: string,
     refreshToken: string,
-  },
-  "statusCode": string,
-  "statusCodeValue": number
 }
 
 
@@ -68,6 +65,7 @@ export class AuthService {
         }),
         map((x) => {
           console.log("set data")
+          console.log("refreshtoken" + x.body.tokens.refreshToken)
           this.setLocalStorage(x); //TODO store only tokens
           this.router.navigate(['/login'], {
             queryParams: {returnUrl: this.router.routerState.snapshot.url},
@@ -79,17 +77,29 @@ export class AuthService {
   }
 
 
-  async refreshToken(): Promise<Observable<any>> {
-    console.log("refresh token")
+    refreshToken() : Observable<BackendResponse<RefreshRes>> {
+    console.log("refresh token yes")
     const refreshToken = localStorage.getItem('refresh_token');
     const accessToken = localStorage.getItem('access_token');
 
     return this.http
-      .post<HttpResponse<any>>(`${this.apiUrl}auth/refresh`, {"accessToken": accessToken, "refreshToken": refreshToken})
-      .pipe(
-        map((item: HttpResponse<any>) => {
-          return item;
-        }))
+      .post<BackendResponse<RefreshRes>>(`${this.apiUrl}auth/refresh`, {
+        "accessToken": accessToken,
+        "refreshToken": refreshToken
+      })
+    /*  .pipe(
+
+        map((data: HttpResponse<RefreshRes>) => {
+          console.log("get refresh tokens: " + data);
+          console.log("refresh token response ");
+          localStorage.setItem('access_token', data.body.accessToken);
+          localStorage.setItem('refresh_token', data.body.refreshToken);
+          localStorage.setItem('login-event', 'login' + Math.random());
+          return data;
+        }),
+        catchError( err => {
+
+        }));*/
 
 
     // pipe(
@@ -133,28 +143,26 @@ export class AuthService {
     localStorage.setItem('logout-event', 'logout' + Math.random());
   }
 
-  tokenIsValid(): Observable<number> {
+  tokenIsValid(): Observable<boolean> {
     const accessToken = localStorage.getItem("access_token");
     const refreshToken = localStorage.getItem("refresh_token");
     let status = 0;
-    const subject = new Subject<number>();
+    const subject = new Subject<boolean>();
 
-    this.http
+    return this.http
       .post(`${this.apiUrl}auth/validate`, {
         "accessToken": accessToken,
         "refreshToken": refreshToken
       }, {observe: 'response'})
-      .pipe(map(data => {
+      .pipe(
+        map( data =>{
+          return data.status === 200 ? true : false;
+          }
 
-        console.log("Here will be return response code Ex :200", data.status)
-        console.log("Here will be return response code Ex :200")
-        status = data.status
-        subject.next(status);
-
-        return data.status
-      }));
-    console.log(subject)
-    return subject.asObservable();
+        )
+      );
+    //console.log(subject)
+    //return subject.asObservable();
     /*    map((x) => {
     /* return this.http
      .post<RefreshRes>(`${this.apiUrl}auth/refresh`, {refreshToken, accessToken})
@@ -172,6 +180,7 @@ export class AuthService {
          }
        }));*/
   }
+
 
 
 }

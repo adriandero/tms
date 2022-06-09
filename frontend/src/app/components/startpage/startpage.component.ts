@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {faBars, faFilter, faSort} from '@fortawesome/free-solid-svg-icons';
 import {MatDialog} from '@angular/material/dialog';
 import {FilterOverlayComponent} from '../filter-overlay/filter-overlay.component';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-startpage',
@@ -9,7 +10,7 @@ import {FilterOverlayComponent} from '../filter-overlay/filter-overlay.component
   styleUrls: ['./startpage.component.css'],
 })
 export class StartpageComponent implements OnInit {
-  constructor(public filterDialog: MatDialog, public sortDialog: MatDialog) {
+  constructor(private router: Router, public filterDialog: MatDialog, public sortDialog: MatDialog) {
   }
 
   public showfilter: boolean = true;
@@ -25,31 +26,38 @@ export class StartpageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    localStorage.setItem("sort", "default")
+
+    //localStorage.setItem("sort", "DEFAULT")
   }
 
   faFilter = faFilter;
   faBars = faBars;
   faSort = faSort;
-  sorts: string[] = [
-    'alphapetical a-z',
-    'alphapetical z-a',
-    'By relevance',
-    'Latest',
-    'Oldest',
-  ];
+  sorts = {
+    ALPHABETICAL_ASC: 'Alphabetical A-Z',
+    ALPHABETICAL_DESC: 'Alphabetical Z-A',
+    LATEST: 'Latest',
+    OLDEST: 'Oldest',
+  };
+
+  sortCategories() {
+    return Object.keys(this.sorts);
+  }
+
+  categoryName(name: string) {
+    return (this.sorts as any)[name];
+  }
 
   isSort(sort: string) {
     return sort === localStorage.getItem("sort");
-
   }
 
   setSorting(sort: string) {
+    console.log(sort);
     if (localStorage.getItem("sort") === sort) {
-      localStorage.setItem("sort", "default")
-
+      localStorage.setItem("sort", "DEFAULT");
     } else {
-      localStorage.setItem("sort", sort)
+      localStorage.setItem("sort", sort);
     }
   }
 
