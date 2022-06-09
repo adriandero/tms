@@ -1,6 +1,7 @@
 package at.snt.tms.rest.services.tender;
 
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Class {@code FilterConfiguration.java}
@@ -18,6 +19,9 @@ public class FilterConfiguration {
     private String[] files;
     private String[] uptDetails;
     private String[] users;
+    private Date startDate;
+    private Date endDate;
+    private SortMode sortBy;
 
     protected FilterConfiguration() {}
 
@@ -32,6 +36,7 @@ public class FilterConfiguration {
                 ", files=" + Arrays.toString(files) +
                 ", uptDetails=" + Arrays.toString(uptDetails) +
                 ", users=" + Arrays.toString(users) +
+                ", sort=" + sortBy +
                 '}';
     }
 
@@ -97,5 +102,29 @@ public class FilterConfiguration {
 
     public void setUsers(String[] users) {
         this.users = users;
+    }
+
+    public SortMode getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(SortMode sortBy) {
+        this.sortBy = sortBy;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

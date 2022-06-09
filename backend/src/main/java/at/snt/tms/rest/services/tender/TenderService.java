@@ -9,9 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 //@Controller
 @Service  // works even without @Service interestingly?
@@ -39,6 +37,26 @@ public class TenderService extends GenericCrudRepoService<Tender, Long> {
                 filtered.add(tender);
             }
 
+        }
+
+        if(config.getSortBy() != null) {
+            switch(config.getSortBy()) {
+                case ALPHABETICAL_ASC:
+                    filtered.sort(Comparator.comparing((key) -> key.getName(), String::compareTo));
+                    break;
+                case ALPHABETICAL_DESC:
+                    filtered.sort(Comparator.comparing((key) -> key.getName(), String::compareTo));
+                    Collections.reverse(filtered);
+                    break;
+                case LATEST:
+                    filtered.sort(Comparator.comparing((key) -> key.getLatestUpdate().getValidFrom()));
+                    break;
+                case OLDEST:
+                    filtered.sort(Comparator.comparing((key) -> key.getLatestUpdate().getValidFrom()));
+                    Collections.reverse(filtered);
+                    break;
+                case DEFAULT:
+            }
         }
 
         return new ResponseEntity<>(filtered, HttpStatus.OK);
