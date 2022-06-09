@@ -21,19 +21,20 @@ app-tender {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-left: 10px;
 }
 
 mat-toolbar {
   padding: 0px;
   height: auto;
-  margin-top: 20px;
+  margin-top: 1em;
   font-weight: bold !important;
-  margin-bottom: 10px;
+  margin-bottom: 0.5em;
+  flex-wrap: wrap-reverse;
+  justify-content: space-between;
 }
 
 #sortby-btn {
-  margin-right: 20px;
+  margin-right: 1em;
   display: flex;
   font-weight: bold;
   color: #555;
@@ -53,19 +54,33 @@ mat-toolbar {
 .sortby-icon,
 .filter-icon {
   color: #06578c;
-  margin-left: 5px;
+  margin-left: 0.2em;
+  font-size: large;
 }
 
 #sort-options {
   margin-left: 0;
   text-align: left;
 }
-.sortby-icon {
-  font-size: large;
+#buttons {
+  display: flex;
+  flex-direction: row;
 }
 
 h2 {
-  margin-left: auto;
-  margin-right: 20px;
+  margin-right: 1em;
   color: #06578c;
+}
+
+@media (max-width: 600px) {
+  .sortby-icon,
+  .filter-icon {
+    font-size: small;
+  }
+  h2 {
+    font-size: 1.4rem;
+  }
+  button {
+    font-size: 1rem;
+  }
 }

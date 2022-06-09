@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {faBars, faFilter, faSort} from '@fortawesome/free-solid-svg-icons';
-import {MatDialog} from '@angular/material/dialog';
-import {FilterOverlayComponent} from '../filter-overlay/filter-overlay.component';
+import { Component, OnInit } from '@angular/core';
+import { faBars, faFilter, faSort } from '@fortawesome/free-solid-svg-icons';
+import { MatDialog } from '@angular/material/dialog';
+import { FilterOverlayComponent } from '../filter-overlay/filter-overlay.component';
 
 @Component({
   selector: 'app-startpage',
@@ -38,9 +38,7 @@ export class StartpageComponent implements OnInit {
     const dialogRef = this.filterDialog.open(FilterOverlayComponent, {
       closeOnNavigation: true,
       maxWidth: '550px',
-      minWidth: '400px',
       maxHeight: '550px',
-      minHeight: '200px',
       width: '80vw',
       height: 'auto',
 

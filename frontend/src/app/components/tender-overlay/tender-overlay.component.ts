@@ -60,9 +60,7 @@ export class TenderOverlayComponent {
     const dialogRef = this.dialog.open(CreateAssignmentComponent, {
       closeOnNavigation: true,
       maxWidth: '400px',
-      minWidth: '100px',
       maxHeight: '300px',
-      minHeight: '200px',
     });
   }
 

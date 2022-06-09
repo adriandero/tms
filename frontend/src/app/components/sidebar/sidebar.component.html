@@ -14,7 +14,7 @@
         alt="profile-picture"
         class="profile-picture"
         ngxGravatar
-        [email]=user.mail
+        [email]="user.mail"
       />
       <div class="profile-name h2">
         <a>{{ user.firstname | userName }}</a>
@@ -23,7 +23,7 @@
     </div>
     <!--    </div>-->
 
-    <form class="search-bar">
+    <!-- <form class="search-bar">
       <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
 
       <input
@@ -36,11 +36,11 @@
     </form>
     <a class="single-link hidden-search-icon" href="#">
       <fa-icon [icon]="faSearch" class="link-icons" size="lg"></fa-icon>
-    </a>
+    </a> -->
 
     <div class="line"></div>
 
-    <mat-nav-list class="list text-center">
+    <mat-nav-list class="list">
       <a class="single-link" href="#">
         <fa-icon [icon]="faInbox" class="link-icons" size="lg"></fa-icon>
         <p class="link-text">All Tenders</p>
@@ -60,9 +60,9 @@
     </mat-nav-list>
 
     <mat-nav-list class="list-bottom">
-      <a class="single-link" href="#"  (click)="refresh()">
+      <a class="single-link" href="#" (click)="refresh()">
         <fa-icon [icon]="faCog" class="link-icons" size="lg"></fa-icon>
-        <p class="link-text" >Settings</p>
+        <p class="link-text">Settings</p>
       </a>
     </mat-nav-list>
     <!--    &lt;!&ndash;-->
