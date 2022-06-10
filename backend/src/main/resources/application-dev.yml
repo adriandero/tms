@@ -16,7 +16,7 @@ spring:
 tms:
   jwt:
     secret: tmsSecret
-    access-token-expiration: 60_000  # 15 minutes
+    access-token-expiration: 900_000  # 15 minutes
     refresh-token-expiration: 86_400_000  # 24 hours
   mail:
     enabled: true
