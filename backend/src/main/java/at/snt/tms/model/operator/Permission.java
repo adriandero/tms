@@ -6,9 +6,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Class {@code Role}
+ * Class {@code Permission}
  * <p>
- * An {@code User} can be assigned a {@code Role} which defines certain permissions within the system.
+ * {@code Permission}s for {@code User}s of the system.
  *
  * @author Oliver Sommer
  */
@@ -22,6 +22,7 @@ public class Permission implements Serializable {
     @GeneratedValue
     @Column(name = "pe_id")
     private Long id;
+
     @Column(name = "pe_designation", length = 50)
     private String designation;
 

@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Class {@code Platform}
  * <p>
- * A platform where {@code Tenders} are published.
+ * A {@code Platform} on which {@code Tender}s are published.
  *
  * @author Oliver Sommer
  */

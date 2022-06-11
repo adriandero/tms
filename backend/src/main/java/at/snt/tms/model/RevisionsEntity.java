@@ -1,6 +1,6 @@
 package at.snt.tms.model;
 
-import at.snt.tms.auditing.MyRevisionsListener;
+import at.snt.tms.auditing.CustomRevisionsListener;
 import at.snt.tms.model.operator.User;
 import org.hibernate.envers.DefaultRevisionEntity;
 import org.hibernate.envers.RevisionEntity;
@@ -14,7 +14,7 @@ import java.util.Date;
 @AttributeOverrides({
         @AttributeOverride(name = "timestamp", column = @Column(name = "re_timestamp")),
         @AttributeOverride(name = "id", column = @Column(name = "re_id"))})
-@RevisionEntity(MyRevisionsListener.class)
+@RevisionEntity(CustomRevisionsListener.class)
 public class RevisionsEntity extends DefaultRevisionEntity implements Serializable {
     private static final long serialVersionUID = -43063022781473677L;
 

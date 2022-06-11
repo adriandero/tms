@@ -11,7 +11,10 @@ import java.util.Set;
 /**
  * Class {@code InternalStatus}
  * <p>
- * One status can be assigned to a {@code Tender} either by a {@code User} or by the system.
+ * {@code InternalStatus} can be assigned to a {@code Tender} by a {@code User} via an {@code AssignedIntStatus} object.
+ * It may bring a Tender into a concluding stage, which is shown in {@link InternalStatus#terminatesTender}. A
+ * {@code InternalStatus}  has a defined list of status that succeed the current one in
+ * {@link InternalStatus#transitions}.
  *
  * @author Oliver Sommer
  */
@@ -19,6 +22,7 @@ import java.util.Set;
 @Audited
 @Table(name = "is_internal_status")
 public class InternalStatus implements Serializable {
+    private static final long serialVersionUID = -8736360362075978103L;
 
     /**
      * Enum {@code InternalStatus.Static}
@@ -27,14 +31,14 @@ public class InternalStatus implements Serializable {
      *
      * @author Dominik Fluch
      */
-    public static enum Static {
+    public enum Static {
         INTERESTING(new InternalStatus("Interesting")),
         IRRELEVANT(new InternalStatus("Irrelevant")),
         UNCHECKED(new InternalStatus("Unchecked"));
 
         private final InternalStatus internalStatus;
 
-        private Static(InternalStatus internalStatus) {
+        Static(InternalStatus internalStatus) {
             this.internalStatus = internalStatus;
         }
 
@@ -42,8 +46,6 @@ public class InternalStatus implements Serializable {
             return internalStatus;
         }
     }
-
-    private static final long serialVersionUID = -8736360362075978103L;
 
     @Id
     @Column(name = "is_label", length = 200)

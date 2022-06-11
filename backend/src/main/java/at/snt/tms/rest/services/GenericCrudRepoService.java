@@ -10,6 +10,8 @@ import java.util.Optional;
 /**
  * Class {@code GenericCrudRepoService}
  *
+ * Generic Repository Service with {@code findAll}, {@code findById} and {@code delete} methods.
+ *
  * @author Maximilian Wolf
  */
 // todo ?: not possible with global @ExceptionHandler @ControllerAdvice
@@ -38,13 +40,16 @@ public class GenericCrudRepoService<T, ID> {
 
     public ResponseEntity<String> delete(ID id) {
         T entity = repoClass.cast(findById(id).getBody());
+        if(entity == null) {
+            return new ResponseEntity<>("Could not find " + entityNameId(id), HttpStatus.NOT_FOUND);
+        }
         repository.delete(entity);
         return ResponseEntity.ok().body("Successfully deleted " + entityNameId(id));
     }
 
     // todo ErrorMsg object ?
     private String entityNameId(ID id){
-        return String.format("%s with Id=%d", repoClass.getSimpleName(), id);
+        return String.format("%s with Id=%s", repoClass.getSimpleName(), id);
     }
 
 

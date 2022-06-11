@@ -8,6 +8,9 @@ import java.io.Serializable;
 
 /**
  * Class {@code Assignment}
+ * <p>
+ * {@code User}s can be assigned to certain {@code Tender}s. An {@code Assignment} entity contains this and further
+ * information, what the {@code User}'s task is.
  *
  * @author Oliver Sommer
  */
@@ -39,7 +42,7 @@ public class Assignment implements Serializable {
     public Assignment() {
     }
 
-    public Assignment(Tender tender, User user){
+    public Assignment(Tender tender, User user) {
         this.tender = tender;
         this.user = user;
     }

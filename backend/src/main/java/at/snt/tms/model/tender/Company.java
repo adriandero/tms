@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Class {@code Company}
  * <p>
- * Companies that commission Tenders.
+ * {@code Companies} that commission Tenders on {@code Platform}s.
  *
  * @author Oliver Sommer
  */

@@ -10,6 +10,9 @@ import java.util.Set;
 
 /**
  * Class {@code Group}
+ * <p>
+ * A {@code Group} defines a set of {@code Permission}s. Needless to say, multiple {@code User}s can be part of a
+ * {@code Group}.
  *
  * @author Oliver Sommer
  */
@@ -23,8 +26,10 @@ public class Group implements Serializable {
     @GeneratedValue
     @Column(name = "g_id")
     private Long id;
+
     @Column(name = "g_name", length = 50)
     private String name;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "g_r_group_permissions", joinColumns = @JoinColumn(name = "g_id"), inverseJoinColumns = @JoinColumn(name = "pe_id"))
     @JsonIgnore
@@ -67,13 +72,13 @@ public class Group implements Serializable {
     }
 
     public void addPermissions(Permission... permissions) {
-        for(Permission p : permissions) {
+        for (Permission p : permissions) {
             this.addPermission(p);
         }
     }
 
     public void addPermission(Permission permissions) {
-        if(permissions == null) {
+        if (permissions == null) {
             throw new IllegalArgumentException("Role to be added must not be null.");
         }
 

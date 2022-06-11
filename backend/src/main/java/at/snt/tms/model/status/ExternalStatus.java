@@ -9,6 +9,10 @@ import java.util.Set;
 
 /**
  * Class {@code ExternalStatus}
+ * <p>
+ * {@code ExternalStatus} represent the "Bekanntmachungsart" of a {@code Tender}/{@code TenderUpdate}. It may bring a
+ * Tender into a concluding stage, which is shown in {@link ExternalStatus#terminatesTender}. A {@code ExternalStatus}
+ * has a defined list of status that succeed the current one in {@link ExternalStatus#transitions}.
  *
  * @author Oliver Sommer
  */
@@ -19,7 +23,7 @@ public class ExternalStatus implements Serializable {
     private static final long serialVersionUID = 8773059058258923847L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name = "es_id", nullable = false)
     private Long id;
 

@@ -22,30 +22,36 @@ import java.util.Set;
 @Entity
 @Audited
 @Table(name = "u_users")
-public class User implements UserDetails, Serializable {  // TODO https://www.javadevjournal.com/spring-security/spring-security-roles-and-permissions/
+public class User implements UserDetails, Serializable {
     private static final long serialVersionUID = -7843067404217832070L;
 
     @Id
     @GeneratedValue
     @Column(name = "u_id")
     private Long id;
+
     @Column(name = "u_mail", nullable = false, unique = true)
     private String mail;
+
     @Column(name = "u_first_name")
     private String firstName;
+
     @Column(name = "u_last_name")
     private String lastName;
+
     @Column(name = "u_password")
-    //@JsonIgnore  // commented for debugging reasons. uncomment for production. TODO
+    @JsonIgnore
     @NotAudited
     private String password;
+
     @ManyToOne
     @JoinColumn(name = "u_g_group", foreignKey = @ForeignKey(name = "g_id"))
     private Group group;
+
     @Column(name = "u_refresh_token_secret", length = 500)
     @JsonIgnore
     @NotAudited
-    private String refreshTokenSecret;
+    private String refreshTokenSecret;  // authorization
 
     public User(String mail, String passwordHash) {
         this.mail = mail;
