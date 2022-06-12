@@ -3,6 +3,11 @@ import {FormControl, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../auth/services/auth.service";
 import {finalize, Subscription} from "rxjs";
+import {TenderService} from "../../services/tender.service";
+import {BackendResponse} from "../../model/protocol/Response";
+import {Tender} from "../../model/Tender";
+import {User} from "../../model/Tender";
+import {stringify} from "querystring";
 
 
 @Component({
@@ -20,11 +25,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   password = '';
   loginError = false;
   private subscription: Subscription | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private tenderService: TenderService
+  ) {
+  }
+
   ngOnInit(): void {
     this.subscription = this.authService.user$.subscribe((x) => {
       if (this.route.snapshot.url[0].path === 'login') {
@@ -50,7 +59,19 @@ export class LoginComponent implements OnInit, OnDestroy {
       .pipe(finalize(() => (this.busy = false)))
       .subscribe(
         () => {
-          this.router.navigate([returnUrl]);
+          console.log("here")
+
+          this.tenderService.getUser(this.username).subscribe({
+            next: (sent: any) => {
+              const response: BackendResponse<User> = sent;
+              let user: User = response.body
+              console.log(user)
+              sessionStorage.setItem("user", user.toString() )
+              this.router.navigate([returnUrl]);
+
+            },
+          });
+
         },
         () => {
           console.log("error")

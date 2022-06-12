@@ -172,9 +172,14 @@ mat-tab {
 .select-search {
 }
 #no-data-range-btn{
+  margin-left: 10px;
   margin-top: 0;
   height: 100%;
   font-weight: bold;
   color: #555;
   border-radius: 8px;
+}
+.date-box{
+  flex-direction: row;
+  flex: border-box;
 }
