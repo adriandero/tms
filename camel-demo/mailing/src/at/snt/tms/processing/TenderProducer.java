@@ -93,7 +93,7 @@ public class TenderProducer extends DefaultProducer {
         content = content.substring(content.indexOf("============================"), content.lastIndexOf("============================"));
 
         final Matcher matcher = TenderProducer.URL_REGEX.matcher(content);
-
+    
         while(matcher.find()) links.add(matcher.group());
 
         return links.toArray(new String[0]);

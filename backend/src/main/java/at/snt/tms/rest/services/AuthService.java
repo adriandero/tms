@@ -10,6 +10,7 @@ import at.snt.tms.repositories.operator.UserRepository;
 import at.snt.tms.security.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.Body;
+import org.apache.camel.Headers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +104,7 @@ public class AuthService {
         User user = userRepository.findByMailIgnoreCase(jwtUtils.getMailFromJwtAccessToken(tokens.getAccessToken()));
 
         // check if the secret in the refresh-token is correct
-        if (user == null || user.getRefreshTokenSecret() == null || tokens == null || !user.getRefreshTokenSecret().equals(jwtUtils.getSecretFromJwtRefreshToken(tokens.getRefreshToken()))) {
+        if (user == null || user.getRefreshTokenSecret() == null || !user.getRefreshTokenSecret().equals(jwtUtils.getSecretFromJwtRefreshToken(tokens.getRefreshToken()))) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid tokens provided."));
         }
 
@@ -117,6 +118,15 @@ public class AuthService {
 
         return ResponseEntity.ok(new AccessRefreshTokenDto(access, refresh));
     }
+
+    public ResponseEntity<?> validateTokens(@Body AccessRefreshTokenDto tokens) {
+        if (!jwtUtils.jwtIsRefreshable(tokens.getAccessToken()) || !jwtUtils.validateJwtToken(tokens.getRefreshToken())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid tokens provided."));
+        }
+
+        return ResponseEntity.ok(new MessageResponse("Valid tokens provided"));
+    }
+
 
     private String randomBase64() {
         byte[] key = new byte[64];

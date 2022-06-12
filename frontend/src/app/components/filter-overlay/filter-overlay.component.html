@@ -94,18 +94,27 @@
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
       </section>
-      <div class="flexible">
+<!--      <div class="flexible">-->
         <section>
-          <h5>Externer status</h5>
-          <mat-form-field appearance="outline">
-            <mat-label>Externer Status...</mat-label>
+          <h5>Externer Status</h5>
+
+          <mat-form-field
+            color="primary"
+            appearance="outline"
+            class="search-form example-chip-list"
+          >
+            <mat-label>What status...</mat-label>
             <input
+              matInput
               type="text"
               placeholder="Einen status auswählen"
               aria-label="Externer Status"
-              matInput
               [formControl]="myControl"
               [matAutocomplete]="auto"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="add($event, extStatus)"
             />
             <mat-autocomplete #auto="matAutocomplete">
               <mat-option
@@ -115,8 +124,21 @@
                 {{ option }}
               </mat-option>
             </mat-autocomplete>
+            <mat-chip-list #chipList> </mat-chip-list>
           </mat-form-field>
+          <mat-chip
+            class="chip"
+            *ngFor="let status of extStatus"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(status, extStatus)"
+          >
+            {{ status.name }}
+
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
         </section>
+
         <!--        <section>-->
         <!--          <h2>Bereits zugewiesen</h2>-->
         <!--          <mat-nav-list>-->
@@ -124,39 +146,60 @@
         <!--            <mat-checkbox color="primary">Nein</mat-checkbox>-->
         <!--          </mat-nav-list>-->
         <!--        </section>-->
-        <section>
-          <h5>Interner Status</h5>
-          <mat-form-field appearance="outline">
-            <mat-label>Interner Status...</mat-label>
-            <input
-              type="text"
-              placeholder="einen status auswählen"
-              aria-label="Interner Status"
-              matInput
-              [formControl]="myControl"
-              [matAutocomplete]="auto"
-            />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option
-                *ngFor="let option of filteredInternOptions | async"
-                [value]="option"
-              >
-                {{ option }}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </section>
-      </div>
+      <section>
+        <h5>Interner Status</h5>
+
+        <mat-form-field
+          color="primary"
+          appearance="outline"
+          class="search-form example-chip-list"
+        >
+          <mat-label>What Status...</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Einen status auswählen"
+            aria-label="Interner Status"
+            [formControl]="myControl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event, intStatus)"
+          />
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let option of filteredInternOptions | async"
+              [value]="option"
+            >
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-chip-list #chipList> </mat-chip-list>
+        </mat-form-field>
+        <mat-chip
+          class="chip"
+          *ngFor="let status of intStatus"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(status, intStatus)"
+        >
+          {{ status.name }}
+
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </section>
+<!--      </div>-->
     </mat-tab>
 
     <mat-tab label="Erweitert">
-      <section>
+      <section class="date-box">
         <h5>Date Range</h5>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" >
           <mat-label>Enter a date range</mat-label>
           <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date" />
-            <input matEndDate placeholder="End date" />
+            <input matStartDate placeholder="Start date" [ngModel]="startDate" (dateChange)="startChange($event)" />
+            <input matEndDate placeholder="End date" [ngModel]="endDate"(dateChange)="endChange($event)"/>
           </mat-date-range-input>
           <mat-datepicker-toggle
             matSuffix
@@ -164,6 +207,7 @@
           ></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
+        <button mat-flat-button id="no-data-range-btn" (click)="resetDates()">Clear</button>
       </section>
       <section>
         <h5>Attachment Names</h5>

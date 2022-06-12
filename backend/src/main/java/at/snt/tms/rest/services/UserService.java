@@ -4,6 +4,7 @@ import at.snt.tms.model.operator.User;
 import at.snt.tms.repositories.operator.UserRepository;
 import org.apache.camel.Header;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,6 +33,14 @@ public class UserService implements UserDetailsService {
             throw new IllegalStateException("User not found for given id:" + id);
         }
         return user.get();
+    }
+
+    public ResponseEntity<?> findByMail(String mail){
+        for(User user : this.findAll()){
+            if (user.getMail().equals(mail))
+                return ResponseEntity.ok().body(user);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     public void add(@Header(value = "mail") String mail, @Header(value = "password") String password) {

@@ -29,7 +29,8 @@ public class InternalStatus implements Serializable {
      */
     public static enum Static {
         INTERESTING(new InternalStatus("Interesting")),
-        IRRELEVANT(new InternalStatus("Irrelevant"));
+        IRRELEVANT(new InternalStatus("Irrelevant")),
+        UNCHECKED(new InternalStatus("Unchecked"));
 
         private final InternalStatus internalStatus;
 
@@ -45,7 +46,7 @@ public class InternalStatus implements Serializable {
     private static final long serialVersionUID = -8736360362075978103L;
 
     @Id
-    @Column(name = "is_label", length = 50)
+    @Column(name = "is_label", length = 200)
     private String label;
 
     @Column(name = "is_terminates_tender")

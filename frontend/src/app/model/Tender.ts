@@ -1,3 +1,4 @@
+
 export interface Platform {
   id: number;
   link: string;
@@ -39,10 +40,18 @@ export interface Role {
   designation: string;
 }
 
-export interface User {
-  id: number;
-  mail: string;
-  role: Role;
+export interface User{
+  id : number,
+  username :string,
+  firstname : string,
+  lastname: string,
+  password: string,
+  group : string,
+  enabled :boolean,
+  accountNonLocked:boolean,
+  authorities: string[],
+  credentialsNonExpired :boolean,
+  accountNonExpired :boolean,
 }
 
 export interface Created {
@@ -76,4 +85,26 @@ export interface Tender {
 export interface Company {
   id: number;
   name: string;
+}
+
+export interface Filter{
+   platforms : string[];
+   companies : string[];
+   titles :   string[];
+   intStatus :   string[];
+   extStatus :   string[];
+   files :   string[];
+   uptDetails :   string[];
+   users :   string[];
+   startDate : Date;
+   endDate : Date;
+   sortBy : string | "DEFAULT";
+}
+
+export interface Assignment {
+  id :number;
+  user : User
+  tender : Tender;
+  instruction: string;
+  hasUnseenChanges? : boolean | true;
 }

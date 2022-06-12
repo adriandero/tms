@@ -23,7 +23,7 @@ public class ExternalStatus implements Serializable {
     @Column(name = "es_id", nullable = false)
     private Long id;
 
-    @Column(name = "es_label", nullable = false, unique = true, length = 50)
+    @Column(name = "es_label", nullable = false, unique = true, length = 400)
     private String label;
 
     @Column(name = "es_terminates_tender")

@@ -24,7 +24,7 @@ public class Company implements Serializable {
     @Column(name = "c_id", nullable = false, updatable = false)
     private Long id;
 
-    @Column(name = "c_name", length = 75)
+    @Column(name = "c_name", length = 300)
     private String name;
 
     public Company(String name) {

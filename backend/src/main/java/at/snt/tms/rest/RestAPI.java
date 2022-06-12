@@ -3,6 +3,7 @@ package at.snt.tms.rest;
 import at.snt.tms.payload.AccessRefreshTokenDto;
 import at.snt.tms.payload.request.UserLoginDto;
 import at.snt.tms.rest.services.*;
+import org.apache.camel.Exchange;
 import at.snt.tms.rest.services.tender.FilterConfiguration;
 import at.snt.tms.rest.services.tender.TenderService;
 import org.apache.camel.builder.RouteBuilder;
@@ -29,22 +30,24 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .bindingMode(RestBindingMode.json);
 
         rest("/tenders")
-                .get()
+                .post()
                 .to("direct:allTenders")
-                //.consumes("application/json")
-                //.type(FilterConfiguration.class)
+                .consumes("application/json")
+                .type(FilterConfiguration.class)
                 .get("{id}")
                 .to("direct:tenderId");
         from("direct:allTenders")
-                .bean(TenderService.class, "findAll");
+                .bean(TenderService.class, "findFiltered");
         from("direct:tenderId")
                 .bean(TenderService.class, "findById(${header.id})");
 
         rest("/users")
                 .get()
                 .to("direct:allUsers")
-                .get("{id}")
+                .get("id/{id}")
                 .to("direct:userId")
+                .get("{mail}")
+                .to("direct:findByUserMail")
                 .post()
                 .to("direct:addUser")
                 .delete("{id}")
@@ -53,6 +56,8 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .bean(UserService.class, "findAll");
         from("direct:userId")
                 .bean(UserService.class, "findById(${header.id})");
+        from("direct:findByUserMail")
+                .bean(UserService.class, "findByMail(${header.mail})");
         from("direct:addUser")
                 .bean(UserService.class, "add");
         from("direct:delUser")
@@ -138,26 +143,36 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
 
 
 
-        // Authentication TODO HTTP status codes
+        // Authentication
         rest("/auth/login")
                 .post().to("direct:login")
                 .consumes("application/json")
                 .type(UserLoginDto.class);
         from("direct:login")
 //                .log("Received: ${body}")
-                .bean(AuthService.class, "authenticateUser");
+                .bean(AuthService.class, "authenticateUser")
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("${body.statusCodeValue}"));
 
         rest("/auth/logout")
                 .get().to("direct:logout");
         from("direct:logout")
-                .bean(AuthService.class, "logoutUser");
+                .bean(AuthService.class, "logoutUser")
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("${body.statusCodeValue}"));
 
         rest("/auth/refresh")
                 .post().to("direct:refresh")
                 .consumes("application/json")
                 .type(AccessRefreshTokenDto.class);
         from("direct:refresh")
-//                .log("Received: ${body}")
-                .bean(AuthService.class, "refreshTokens");
+                .bean(AuthService.class, "refreshTokens")
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("${body.statusCodeValue}"));
+
+        rest("/auth/validate")
+                .post().to("direct:validate")
+                .consumes("application/json")
+                .type(AccessRefreshTokenDto.class);
+        from("direct:validate")
+                .bean(AuthService.class, "validateTokens")
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("${body.statusCodeValue}"));
     }
 }
