@@ -42,8 +42,16 @@ export interface Role {
 
 export interface User{
   id : number,
-  mail :string,
-  role : Role
+  username :string,
+  firstname : string,
+  lastname: string,
+  password: string,
+  group : string,
+  enabled :boolean,
+  accountNonLocked:boolean,
+  authorities: string[],
+  credentialsNonExpired :boolean,
+  accountNonExpired :boolean,
 }
 
 export interface Created {

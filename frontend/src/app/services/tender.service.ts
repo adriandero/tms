@@ -32,7 +32,7 @@ export class TenderService {
 
   getUser(username: string) {
     console.log("getUser")
-    return this.http.get<BackendResponse<User>>(`${environment.apiUrl}users/?id=${username}`,{
+    return this.http.get<BackendResponse<User>>(`${environment.apiUrl}users/${username}`,{
       responseType: 'json',
     })
       .pipe(
