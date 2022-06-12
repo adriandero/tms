@@ -162,5 +162,13 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
         from("direct:refresh")
                 .bean(AuthService.class, "refreshTokens")
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("${body.statusCodeValue}"));
+
+        rest("/auth/validate")
+                .post().to("direct:validate")
+                .consumes("application/json")
+                .type(AccessRefreshTokenDto.class);
+        from("direct:validate")
+                .bean(AuthService.class, "validateTokens")
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("${body.statusCodeValue}"));
     }
 }

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectorRef, Component} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {finalize, Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
@@ -16,6 +16,7 @@ import {
   faTrash
 } from "@fortawesome/free-solid-svg-icons"
 import {AuthService} from "../../auth";
+import {FilterOverlayComponent} from "../filter-overlay/filter-overlay.component";
 
 
 @Component({
@@ -47,7 +48,20 @@ export class SidebarComponent {
     faCertificate = faCertificate
     faSyncAlt = faSyncAlt
 
-  constructor(private breakpointObserver: BreakpointObserver,    private authService: AuthService) {}
+all_pages = [true, false, false, false] // all  -mytenders - new - rejected
+
+  constructor(private breakpointObserver: BreakpointObserver, private cdr: ChangeDetectorRef, private authService: AuthService) {
+ /*   this.filterOverlayComponent.getFilter().subscribe(val => {
+      for (let user in val.users) {
+        if (user === this.user.firstname || user === this.user.lastname) {
+          this.all_pages[1] = true;
+          this.all_pages[0] = false;
+        }
+      }
+    }*/
+   // )
+  }
+
 
  refresh(){
       this.authService.refreshToken();

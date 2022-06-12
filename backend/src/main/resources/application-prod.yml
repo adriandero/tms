@@ -46,4 +46,4 @@ tms:
       scope: ${tms.mail.oauth2.scope}
   classification:
     threshold: ${tms.classification.threshold}
-    url: ${tms.classification.url}
+    url: ${tms.classification.url}*/
