@@ -56,8 +56,8 @@ export class FilterOverlayComponent implements OnInit, OnDestroy {
   files: Chip[] = [];
   uptDetails: Chip[] = [];
   users: Chip[] = [];
-  startDate: Date = new Date();
-  endDate: Date = new Date();
+  startDate: any = "";
+  endDate: any = "";
   // tasks: string[] = [];
   // filteredTaskOptions!: Observable<string[]>;
   ngOnInit() {
@@ -161,8 +161,8 @@ export class FilterOverlayComponent implements OnInit, OnDestroy {
   }
 
   resetDates() {
-    this.endDate = new Date();
-    this.startDate = new Date();
+    this.endDate = "";
+    this.startDate = "";
   }
 
   startChange(event: MatDatepickerInputEvent<any>) {

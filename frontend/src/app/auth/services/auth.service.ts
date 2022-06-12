@@ -35,8 +35,8 @@ interface AuthRes {
 }
 
 export interface RefreshRes {
-    accessToken: string,
-    refreshToken: string,
+  accessToken: string,
+  refreshToken: string,
 }
 
 
@@ -59,7 +59,7 @@ export class AuthService {
     return this.http
       .post<AuthRes>(`${this.apiUrl}auth/login`, {mail, password})
       .pipe(
-    catchError((err: HttpErrorResponse) => {
+        catchError((err: HttpErrorResponse) => {
           console.log("error data")
           return throwError(() => new Error("password or username invalid"));
         }),
@@ -77,7 +77,7 @@ export class AuthService {
   }
 
 
-    refreshToken() : Observable<BackendResponse<RefreshRes>> {
+  refreshToken(): Observable<BackendResponse<RefreshRes>> {
     console.log("refresh token yes")
     const refreshToken = localStorage.getItem('refresh_token');
     const accessToken = localStorage.getItem('access_token');
@@ -87,6 +87,8 @@ export class AuthService {
         "accessToken": accessToken,
         "refreshToken": refreshToken
       })
+
+
     /*  .pipe(
 
         map((data: HttpResponse<RefreshRes>) => {
@@ -129,6 +131,8 @@ export class AuthService {
 
   }
 
+
+
   setLocalStorage(x: AuthRes) {
     console.log("set local storage")
     localStorage.setItem('access_token', x.body.tokens.accessToken);
@@ -155,10 +159,9 @@ export class AuthService {
         "refreshToken": refreshToken
       }, {observe: 'response'})
       .pipe(
-        map( data =>{
-          return data.status === 200 ? true : false;
+        map(data => {
+            return data.status === 200 ? true : false;
           }
-
         )
       );
     //console.log(subject)
@@ -180,7 +183,6 @@ export class AuthService {
          }
        }));*/
   }
-
 
 
 }

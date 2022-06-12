@@ -193,7 +193,7 @@
     </mat-tab>
 
     <mat-tab label="Erweitert">
-      <section>
+      <section class="date-box">
         <h5>Date Range</h5>
         <mat-form-field appearance="outline" >
           <mat-label>Enter a date range</mat-label>
@@ -207,7 +207,7 @@
           ></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
-        <button mat-raised-button id="no-data-range-btn" (click)="resetDates()">No date range</button>
+        <button mat-flat-button id="no-data-range-btn" (click)="resetDates()">Clear</button>
       </section>
       <section>
         <h5>Attachment Names</h5>

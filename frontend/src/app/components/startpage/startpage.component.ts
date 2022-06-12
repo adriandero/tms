@@ -53,12 +53,14 @@ export class StartpageComponent implements OnInit {
   }
 
   setSorting(sort: string) {
-    console.log(sort);
     if (localStorage.getItem("sort") === sort) {
       localStorage.setItem("sort", "DEFAULT");
     } else {
       localStorage.setItem("sort", sort);
     }
+    this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['home']);
+    });
   }
 
   openDialog() {

@@ -1,16 +1,19 @@
-import { Component, Inject, Injectable } from '@angular/core';
+import {Component, Inject, Injectable} from '@angular/core';
 import {
   faArrowLeft,
   faArrowRight,
   faFileAlt,
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'; // import router from angular router
-import { AssignedIntStatus, Tender } from 'src/app/model/Tender';
-import { TenderService } from '../../services/tender.service';
-import { User } from '../../model/User';
-import { Hidden } from '@material-ui/core';
+import {Router} from '@angular/router';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog'; // import router from angular router
+import {AssignedIntStatus, Assignment, Tender} from 'src/app/model/Tender';
+import {TenderService} from '../../services/tender.service';
+import {User} from '../../model/User';
+import {Hidden} from '@material-ui/core';
+import {AuthService} from "../../auth";
+import {Observable, Subscription} from "rxjs";
+import {BackendResponse} from "../../model/protocol/Response";
 
 // import CloseIcon from '@material-ui/icons/Close';
 @Component({
@@ -23,19 +26,30 @@ export class TenderOverlayComponent {
   faTimes = faTimes;
   faFileAlt = faFileAlt;
   faArrowLeft = faArrowLeft;
-
+  assignments: Assignment[];
   hasUpdates: boolean = true;
+
   // CloseIcon = CloseIcon
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Tender,
     public dialog: MatDialog,
-    private route: Router
-  ) {}
+    private route: Router,
+    private tenderService: TenderService
+  ) {
+  }
 
   ngOnInit(): void {
     if (this.data.updates.length == 0) {
       this.hasUpdates = false;
+      this.tenderService.getAssignments(this.data.id).subscribe({
+        next: (sent: any) => {
+          const response: BackendResponse<Assignment[]> = sent;
+          console.log(response)
+          this.assignments = response.body;
+          console.log(this.assignments)
 
+        },
+      });
       document.getElementById('history-btn')!.style.display = 'none';
 
       /*
@@ -67,6 +81,7 @@ export class TenderOverlayComponent {
   closeDialog() {
     this.dialog.closeAll();
   }
+
   // go(){
   // this.dialogRef.close();
   //this.route.navigate(['/history']);
