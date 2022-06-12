@@ -44,8 +44,10 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
         rest("/users")
                 .get()
                 .to("direct:allUsers")
-                .get("{id}")
+                .get("id/{id}")
                 .to("direct:userId")
+                .get("{mail}")
+                .to("direct:findByUserMail")
                 .post()
                 .to("direct:addUser")
                 .delete("{id}")
@@ -54,6 +56,8 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .bean(UserService.class, "findAll");
         from("direct:userId")
                 .bean(UserService.class, "findById(${header.id})");
+        from("direct:findByUserMail")
+                .bean(UserService.class, "findByMail(${header.mail})");
         from("direct:addUser")
                 .bean(UserService.class, "add");
         from("direct:delUser")
