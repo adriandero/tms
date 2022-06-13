@@ -12,8 +12,11 @@ import {Filter} from "../../model/Tender";
   styleUrls: ['./startpage.component.css'],
 })
 export class StartpageComponent implements OnInit {
-  constructor(private router: Router, public filterDialog: MatDialog, public sortDialog: MatDialog) {
-  }
+  constructor(
+    private router: Router,
+    public filterDialog: MatDialog,
+    public sortDialog: MatDialog
+  ) {}
 
   public showfilter: boolean = true;
   public showsort: boolean = true;
@@ -28,7 +31,6 @@ export class StartpageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     //localStorage.setItem("sort", "DEFAULT")
   }
 
@@ -66,18 +68,20 @@ export class StartpageComponent implements OnInit {
   }
 
   isSort(sort: string) {
-    return sort === localStorage.getItem("sort");
+    return sort === localStorage.getItem('sort');
   }
 
   setSorting(sort: string) {
-    if (localStorage.getItem("sort") === sort) {
-      localStorage.setItem("sort", "DEFAULT");
+    if (localStorage.getItem('sort') === sort) {
+      localStorage.setItem('sort', 'DEFAULT');
     } else {
-      localStorage.setItem("sort", sort);
+      localStorage.setItem('sort', sort);
     }
-    this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['home']);
-    });
+    this.router
+      .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
+      .then(() => {
+        this.router.navigate(['home']);
+      });
   }
 
   openDialog() {
