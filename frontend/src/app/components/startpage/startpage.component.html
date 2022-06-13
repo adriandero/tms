@@ -1,37 +1,46 @@
 <div class="main">
   <app-sidebar></app-sidebar>
-<!--<app-navbar></app-navbar>-->
+  <!--<app-navbar></app-navbar>-->
   <div class="main-content">
     <mat-toolbar>
-      <button (click)="toggleSort()" [matMenuTriggerFor]="menu" id="sortby-btn" mat-flat-button>
-        Sort By
-        <fa-icon [icon]="faSort" class="sortby-icon"
-                 type="button"></fa-icon>
-      </button>
-
-      <mat-menu #menu="matMenu"  overlapTrigger="false" >
-        <div id="sort-menu">
-        <button mat-button *ngFor="let sort of sortCategories()" class="sorts"[value]="sort"  (click)="setSorting(sort)" id="sort-options">
-          <div *ngIf="isSort(sort)" style="color: #2b709d">{{categoryName(sort)}}</div>
-          <div *ngIf="!isSort(sort)">{{categoryName(sort)}}</div>
+      <div id="buttons">
+        <button
+          (click)="toggleSort()"
+          [matMenuTriggerFor]="menu"
+          id="sortby-btn"
+          mat-flat-button
+        >
+          Sort By
+          <fa-icon [icon]="faSort" class="sortby-icon" type="button"></fa-icon>
         </button>
-        </div>
-      </mat-menu>
 
+        <mat-menu #menu="matMenu" overlapTrigger="false">
+          <div id="sort-menu">
+            <button
+              mat-button
+              *ngFor="let sort of sortCategories()"
+              [value]="sort"
+              id="sort-options"
+            >
+              {{ sort }}
+            </button>
+          </div>
+        </mat-menu>
 
-      <button id="filter-btn" (click)="openDialog()" mat-flat-button>
-        Filter
-        <fa-icon  [icon]="faFilter" class="filter-icon"
-                  type="button"></fa-icon>
-      </button>
+        <button id="filter-btn" (click)="openDialog()" mat-flat-button>
+          Filter
+          <fa-icon
+            [icon]="faFilter"
+            class="filter-icon"
+            type="button"
+          ></fa-icon>
+        </button>
+      </div>
       <h2>
         All Tenders
         <!-- dynamic-->
       </h2>
     </mat-toolbar>
     <app-tenders></app-tenders>
-
-
-
   </div>
 </div>

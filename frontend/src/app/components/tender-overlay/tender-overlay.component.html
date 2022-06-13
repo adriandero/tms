@@ -76,6 +76,9 @@
               {{ ass.instruction ?? "no instruction"}}
             </div>
           </mat-chip>
+          <mat-chip mat-button (click)="openDialog()" id="create-assign">
+            <div class="flexbox-assignment">+</div>
+          </mat-chip>
         </mat-chip-list>
         <mat-menu class="dropdown-menu" #extern="matMenu">
           <button mat-menu-item>
