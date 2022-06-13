@@ -6,7 +6,7 @@ import {TenderService} from "../../services/tender.service";
 import {BackendResponse} from "../../model/protocol/Response";
 
 export interface Assignment {
-  id : number,
+ // id : number,
   tender: Tender;
   user: User; //TODO user id or user
   hasUnseenChanges: boolean;
@@ -48,14 +48,15 @@ export class CreateAssignmentComponent {
 
           if ( response.statusCodeValue == 200){
             this.user = response.body
+            console.log(this.user)
             let ass: Assignment = {
-              id: Math.floor((Math.random() * 100) + 1), //TODO ensure unique Assignment id
+             // id: Math.floor((Math.random() * 100) + 1), //TODO ensure unique Assignment id
               tender: this.data.tender,
               instruction: this.task,
               hasUnseenChanges: true,
               user: this.user
             }
-            //this.postCreatedAssignment(ass) TODO uncmment if backen error is solved
+            //this.postCreatedAssignment(ass) //TODO uncmment if backen error is solved
             this.assignments.push(ass)
             this.task = "";
             this.username = "";

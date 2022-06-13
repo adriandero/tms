@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 
@@ -10,6 +10,7 @@ import {map, startWith} from 'rxjs/operators';
 import {Filter} from "../../model/Tender";
 import {Router} from "@angular/router";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 
 export interface Chip {
   name: string;
@@ -26,7 +27,7 @@ export class FilterOverlayComponent implements OnInit, OnDestroy {
   faSearch = faSearch;
 
 
-  constructor(private router: Router) {
+  constructor(private router: Router,  @Inject(MAT_DIALOG_DATA) public data: any,) {
   }
 
   myControl = new FormControl();
@@ -155,6 +156,7 @@ export class FilterOverlayComponent implements OnInit, OnDestroy {
       "endDate": this.endDate,
       "sortBy": localStorage.getItem("sort") ?? "DEFAULT",
     }
+    this.data = this.filter
     console.log("Filters submitted" + JSON.stringify(this.filter))
     localStorage.setItem("filter", JSON.stringify(this.filter))
     this.router.navigateByUrl('/home');

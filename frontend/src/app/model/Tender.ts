@@ -42,11 +42,12 @@ export interface Role {
 
 export interface User{
   id : number,
+  mail : string
   username :string,
   firstname : string,
   lastname: string,
   password: string,
-  group : string,
+  group : Group,
   enabled :boolean,
   accountNonLocked:boolean,
   authorities: string[],
@@ -54,6 +55,10 @@ export interface User{
   accountNonExpired :boolean,
 }
 
+export interface Group{
+  id : number,
+  name : string
+}
 export interface Created {
   time: number;
 }

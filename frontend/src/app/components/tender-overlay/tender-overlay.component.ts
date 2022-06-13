@@ -44,6 +44,7 @@ export class TenderOverlayComponent {
   }
 
   ngOnInit(): void {
+    console.log(this.data)
     this.tenderService.getAssignments(this.data.id).subscribe({
       next: (sent: any) => {
         const response: BackendResponse<Assignment[]> = sent;

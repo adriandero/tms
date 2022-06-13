@@ -65,8 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             next: (sent: any) => {
               const response: BackendResponse<User> = sent;
               let user: User = response.body
-              console.log(user)
-              sessionStorage.setItem("user", user.toString() )
+              sessionStorage.setItem("user", JSON.stringify(user) )
               this.router.navigate([returnUrl]);
 
             },

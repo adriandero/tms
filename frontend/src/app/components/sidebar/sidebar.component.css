@@ -14,6 +14,27 @@
   overflow: hidden;
 }
 
+.blue-link{
+  background:   rgba(6, 87, 140, 1);
+  color: white;
+
+}
+
+.white-icons{
+  display: inline-block;
+  margin-left: 0.4em;
+  text-align: center;
+  color: white;
+}
+
+.white-link-text{
+  color: white;
+  border-radius: 8px;
+  font-size: 1.4em;
+  font-family: Roboto;
+  margin-top: 15px;
+  margin-left: 0;
+}
 .justify-start {
   margin-right: auto;
 }
@@ -188,6 +209,7 @@ fa-icon {
   /*vertical-align: bottom;*/
 }
 
+
 .single-link {
   width: 100%;
   height: auto;
@@ -213,6 +235,7 @@ fa-icon {
 .single-link:hover .link-icons {
   color: white !important;
 }
+
 
 button {
   padding: 0;
@@ -251,7 +274,14 @@ button {
     padding: 1em 1em 3.2em 1em;
     display: block;
   }
-  .link-icons {
+  .link-icons{
+    display: inline-block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .white-icons{
     display: inline-block;
     text-align: center;
     margin-left: auto;

@@ -4,6 +4,7 @@ import {faBars, faFilter, faSort} from '@fortawesome/free-solid-svg-icons';
 import {MatDialog} from '@angular/material/dialog';
 import {FilterOverlayComponent} from '../filter-overlay/filter-overlay.component';
 import {Router} from "@angular/router";
+import {Filter} from "../../model/Tender";
 
 @Component({
   selector: 'app-startpage',
@@ -41,6 +42,21 @@ export class StartpageComponent implements OnInit {
     OLDEST: 'Oldest',
   };
 
+  filter : Filter = {
+    platforms: [],
+    companies: [],
+    titles: [],
+    intStatus: [],
+    extStatus   : [],
+    files   : [],
+    uptDetails   : [],
+    users   : [],
+    startDate  : new Date(Date.UTC(2018, 11, 1, 0, 0, 0)), //TODO default value
+    endDate   :  new Date( Date.now()),
+    sortBy   : "DEFAULT"   ,
+  }
+
+
   sortCategories() {
     return Object.keys(this.sorts);
   }
@@ -71,9 +87,16 @@ export class StartpageComponent implements OnInit {
       maxHeight: '550px',
       width: '80vw',
       height: 'auto',
+      data: this.filter,
+      autoFocus: true,
+
+    });
+    dialogRef.afterClosed().subscribe(
+      data => { console.log("returned from overlay filter: " + data); this.filter = data}
+    );
 
       // height: '600px',
       // width: '700px'
-    });
-  }
+    }
+
 }
