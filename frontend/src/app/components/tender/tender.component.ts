@@ -57,9 +57,7 @@ export class TenderComponent implements OnInit {
     const dialogRef = this.dialog.open(TenderOverlayComponent, {
       closeOnNavigation: true,
       maxWidth: '700px',
-      minWidth: '600px',
       maxHeight: '700px',
-      minHeight: '400px',
       height: '80vh',
       data: this.tender,
     });
