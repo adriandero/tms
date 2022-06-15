@@ -1,6 +1,6 @@
-package at.snt.tms.payload.response;
+package at.snt.tms.model.dtos.response;
 
-import at.snt.tms.payload.AccessRefreshTokenDto;
+import at.snt.tms.model.dtos.AccessRefreshTokenDto;
 
 import java.util.List;
 

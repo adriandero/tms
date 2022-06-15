@@ -1,6 +1,5 @@
 package at.snt.tms.rest;
 
-import at.snt.tms.classification.ClassifierBridge;
 import at.snt.tms.model.operator.Group;
 import at.snt.tms.model.operator.Permission;
 import at.snt.tms.model.operator.User;
@@ -9,8 +8,8 @@ import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
 import at.snt.tms.model.tender.*;
 import at.snt.tms.repositories.EntityRevRepository;
-import at.snt.tms.repositories.operator.PermissionRepository;
 import at.snt.tms.repositories.operator.GroupRepository;
+import at.snt.tms.repositories.operator.PermissionRepository;
 import at.snt.tms.repositories.operator.UserRepository;
 import at.snt.tms.repositories.status.AssignedIntStatusRepository;
 import at.snt.tms.repositories.status.ExternalStatusRepository;
@@ -23,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -70,8 +69,12 @@ public class Database {
         this.assignmentRepository = assignmentRepository;
         this.revRepository = tenderRevRepository;
 
-        for(InternalStatus.Static status : InternalStatus.Static.values()) {
-            this.internalStatusRepository.save(status.getInternalStatus());
+        // ------------------------------------------ Demo Data ------------------------------------------
+
+        System.out.println("Adding demo data:");
+
+        for (InternalStatus.Static status : InternalStatus.Static.values()) {
+            System.out.println(this.internalStatusRepository.save(status.getInternalStatus()));
         }
 
         // Adding demo data:
@@ -80,32 +83,36 @@ public class Database {
         // terminates tender not included (from pending merge request)
 //        intStatus.addTransition(this.internalStatusRepository.save(new InternalStatus("closed"))); wrong behaviour
 
+        Permission permission = this.permissionRepository.save(new Permission("admin"));
+        Group g = this.groupRepository.save(new Group("tender_admin", permission));
+        User maxMustermann = this.userRepository.save(new User("user@snt.at", "Max", "Mustermann", new BCryptPasswordEncoder().encode("pass123"), g));
 
-        final Tender tender = this.tenderRepository.save(new Tender(1234L, "#1234", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), intStatus, InternalStatus.Static.IRRELEVANT, 30));
-        tender.setUpdates(new HashSet<>(Arrays.asList(new TenderUpdate[]{tenderUpdateRepository.save(new TenderUpdate(tender, this.externalStatusRepository.save(new ExternalStatus("external status0")), Timestamp.from(Instant.now()), "Hello hello hello", new HashSet<>()))})));
+        final Tender tender = this.tenderRepository.save(new Tender("#1234", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), InternalStatus.Static.IRRELEVANT, 30));
+        tender.addAssignedIntStatus(new AssignedIntStatus(intStatus, tender, maxMustermann, Timestamp.from(Instant.now())));
+        tender.setUpdates(new HashSet<>(List.of(tenderUpdateRepository.save(new TenderUpdate(tender, this.externalStatusRepository.save(new ExternalStatus("external status0")), Timestamp.from(Instant.now()), "Hello hello hello", new HashSet<>())))));
         this.tenderRepository.save(tender);
 
         final User user = new User("example@gmail.com", new BCryptPasswordEncoder().encode("secret"));
         this.userRepository.save(user);
 
-        final Tender tender1 = this.tenderRepository.save(new Tender(12345L, "#123", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status2")), this.internalStatusRepository.save(new InternalStatus("internal2")), InternalStatus.Static.INTERESTING, 67));
+        Tender tender1 = this.tenderRepository.save(Tender.Builder.newInstance("#123", platform)
+                .link("http://link.demo.at")
+                .name("test")
+                .company(this.companyRepository.save(new Company("Demo Company")))
+                .description("Example demo fetched from database.")
+                .latestExtStatus(this.externalStatusRepository.save(new ExternalStatus("external status2")))
+                .prediction(InternalStatus.Static.INTERESTING, 67)
+                .build());
 
-        final AssignedIntStatus assignedIntStatus = new AssignedIntStatus(999, intStatus, tender1, user, new Timestamp(1));
-        Set<AssignedIntStatus> assInt = new HashSet<>();
-        assInt.add(this.assignedIntStatusRepository.save(assignedIntStatus));
-        tender1.setAssignedIntStatuses(assInt);
+        final AssignedIntStatus assignedIntStatus = this.assignedIntStatusRepository.save(new AssignedIntStatus(intStatus, tender1, user, new Timestamp(1)));
+        tender1.addAssignedIntStatus(assignedIntStatus);
         this.tenderRepository.save(tender1);
 
         final Assignment assignment = new Assignment(tender1, user);
         this.assignmentRepository.save(assignment);
-//     TODO https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#transactions Example 108
 
-        System.out.println(revRepository.listRevisions(Tender.class, tender.getId()));
-        System.out.println(revRepository.listRevisions(Platform.class, platform.getId()));
-
-        Permission permission = this.permissionRepository.save(new Permission("admin"));
-        Group g = this.groupRepository.save(new Group("tender_admin", permission));
-        this.userRepository.save(new User("user@snt.at", "Max", "Mustermann", new BCryptPasswordEncoder().encode("pass123"), g));
+        //System.out.println(revRepository.listRevisions(Tender.class, tender.getId()));
+        //System.out.println(revRepository.listRevisions(Platform.class, platform.getId()));
     }
 
     public AssignedIntStatusRepository getAssignedIntStatusRepository() {

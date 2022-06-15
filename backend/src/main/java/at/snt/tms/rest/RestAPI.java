@@ -1,7 +1,7 @@
 package at.snt.tms.rest;
 
-import at.snt.tms.payload.AccessRefreshTokenDto;
-import at.snt.tms.payload.request.UserLoginDto;
+import at.snt.tms.model.dtos.AccessRefreshTokenDto;
+import at.snt.tms.model.dtos.request.UserLoginDto;
 import at.snt.tms.rest.services.*;
 import org.apache.camel.Exchange;
 import at.snt.tms.rest.services.tender.FilterConfiguration;

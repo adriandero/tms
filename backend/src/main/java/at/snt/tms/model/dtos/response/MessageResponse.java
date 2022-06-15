@@ -1,4 +1,4 @@
-package at.snt.tms.payload.response;
+package at.snt.tms.model.dtos.response;
 
 /**
  * Class {@code MessageResponse}

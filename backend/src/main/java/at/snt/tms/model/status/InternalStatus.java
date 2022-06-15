@@ -6,6 +6,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -32,9 +33,9 @@ public class InternalStatus implements Serializable {
      * @author Dominik Fluch
      */
     public enum Static {
-        INTERESTING(new InternalStatus("Interesting")),
-        IRRELEVANT(new InternalStatus("Irrelevant")),
-        UNCHECKED(new InternalStatus("Unchecked"));
+        INTERESTING(new InternalStatus("Interesting", false)),
+        IRRELEVANT(new InternalStatus("Irrelevant", false)),
+        UNCHECKED(new InternalStatus("Unchecked", false));
 
         private final InternalStatus internalStatus;
 
@@ -48,31 +49,39 @@ public class InternalStatus implements Serializable {
     }
 
     @Id
-    @Column(name = "is_label", length = 200)
+    @GeneratedValue
+    @Column(name = "is_id", nullable = false)
+    private Long id;
+
+    @Column(name = "is_label", length = 600)
     private String label;
 
     @Column(name = "is_terminates_tender")
     private Boolean terminatesTender;
 
     @ManyToMany
-    @JoinTable(name = "is_status_transitions", joinColumns = @JoinColumn(name = "is_label", referencedColumnName = "is_label"), inverseJoinColumns = @JoinColumn(name = "transition_is_label", referencedColumnName = "is_label"))
+    @JoinTable(name = "is_status_transitions", joinColumns = @JoinColumn(name = "is_id", referencedColumnName = "is_id"), inverseJoinColumns = @JoinColumn(name = "transition_is_id", referencedColumnName = "is_id"))
     @JsonIgnore
-    private Set<InternalStatus> transitions;
+    private Set<InternalStatus> transitions = new HashSet<>();
+
+    public InternalStatus(String label, Boolean terminatesTender) {
+        this(label);
+        this.terminatesTender = terminatesTender;
+    }
 
     public InternalStatus(String label) {
         this.label = label;
-        this.transitions = new HashSet<>();
     }
 
     public InternalStatus() {
     }
 
-    public Boolean getTerminatesTender() {
-        return terminatesTender;
+    public Long getId() {
+        return id;
     }
 
-    public void setTerminatesTender(Boolean terminatesTender) {
-        this.terminatesTender = terminatesTender;
+    private void setId(Long id) {
+        this.id = id;
     }
 
     public String getLabel() {
@@ -85,6 +94,14 @@ public class InternalStatus implements Serializable {
         return this;
     }
 
+    public Boolean getTerminatesTender() {
+        return terminatesTender;
+    }
+
+    public void setTerminatesTender(Boolean terminatesTender) {
+        this.terminatesTender = terminatesTender;
+    }
+
     public Set<InternalStatus> getTransitions() {
         return transitions;
     }
@@ -93,16 +110,39 @@ public class InternalStatus implements Serializable {
         this.transitions = transitions;
     }
 
+    public void addTransition(InternalStatus transition) {
+        if (transition == null) {
+            throw new IllegalArgumentException("Cannot add null-value transition.");
+        }
+        this.transitions.add(transition);
+    }
+
     public void addTransitions(InternalStatus... transitions) {
         for (InternalStatus es : transitions) {
             this.addTransition(es);
         }
     }
 
-    public void addTransition(InternalStatus transition) {
-        if (transition == null) {
-            throw new IllegalArgumentException("Cannot add null-value transition.");
-        }
-        this.transitions.add(transition);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InternalStatus that = (InternalStatus) o;
+        return Objects.equals(id, that.id) && Objects.equals(label, that.label) && Objects.equals(terminatesTender, that.terminatesTender) && Objects.equals(transitions, that.transitions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, label, terminatesTender, transitions);
+    }
+
+    @Override
+    public String toString() {
+        return "InternalStatus{" +
+                "id=" + id +
+                ", label='" + label + '\'' +
+                ", terminatesTender=" + terminatesTender +
+                ", transitions=" + transitions +
+                '}';
     }
 }

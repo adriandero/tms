@@ -21,7 +21,7 @@ import java.io.IOException;
 /**
  * Class {@code AuthTokenFilter}
  * <p>
- * This class filters requests to the backend and checks the validity of JWTs. See {@link TenderManagerConfiguration}.
+ * This class filters requests to the backend and checks the validity of JWTs. See {@link TenderManagerWebConfiguration}.
  *
  * @author Oliver Sommer
  */

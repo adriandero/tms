@@ -8,6 +8,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -51,7 +52,8 @@ public class TenderUpdate implements Serializable {
     private String details;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tenderUpdate")
-    private Set<Attachment> attachedFiles;
+    @OrderBy(value = "fileName")
+    private Set<Attachment> attachedFiles = new HashSet<>();
 
     public TenderUpdate(Tender tender, ExternalStatus externalStatus, Timestamp validFrom, String details, Set<Attachment> attachedFiles) {
         this.tender = tender;
@@ -68,7 +70,7 @@ public class TenderUpdate implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    private void setId(Long id) {
         this.id = id;
     }
 

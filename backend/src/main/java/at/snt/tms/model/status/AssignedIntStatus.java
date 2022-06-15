@@ -46,8 +46,7 @@ public class AssignedIntStatus implements Serializable {
     @Column(name = "ais_created")
     private Timestamp created;
 
-    public AssignedIntStatus(long id, InternalStatus internalStatus, Tender tender, User user, Timestamp created) {
-        this.id = id;
+    public AssignedIntStatus(InternalStatus internalStatus, Tender tender, User user, Timestamp created) {
         this.internalStatus = internalStatus;
         this.tender = tender;
         this.user = user;
@@ -61,7 +60,7 @@ public class AssignedIntStatus implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    private void setId(Long id) {
         this.id = id;
     }
 

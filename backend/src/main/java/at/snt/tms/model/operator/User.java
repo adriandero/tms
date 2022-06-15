@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -69,6 +71,14 @@ public class User implements UserDetails, Serializable {
     public User() {
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    private void setId(Long id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -85,14 +95,6 @@ public class User implements UserDetails, Serializable {
         this.lastName = lastName;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getMail() {
         return mail;
     }
@@ -101,19 +103,35 @@ public class User implements UserDetails, Serializable {
         this.mail = mail;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {  // TODO
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        //this.getGroup().getPermissions().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getDesignation())));
-        return authorities;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String passwordHash) {
         this.password = passwordHash;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public String getRefreshTokenSecret() {
+        return refreshTokenSecret;
+    }
+
+    public void setRefreshTokenSecret(String refreshTokenSecret) {
+        this.refreshTokenSecret = refreshTokenSecret;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        this.getGroup().getPermissions().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getDesignation())));
+        return authorities;
     }
 
     @Override
@@ -141,24 +159,21 @@ public class User implements UserDetails, Serializable {
         return true;
     }
 
-    public Group getGroup() {
-        return group;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(mail, user.mail) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(group, user.group);
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
-    public String getRefreshTokenSecret() {
-        return refreshTokenSecret;
-    }
-
-    public void setRefreshTokenSecret(String refreshTokenSecret) {
-        this.refreshTokenSecret = refreshTokenSecret;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, mail, firstName, lastName, password, group);
     }
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", mail='" + mail + '\'' + ", password=[PROTECTED], group=" + group + '}';
+        return "User{" + "id=" + id + ", mail='" + mail + '\'' + ", password=[PROTECTED], group=" + group + ", refreshTokenSecret=[PROTECTED]}";
     }
 }

@@ -39,19 +39,19 @@ public class Assignment implements Serializable {
     @Column(name = "as_has_unseen_changes")
     private Boolean hasUnseenChanges;
 
-    public Assignment() {
-    }
-
     public Assignment(Tender tender, User user) {
         this.tender = tender;
         this.user = user;
+    }
+
+    public Assignment() {
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    private void setId(Long id) {
         this.id = id;
     }
 
