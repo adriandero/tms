@@ -5,6 +5,7 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Class {@code Assignment}
@@ -85,5 +86,29 @@ public class Assignment implements Serializable {
 
     public void setHasUnseenChanges(Boolean hasUnseenChanges) {
         this.hasUnseenChanges = hasUnseenChanges;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Assignment that = (Assignment) o;
+        return Objects.equals(id, that.id) && Objects.equals(tender == null ? null : tender.getId(), that.tender == null ? null : that.tender.getId()) && Objects.equals(user, that.user) && Objects.equals(instruction, that.instruction) && Objects.equals(hasUnseenChanges, that.hasUnseenChanges);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, tender == null ? null : tender.getId(), user, instruction, hasUnseenChanges);
+    }
+
+    @Override
+    public String toString() {
+        return "Assignment{" +
+                "id=" + id +
+                ", tenderId=" + (tender == null ? null : tender.getId()) +
+                ", user=" + user +
+                ", instruction='" + instruction + '\'' +
+                ", hasUnseenChanges=" + hasUnseenChanges +
+                '}';
     }
 }
