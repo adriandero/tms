@@ -13,7 +13,7 @@ public class JwtResponse {
     private AccessRefreshTokenDto tokens;
     private String type = "Bearer";
     private String mail;
-    private List<String> roles;  // TODO
+    private final List<String> roles;
 
     public JwtResponse(AccessRefreshTokenDto tokens, String mail, List<String> roles) {
         this.tokens = tokens;
