@@ -1,7 +1,12 @@
 package at.snt.tms.model.tender;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.LobHelper;
+import org.hibernate.SessionFactory;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.ejb.HibernateEntityManagerFactory;
 import org.hibernate.envers.Audited;
+import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,27 +33,24 @@ public class Attachment implements Serializable {
     private String fileName;
 
     @Column(name = "at_file_size")
-    private Long fileSize;
+    private int fileSize;
 
     @JsonIgnore
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "at_file")
-    private Blob file;
+    private byte[] file; // We do not need to use Blob type here as attachments come in via mail meaning that they must fit into memory.
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "at_tu_update")
     private TenderUpdate tenderUpdate;
 
-    public Attachment(String fileName, Blob file, TenderUpdate tenderUpdate) {
+    public Attachment(String fileName, byte[] file, TenderUpdate tenderUpdate) {
         //https://stackoverflow.com/a/20622485
         this.fileName = fileName;
-        try {
-            this.fileSize = file.length();
-        }
-        catch(SQLException e) {
-            e.printStackTrace();
-        }
+        this.fileSize = file.length;
+
         this.file = file;
         this.tenderUpdate = tenderUpdate;
     }
@@ -80,19 +82,20 @@ public class Attachment implements Serializable {
         this.fileName = fileName;
     }
 
-    public Long getFileSize() {
+    public int getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(Long fileSize) {
+    public void setFileSize(int fileSize) {
         this.fileSize = fileSize;
     }
 
-    public Blob getFile() {
+    public byte[] getFile() {
         return file;
     }
 
-    public void setFile(Blob file) {
+    public void setFile(byte[] file) {
         this.file = file;
     }
+
 }

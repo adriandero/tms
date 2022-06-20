@@ -1,5 +1,6 @@
 package at.snt.tms.rest;
 
+import at.snt.tms.model.tender.Attachment;
 import at.snt.tms.payload.AccessRefreshTokenDto;
 import at.snt.tms.payload.request.UserLoginDto;
 import at.snt.tms.rest.services.*;
@@ -40,6 +41,14 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .bean(TenderService.class, "findFiltered");
         from("direct:tenderId")
                 .bean(TenderService.class, "findById(${header.id})");
+
+        rest("/attachment")
+                .get("{id}")
+                .bindingMode(RestBindingMode.off)
+                .to("direct:attachmentId");
+
+        from("direct:attachmentId")
+                .bean(AttachmentService.class, "findContent(${header.id})");
 
         rest("/users")
                 .get()
