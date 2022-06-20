@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.rowset.serial.SerialBlob;
+import java.io.ByteArrayInputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -89,11 +90,7 @@ public class Database {
         tender.setLatestUpdate(tender.getUpdates().iterator().next());
 
         final TenderUpdate update = tender.getUpdates().iterator().next();
-        try {
-            update.setAttachedFiles(new HashSet<>(Arrays.asList(attachmentRepository.save(new Attachment("test.txt", new SerialBlob(new byte[0]), update)))));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        update.setAttachedFiles(new HashSet<>(Arrays.asList(attachmentRepository.save(new Attachment("test.txt", "Hello world".getBytes(), update)))));
 
         this.tenderRepository.save(tender);
 

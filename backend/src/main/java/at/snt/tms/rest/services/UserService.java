@@ -36,6 +36,7 @@ public class UserService implements UserDetailsService {
     }
 
     public ResponseEntity<?> findByMail(String mail){
+        // not best practice
         for(User user : this.findAll()){
             if (user.getMail().equals(mail))
                 return ResponseEntity.ok().body(user);

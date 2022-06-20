@@ -20,7 +20,11 @@ export class TendersComponent implements OnInit {
 
   ngOnInit(): void {
     let _filter = localStorage.getItem("filter") ?? '{}';
-    this.tenderService.getTenders(JSON.parse(_filter)).subscribe({
+    let filter :Filter= JSON.parse(_filter)
+    let sort = localStorage.getItem("sort")
+    filter.sortBy = sort ?? "DEFAULT"
+    console.log(_filter)
+    this.tenderService.getTenders(filter).subscribe({
       next: (sent: any) => {
         const response: BackendResponse<Tender[]> = sent;
         if (response.body.length < 1){

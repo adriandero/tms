@@ -77,11 +77,9 @@ export class StartpageComponent implements OnInit {
     } else {
       localStorage.setItem('sort', sort);
     }
-    this.router
-      .navigateByUrl('/RefreshComponent', { skipLocationChange: true })
-      .then(() => {
-        this.router.navigate(['home']);
-      });
+    this.router.navigateByUrl('/RefreshComponent', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['home']);
+    });
   }
 
   openDialog() {
