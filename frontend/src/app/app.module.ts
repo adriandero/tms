@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GravatarModule } from 'ngx-gravatar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { UserNamePipe } from './pipes/user-name-pipe.pipe';
 import { MatCardModule } from '@angular/material/card';
 import { StartpageComponent } from './components/startpage/startpage.component';
 import { LoginComponent } from './components/login/login.component';
@@ -87,7 +86,6 @@ const modules = [
     AppComponent,
     SidebarComponent,
     TenderComponent,
-    UserNamePipe,
     StartpageComponent,
     LoginComponent,
     HistoryComponent,

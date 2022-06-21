@@ -72,19 +72,14 @@ export class TenderOverlayComponent {
   }
 
   openDialog() {
-
     const dialogRef = this.dialog.open(CreateAssignmentComponent, {
       closeOnNavigation: true,
       maxWidth: '400px',
       maxHeight: '300px',
       data: {assignments : this.assignments, tender :this.data},
-      disableClose: true,
+      disableClose: false,
       autoFocus: true,
-
     });
-    dialogRef.afterClosed().subscribe(
-      data => console.log("jhfgkgjh")
-    );
   }
 
   changeRoute(): void {

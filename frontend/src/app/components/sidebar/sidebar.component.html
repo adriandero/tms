@@ -14,7 +14,7 @@
         alt="profile-picture"
         class="profile-picture"
         ngxGravatar
-        [email]=user.username
+        [email]=user.mail
       />
       <div class="profile-name h2">
         <div *ngIf="user.firstName === undefined || user.lastName === undefined; else names">

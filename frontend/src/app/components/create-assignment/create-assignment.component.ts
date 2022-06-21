@@ -38,12 +38,13 @@ export class CreateAssignmentComponent {
 
   userOptions: string[] = ['example@gmail.com'];
   task: string = "";
-  username: string = "";
+  mail: string = "";
   user: User;
   userunknown = false;
 
   create() {
-    let assigned_user = this.tenderService.getUser(this.username).subscribe({
+    console.log("create");
+    let assigned_user = this.tenderService.getUser(this.mail).subscribe({
         next: (sent: any) => {
           const response: BackendResponse<User> = sent;
 
@@ -57,10 +58,10 @@ export class CreateAssignmentComponent {
               hasUnseenChanges: true,
               user: this.user
             }
-            //this.postCreatedAssignment(ass) //TODO uncmment if backen error is solved
+            this.postCreatedAssignment(ass);
             this.assignments.push(ass)
             this.task = "";
-            this.username = "";
+            this.mail = "";
             this.dialogRef.close(this.assignments);
           } else{
             this.handleError()
@@ -77,8 +78,8 @@ export class CreateAssignmentComponent {
 
   }
 
-  addUsername(username: string) {
-    this.username = username;
+  addMail(mail: string) {
+    this.mail = mail;
   }
 
   addTask(task: string) {

@@ -11,7 +11,7 @@
           matInput
           #user
           [matAutocomplete]="auto"
-          (blur)="addUsername(user.value)"
+          (blur)="addMail(user.value)"
         />
         <div class="checkbox mb-3 text-danger" style="color: red" *ngIf="userunknown">
           Login failed. Please try again.

@@ -4,7 +4,6 @@ import { Group } from "./Tender";
 export interface User {
   id : number,
   mail : string
-  username :string,
   firstName : string,
   lastName: string,
   password: string,

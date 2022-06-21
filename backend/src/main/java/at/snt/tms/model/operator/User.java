@@ -3,6 +3,7 @@ package at.snt.tms.model.operator;
 import at.snt.tms.model.tender.Assignment;
 import at.snt.tms.model.tender.TenderUpdate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,6 +27,7 @@ import java.util.Set;
 @Entity
 @Audited
 @Table(name = "u_users")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements UserDetails, Serializable {
     private static final long serialVersionUID = -7843067404217832070L;
 
@@ -52,6 +54,7 @@ public class User implements UserDetails, Serializable {
     @JoinColumn(name = "u_g_group", foreignKey = @ForeignKey(name = "g_id"))
     private Group group;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     @OrderBy(value = "hasUnseenChanges")
     @NotAudited
@@ -151,6 +154,7 @@ public class User implements UserDetails, Serializable {
         return authorities;
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return this.getMail();

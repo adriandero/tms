@@ -145,7 +145,7 @@ export class SidebarComponent {
 
   activateMine() {
     console.log("activateMine")
-    this.filter.users = [this.user.username]//new Array(sessionStorage.getItem("user") ?? ""),
+    this.filter.users = [this.user.mail]//new Array(sessionStorage.getItem("user") ?? ""),
     //this.all_pages[1] = true
     this.all_pages = [false, true, false, false]
 

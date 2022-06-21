@@ -30,7 +30,7 @@ export class TenderService {
       ); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
   public postAssignments(ass :any){
-    console.log("posAssignments")
+    console.log(ass);
     return this.http
       .post<BackendResponse<Assignment>>(`${environment.apiUrl}assignments`, ass, {
         responseType: 'json',
@@ -40,9 +40,9 @@ export class TenderService {
       ); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
 
-  getUser(username: string) {
+  getUser(mail: string) {
     console.log("getUser")
-    return this.http.get<BackendResponse<User>>(`${environment.apiUrl}users/${username}`,{
+    return this.http.get<BackendResponse<User>>(`${environment.apiUrl}users/${mail}`,{
       responseType: 'json',
     })
       .pipe(
@@ -73,7 +73,10 @@ export class TenderService {
         duration: 2000,
       });
     } else if (error.status == 401) {
-      console.error('the user is not authenticated');
+      this.snackBar.open('Authentication error occured.', 'Retry', {
+        duration: 2000,
+      });
+
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.

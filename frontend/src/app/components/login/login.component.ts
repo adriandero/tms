@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   emailFormControl = new FormControl('', [Validators.required, Validators.email]);
   pwdFormControl = new FormControl('', [Validators.required]);
   busy = false;
-  username = '';
+  mail = '';
   password = '';
   loginError = false;
   private subscription: Subscription | null = null;
@@ -48,20 +48,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    console.log(this.username)
-    if (!this.username || !this.password) {
+    console.log(this.mail)
+    if (!this.mail || !this.password) {
       return;
     }
     this.busy = true;
     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || 'home';
     this.authService
-      .login(this.username, this.password)
+      .login(this.mail, this.password)
       .pipe(finalize(() => (this.busy = false)))
       .subscribe(
         () => {
           console.log("here")
 
-          this.tenderService.getUser(this.username).subscribe({
+          this.tenderService.getUser(this.mail).subscribe({
             next: (sent: any) => {
               const response: BackendResponse<User> = sent;
               let user: User = response.body

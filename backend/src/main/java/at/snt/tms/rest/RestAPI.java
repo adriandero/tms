@@ -2,6 +2,7 @@ package at.snt.tms.rest;
 
 import at.snt.tms.model.dtos.AccessRefreshTokenDto;
 import at.snt.tms.model.dtos.request.UserLoginDto;
+import at.snt.tms.model.tender.Assignment;
 import at.snt.tms.rest.services.*;
 import org.apache.camel.Exchange;
 import at.snt.tms.rest.services.tender.FilterConfiguration;
@@ -131,6 +132,8 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .get("{id}")
                 .to("direct:assignmentId")
                 .post()
+                .consumes("application/json")
+                .type(Assignment.class)
                 .to("direct:addAssignments")
                 .delete("{id}")
                 .to("direct:delAssignments");
