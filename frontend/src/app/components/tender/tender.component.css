@@ -59,9 +59,8 @@
 }
 
 ::ng-deep .mat-checkbox .mat-checkbox-inner-container {
-  width: 20px;
-  height: 20px;
-  margin: 0px 20px 0px 20px;
+  width: 1.8em;
+  height: 1.8em;
 }
 
 h3,
@@ -100,14 +99,14 @@ mat-chip-list {
 }
 
 :host ::ng-deep .mat-chip-list-wrapper mat-chip {
-  padding: 0 10px;
+  padding: 0.2em 0.8em;
   font-size: small;
   height: auto !important;
 }
 
 ::ng-deep .mat-standard-chip {
-  min-height: 25px !important;
   color: #555;
+  min-height: 0px !important;
 }
 
 .mat-chip {
@@ -138,4 +137,23 @@ mat-chip-list {
 .prediction {
   background-color: #e09393;
   /*e09393*/
+}
+
+@media (max-width: 600px) {
+  :host ::ng-deep .mat-chip-list-wrapper mat-chip {
+    font-size: x-small;
+  }
+  ::ng-deep .mat-badge-content {
+    font-size: small;
+  }
+  .title {
+    font-size: 1.2rem;
+  }
+  .auftragsgeber {
+    font-size: 1rem;
+  }
+  ::ng-deep .mat-checkbox .mat-checkbox-inner-container {
+    width: 1.4em;
+    height: 1.4em;
+  }
 }

@@ -1,3 +1,4 @@
+
 export interface Platform {
   id: number;
   link: string;
@@ -39,12 +40,25 @@ export interface Role {
   designation: string;
 }
 
-export interface User {
-  id: number;
-  mail: string;
-  role: Role;
+export interface User{
+  id : number,
+  mail : string
+  username :string,
+  firstname : string,
+  lastname: string,
+  password: string,
+  group : Group,
+  enabled :boolean,
+  accountNonLocked:boolean,
+  authorities: string[],
+  credentialsNonExpired :boolean,
+  accountNonExpired :boolean,
 }
 
+export interface Group{
+  id : number,
+  name : string
+}
 export interface Created {
   time: number;
 }
@@ -78,7 +92,7 @@ export interface Company {
   name: string;
 }
 
-export interface Filter{ //TODO kann es mehr als einen ext oder int status geben?
+export interface Filter{
    platforms : string[];
    companies : string[];
    titles :   string[];
@@ -87,4 +101,15 @@ export interface Filter{ //TODO kann es mehr als einen ext oder int status geben
    files :   string[];
    uptDetails :   string[];
    users :   string[];
+   startDate : Date;
+   endDate : Date;
+   sortBy : string | "DEFAULT";
+}
+
+export interface Assignment {
+  id :number;
+  user : User
+  tender : Tender;
+  instruction: string;
+  hasUnseenChanges? : boolean | true;
 }

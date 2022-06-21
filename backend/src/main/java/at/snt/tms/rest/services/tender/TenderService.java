@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 //@Controller
 @Service  // works even without @Service interestingly?
@@ -35,11 +32,31 @@ public class TenderService extends GenericCrudRepoService<Tender, Long> {
                     (config.getExtStatus() == null || config.getExtStatus().length == 0 || Arrays.stream(config.getExtStatus()).anyMatch(expected -> tender.getUpdates().stream().anyMatch(update -> update.getExternalStatus().getLabel().contains(expected)))) &&
                     (config.getFiles() == null || config.getFiles().length == 0 || Arrays.stream(config.getFiles()).anyMatch(file -> tender.getUpdates().stream().anyMatch(update -> update.getAttachedFiles().stream().anyMatch(attachment -> attachment.getFileName().contains(file))))) &&
                     (config.getUptDetails() == null || config.getUptDetails().length == 0 || Arrays.stream(config.getUptDetails()).anyMatch(details -> tender.getUpdates().stream().anyMatch(update -> update.getDetails().contains(details)))) &&
-                    (config.getUsers() == null || config.getUsers().length == 0 || Arrays.stream(config.getUsers()).anyMatch(user -> tender.getAssignedIntStatus().stream().anyMatch(status -> status.getUser().getMail().contains(user) || status.getUser().getUsername().contains(user) || status.getUser().getFirstName().contains(user) || status.getUser().getLastName().contains(user))))
+                    (config.getUsers() == null || config.getUsers().length == 0 || Arrays.stream(config.getUsers()).anyMatch(user -> tender.getAssignedIntStatus().stream().anyMatch(status -> status.getUser().getMail() != null && status.getUser().getMail().contains(user) || status.getUser().getUsername() != null && status.getUser().getUsername().contains(user) || status.getUser().getFirstName() != null && status.getUser().getFirstName().contains(user) || status.getUser().getLastName() != null && status.getUser().getLastName().contains(user))))
             ) {
                 filtered.add(tender);
             }
 
+        }
+
+        if(config.getSortBy() != null) {
+            switch(config.getSortBy()) {
+                case ALPHABETICAL_ASC:
+                    filtered.sort(Comparator.comparing((key) -> key.getName(), String::compareTo));
+                    break;
+                case ALPHABETICAL_DESC:
+                    filtered.sort(Comparator.comparing((key) -> key.getName(), String::compareTo));
+                    Collections.reverse(filtered);
+                    break;
+                case LATEST:
+                    filtered.sort(Comparator.comparing((key) -> key.getLatestUpdate().getValidFrom()));
+                    break;
+                case OLDEST:
+                    filtered.sort(Comparator.comparing((key) -> key.getLatestUpdate().getValidFrom()));
+                    Collections.reverse(filtered);
+                    break;
+                case DEFAULT:
+            }
         }
 
         return new ResponseEntity<>(filtered, HttpStatus.OK);

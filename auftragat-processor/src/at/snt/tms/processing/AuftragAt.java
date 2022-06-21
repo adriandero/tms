@@ -125,6 +125,7 @@ public class AuftragAt implements MailHandler {
                     existing = this.createTender(extensionsManager, documentNumber, link, title, company != null ? company : extensionsManager.getDatabase().getCompanyRepository().save(new Company(auftraggeber)), beschreibung, externalStatus);
                 } else {
                     existing.getLatestExtStatus().addTransition(externalStatus);
+                    existing.getLatestUpdate().setValidTo(Timestamp.from(Instant.now()));
                 }
 
                 final TenderUpdate update = extensionsManager.getDatabase().getTenderUpdateRepository().save(new TenderUpdate(existing, externalStatus, Timestamp.from(Instant.now()), beschreibung, new HashSet<>()));
@@ -133,11 +134,7 @@ public class AuftragAt implements MailHandler {
                 for(String name : handleableMail.getAttachments().keySet()) {
                     final byte[] content = handleableMail.getAttachments().get(name);
 
-                    try {
-                        update.getAttachedFiles().add(extensionsManager.getDatabase().getAttachmentRepository().save(new Attachment(name, new SerialBlob(content), update)));
-                    } catch(SQLException exception) {
-                        LOGGER.error("Failed to store attachment \"" + name + "\".", exception);
-                    }
+                    update.getAttachedFiles().add(extensionsManager.getDatabase().getAttachmentRepository().save(new Attachment(name, content, update)));
                 }
 
                 existing.getUpdates().add(update);

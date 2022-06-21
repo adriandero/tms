@@ -1,6 +1,6 @@
 <div class="main">
-  <app-sidebar></app-sidebar>
-<!--<app-navbar></app-navbar>-->
+  <app-sidebar [filter]="this.filter"></app-sidebar>
+  <!--<app-navbar></app-navbar>-->
   <div class="main-content">
     <mat-toolbar>
       <button (click)="toggleSort()" [matMenuTriggerFor]="menu" id="sortby-btn" mat-flat-button>
@@ -11,9 +11,10 @@
 
       <mat-menu #menu="matMenu"  overlapTrigger="false" >
         <div id="sort-menu">
-        <button mat-button *ngFor="let sort of sorts" [value]="sort" id="sort-options">
-          {{sort}}
-        </button>
+          <button mat-button *ngFor="let sort of sortCategories()" class="sorts"[value]="sort"  (click)="setSorting(sort)" id="sort-options">
+            <div *ngIf="isSort(sort)" style="color: #2b709d">{{categoryName(sort)}}</div>
+            <div *ngIf="!isSort(sort)">{{categoryName(sort)}}</div>
+          </button>
         </div>
       </mat-menu>
 

@@ -1,85 +1,86 @@
 /* @use '@angular/material' as mat;*/
 /*@import "~@angular/material/prebuilt-themes/purple-green.css"; */
-@use '@angular/material' as mat;
-@import '~@angular/material/theming';
+@use "@angular/material" as mat;
+@import "~@angular/material/theming";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 @include mat.core();
 $mat-primary: (
-    50 : #e1ebf1,
-    100 : #b4cddd,
-    200 : #83abc6,
-    300 : #5189af,
-    400 : #2b709d,
-    500 : #06578c,
-    600 : #054f84,
-    700 : #044679,
-    800 : #033c6f,
-    900 : #022c5c,
-    A100 : #8db9ff,
-    A200 : #5a99ff,
-    A400 : #2779ff,
-    A700 : #0e6aff,
-    contrast: (
-        50 : #555,
-        100 : #555,
-        200 : #555,
-        300 : #ffffff,
-        400 : #ffffff,
-        500 : #ffffff,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #555,
-        A200 : #555,
-        A400 : #ffffff,
-        A700 : #ffffff,
-  )
+  50: #e1ebf1,
+  100: #b4cddd,
+  200: #83abc6,
+  300: #5189af,
+  400: #2b709d,
+  500: #06578c,
+  600: #054f84,
+  700: #044679,
+  800: #033c6f,
+  900: #022c5c,
+  A100: #8db9ff,
+  A200: #5a99ff,
+  A400: #2779ff,
+  A700: #0e6aff,
+  contrast: (
+    50: #555,
+    100: #555,
+    200: #555,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #555,
+    A200: #555,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
 );
 $mat-accent: (
-    50 : #ebebeb,
-    100 : #cccccc,
-    200 : #aaaaaa,
-    300 : #888888,
-    400 : #6f6f6f,
-    500 : #555555,
-    600 : #4e4e4e,
-    700 : #444444,
-    800 : #3b3b3b,
-    900 : #2a2a2a,
-    A100 : #f28989,
-    A200 : #ed5b5b,
-    A400 : #ff1616,
-    A700 : #fc0000,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #ffffff,
-        500 : #ffffff,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #ffffff,
-        A700 : #ffffff,
-    )
+  50: #ebebeb,
+  100: #cccccc,
+  200: #aaaaaa,
+  300: #888888,
+  400: #6f6f6f,
+  500: #555555,
+  600: #4e4e4e,
+  700: #444444,
+  800: #3b3b3b,
+  900: #2a2a2a,
+  A100: #f28989,
+  A200: #ed5b5b,
+  A400: #ff1616,
+  A700: #fc0000,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
 );
 $primary: mat.define-palette($mat-primary);
 $accent: mat.define-palette($mat-accent);
-$theme: mat.define-light-theme((
- color: (
-   primary: $primary,
-   accent: $accent,
- )
-));
+$theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $primary,
+      accent: $accent,
+    ),
+  )
+);
 @include mat.core-theme($theme);
 @include mat.all-component-themes($theme);
-
 
 html,
 body,

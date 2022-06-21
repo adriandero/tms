@@ -1,16 +1,22 @@
-import { Component, Inject, Injectable } from '@angular/core';
+import {Component, Inject, Injectable} from '@angular/core';
 import {
   faArrowLeft,
   faArrowRight,
   faFileAlt,
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog'; // import router from angular router
-import { AssignedIntStatus, Tender } from 'src/app/model/Tender';
-import { TenderService } from '../../services/tender.service';
-import { User } from '../../model/User';
-import { Hidden } from '@material-ui/core';
+import {Router} from '@angular/router';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig} from '@angular/material/dialog'; // import router from angular router
+
+
+import {CreateAssignmentComponent} from '../create-assignment/create-assignment.component';
+import {AssignedIntStatus, Assignment, Tender} from 'src/app/model/Tender';
+import {TenderService} from '../../services/tender.service';
+import {User} from '../../model/User';
+import {Hidden} from '@material-ui/core';
+import {AuthService} from "../../auth";
+import {BehaviorSubject, Observable, Subscription} from "rxjs";
+import {BackendResponse} from "../../model/protocol/Response";
 
 // import CloseIcon from '@material-ui/icons/Close';
 @Component({
@@ -24,19 +30,30 @@ export class TenderOverlayComponent {
   faFileAlt = faFileAlt;
   faArrowLeft = faArrowLeft;
 
+  assignments: Assignment[] = [];
   hasUpdates: boolean = true;
+
   // CloseIcon = CloseIcon
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Tender,
     public dialog: MatDialog,
-    private route: Router
-  ) {}
+    private route: Router,
+    private tenderService: TenderService
+
+  ) {
+  }
 
   ngOnInit(): void {
+    console.log(this.data)
+    this.tenderService.getAssignments(this.data.id).subscribe({
+      next: (sent: any) => {
+        const response: BackendResponse<Assignment[]> = sent;
+        this.assignments = response.body;
+      },
+    });
     if (this.data.updates.length == 0) {
       this.hasUpdates = false;
-
-      document.getElementById('history-btn')!.style.display = 'none';
+      //document.getElementById('history-btn')!.style.display = 'none';
 
       /*
       let historyBtn = document.getElementById('history-btn');
@@ -49,9 +66,25 @@ export class TenderOverlayComponent {
         nodes[i].style.color = '#555555ad';
       }
       */
-    } else {
+    }/* else {
       document.getElementById('history-btn-disabled')!.style.display = 'none';
-    }
+    }*/
+  }
+
+  openDialog() {
+
+    const dialogRef = this.dialog.open(CreateAssignmentComponent, {
+      closeOnNavigation: true,
+      maxWidth: '400px',
+      maxHeight: '300px',
+      data: {assignments : this.assignments, tender :this.data},
+      disableClose: true,
+      autoFocus: true,
+
+    });
+    dialogRef.afterClosed().subscribe(
+      data => console.log("jhfgkgjh")
+    );
   }
 
   changeRoute(): void {
@@ -67,6 +100,9 @@ export class TenderOverlayComponent {
   closeDialog() {
     this.dialog.closeAll();
   }
+
+
+
   // go(){
   // this.dialogRef.close();
   //this.route.navigate(['/history']);

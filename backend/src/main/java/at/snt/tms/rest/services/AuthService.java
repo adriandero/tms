@@ -118,6 +118,15 @@ public class AuthService {
         return ResponseEntity.ok(new AccessRefreshTokenDto(access, refresh));
     }
 
+    public ResponseEntity<?> validateTokens(@Body AccessRefreshTokenDto tokens) {
+        if (!jwtUtils.jwtIsRefreshable(tokens.getAccessToken()) || !jwtUtils.validateJwtToken(tokens.getRefreshToken())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid tokens provided."));
+        }
+
+        return ResponseEntity.ok(new MessageResponse("Valid tokens provided"));
+    }
+
+
     private String randomBase64() {
         byte[] key = new byte[64];
         new SecureRandom().nextBytes(key);

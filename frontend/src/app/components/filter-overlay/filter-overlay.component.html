@@ -193,13 +193,13 @@
     </mat-tab>
 
     <mat-tab label="Erweitert">
-      <section>
+      <section class="date-box">
         <h5>Date Range</h5>
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" >
           <mat-label>Enter a date range</mat-label>
           <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date" />
-            <input matEndDate placeholder="End date" />
+            <input matStartDate placeholder="Start date" [ngModel]="startDate" (dateChange)="startChange($event)" />
+            <input matEndDate placeholder="End date" [ngModel]="endDate"(dateChange)="endChange($event)"/>
           </mat-date-range-input>
           <mat-datepicker-toggle
             matSuffix
@@ -207,6 +207,7 @@
           ></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
+        <button mat-flat-button id="no-data-range-btn" (click)="resetDates()">Clear</button>
       </section>
       <section>
         <h5>Attachment Names</h5>
