@@ -1,9 +1,10 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Tender, User} from "../../model/Tender";
+import {Tender} from "../../model/Tender";
 import {stringify} from "querystring";
 import {TenderService} from "../../services/tender.service";
 import {BackendResponse} from "../../model/protocol/Response";
+import { User } from 'src/app/auth';
 
 export interface Assignment {
  // id : number,

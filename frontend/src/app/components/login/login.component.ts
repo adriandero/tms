@@ -6,8 +6,8 @@ import {finalize, Subscription} from "rxjs";
 import {TenderService} from "../../services/tender.service";
 import {BackendResponse} from "../../model/protocol/Response";
 import {Tender} from "../../model/Tender";
-import {User} from "../../model/Tender";
 import {stringify} from "querystring";
+import { User } from 'src/app/auth';
 
 
 @Component({

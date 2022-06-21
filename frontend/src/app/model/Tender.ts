@@ -1,3 +1,4 @@
+import { User } from "./User";
 
 export interface Platform {
   id: number;
@@ -40,20 +41,6 @@ export interface Role {
   designation: string;
 }
 
-export interface User{
-  id : number,
-  mail : string
-  username :string,
-  firstName : string,
-  lastName: string,
-  password: string,
-  group : Group,
-  enabled :boolean,
-  accountNonLocked:boolean,
-  authorities: string[],
-  credentialsNonExpired :boolean,
-  accountNonExpired :boolean,
-}
 
 export interface Group{
   id : number,
@@ -108,7 +95,7 @@ export interface Filter{
 
 export interface Assignment {
   id :number;
-  user : User
+  user : User;
   tender : Tender;
   instruction: string;
   hasUnseenChanges? : boolean | true;

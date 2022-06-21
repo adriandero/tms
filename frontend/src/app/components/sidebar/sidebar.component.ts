@@ -2,7 +2,7 @@ import {ChangeDetectorRef, Component, Input} from '@angular/core';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {BehaviorSubject, finalize, Observable} from 'rxjs';
 import {map, shareReplay} from 'rxjs/operators';
-import {Group, User} from "../../model/Tender";
+import {Group} from "../../model/Tender";
 import {Role} from "../../model/Roles";
 import {
   faArchive,
@@ -15,7 +15,7 @@ import {
   faTag,
   faTrash
 } from "@fortawesome/free-solid-svg-icons"
-import {AuthService} from "../../auth";
+import {AuthService, User} from "../../auth";
 import {FilterOverlayComponent} from "../filter-overlay/filter-overlay.component";
 import {Filter} from "../../model/Tender";
 import {stringify} from "querystring";
