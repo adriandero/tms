@@ -1,0 +1,45 @@
+<div id="main">
+  <div mat-dialog-content>
+    <section>
+      <h5>User</h5>
+      <mat-form-field appearance="outline">
+        <mat-label>User...</mat-label>
+        <input
+          type="text"
+          placeholder="einen user auswählen"
+          aria-label="User"
+          matInput
+          #user
+          [matAutocomplete]="auto"
+          (blur)="addUsername(user.value)"
+        />
+        <div class="checkbox mb-3 text-danger" style="color: red" *ngIf="userunknown">
+          Login failed. Please try again.
+        </div>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of userOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </section>
+    <section>
+      <h5>Task</h5>
+      <mat-form-field appearance="outline">
+        <mat-label>Task...</mat-label>
+        <input
+          #task
+          type="text"
+          placeholder="task erteilen"
+          aria-label="Task"
+          matInput
+          (blur)="addTask(task.value)"
+
+        />
+      </mat-form-field>
+    </section>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close (click)="create()">Create</button>
+  </div>
+</div>

@@ -1,14 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
 
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {Filter} from "../../model/Tender";
 import {Router} from "@angular/router";
+import {MatDatepickerInputEvent} from "@angular/material/datepicker";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 
 export interface Chip {
   name: string;
@@ -25,7 +27,7 @@ export class FilterOverlayComponent implements OnInit, OnDestroy {
   faSearch = faSearch;
 
 
-  constructor(private router: Router) {
+  constructor(private router: Router,  @Inject(MAT_DIALOG_DATA) public data: any,) {
   }
 
   myControl = new FormControl();
@@ -55,6 +57,8 @@ export class FilterOverlayComponent implements OnInit, OnDestroy {
   files: Chip[] = [];
   uptDetails: Chip[] = [];
   users: Chip[] = [];
+  startDate: any = "";
+  endDate: any = "";
   // tasks: string[] = [];
   // filteredTaskOptions!: Observable<string[]>;
   ngOnInit() {
@@ -92,6 +96,20 @@ export class FilterOverlayComponent implements OnInit, OnDestroy {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  filter: Filter = {
+    "platforms": this.platforms.map(e => e.name),
+    "companies": this.companies.map(e => e.name),
+    "titles": this.titles.map(e => e.name),
+    "intStatus": this.intStatus.map(e => e.name),
+    "extStatus": this.extStatus.map(e => e.name),
+    "files": this.files.map(e => e.name),
+    "uptDetails": this.uptDetails.map(e => e.name),
+    "users": this.users.map(e => e.name),
+    "startDate": this.startDate,
+    "endDate": this.endDate,
+    "sortBy": localStorage.getItem("sort") ?? "DEFAULT",
+  }
+  filter$ = new BehaviorSubject<Filter>(this.filter);
 
 
   private _filter(value: string, options: string[]): string[] {
@@ -125,7 +143,7 @@ export class FilterOverlayComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    let filter: Filter = {
+    this.filter = {
       "platforms": this.platforms.map(e => e.name),
       "companies": this.companies.map(e => e.name),
       "titles": this.titles.map(e => e.name),
@@ -134,11 +152,33 @@ export class FilterOverlayComponent implements OnInit, OnDestroy {
       "files": this.files.map(e => e.name),
       "uptDetails": this.uptDetails.map(e => e.name),
       "users": this.users.map(e => e.name),
+      "startDate": this.startDate,
+      "endDate": this.endDate,
+      "sortBy": localStorage.getItem("sort") ?? "DEFAULT",
     }
-    console.log("Filters submitted" + JSON.stringify(filter))
-    localStorage.setItem("filter", JSON.stringify(filter))
+    this.data = this.filter
+    console.log("Filters submitted" + JSON.stringify(this.filter))
+    localStorage.setItem("filter", JSON.stringify(this.filter))
     this.router.navigateByUrl('/home');
+  }
 
+  resetDates() {
+    this.endDate = "";
+    this.startDate = "";
+  }
+
+  startChange(event: MatDatepickerInputEvent<any>) {
+    this.startDate = event.value;
+    console.log("startChange", event.value)
+    console.log("startChange", this.startDate)
+  }
+
+  endChange(event: MatDatepickerInputEvent<any>) {
+    this.endDate = event.value;
+  }
+
+  getFilter(): Observable<Filter> {
+    return this.filter$;
   }
 
   ngOnDestroy(): void {

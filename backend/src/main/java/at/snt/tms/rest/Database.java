@@ -21,6 +21,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.ByteArrayInputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Arrays;
@@ -81,14 +85,21 @@ public class Database {
 //        intStatus.addTransition(this.internalStatusRepository.save(new InternalStatus("closed"))); wrong behaviour
 
 
-        final Tender tender = this.tenderRepository.save(new Tender(1234L, "#1234", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), intStatus, InternalStatus.Static.IRRELEVANT, 30));
+        final Tender tender = this.tenderRepository.save(new Tender(1234L, "#1234", platform, "http://link.demo.at", "xyz", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), intStatus, InternalStatus.Static.IRRELEVANT, 30));
         tender.setUpdates(new HashSet<>(Arrays.asList(new TenderUpdate[]{tenderUpdateRepository.save(new TenderUpdate(tender, this.externalStatusRepository.save(new ExternalStatus("external status0")), Timestamp.from(Instant.now()), "Hello hello hello", new HashSet<>()))})));
+        tender.setLatestUpdate(tender.getUpdates().iterator().next());
+
+        final TenderUpdate update = tender.getUpdates().iterator().next();
+        update.setAttachedFiles(new HashSet<>(Arrays.asList(attachmentRepository.save(new Attachment("test.txt", "Hello world".getBytes(), update)))));
+
         this.tenderRepository.save(tender);
 
         final User user = new User("example@gmail.com", new BCryptPasswordEncoder().encode("secret"));
         this.userRepository.save(user);
 
-        final Tender tender1 = this.tenderRepository.save(new Tender(12345L, "#123", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status2")), this.internalStatusRepository.save(new InternalStatus("internal2")), InternalStatus.Static.INTERESTING, 67));
+        final Tender tender1 = this.tenderRepository.save(new Tender(12345L, "#123", platform, "http://link.demo.at", "abc", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status2")), this.internalStatusRepository.save(new InternalStatus("internal2")), InternalStatus.Static.INTERESTING, 67));
+        tender1.setUpdates(tender.getUpdates());
+        tender1.setLatestUpdate(tender.getUpdates().iterator().next());
 
         final AssignedIntStatus assignedIntStatus = new AssignedIntStatus(999, intStatus, tender1, user, new Timestamp(1));
         Set<AssignedIntStatus> assInt = new HashSet<>();

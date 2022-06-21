@@ -1,3 +1,4 @@
-<div class="tender-grid">
+<div class="tender-grid" *ngIf="!this.noResult">
 <app-tender *ngFor="let tender of tenders" [tender]="tender"></app-tender>
 </div>
+<h1 class="not-found"*ngIf="this.noResult"> No tenders found </h1>

@@ -4,11 +4,13 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, retry, throwError } from 'rxjs';
+import {catchError, Observable, retry, throwError} from 'rxjs';
 import {environment} from "../../environments/environment";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {Chip} from "@material-ui/core";
-import {Filter} from "../model/Tender";
+import {AssignedIntStatus, Assignment, Filter, Tender} from "../model/Tender";
+import {BackendResponse} from "../model/protocol/Response";
+import {RefreshRes, User} from "../auth";
 
 @Injectable({
   providedIn: 'root',
@@ -17,28 +19,45 @@ export class TenderService {
 
   constructor(private http: HttpClient, public snackBar: MatSnackBar) {}
 
-  public getAssignments(id: number) {
+  public getAssignments(id: number){
+    console.log("getAssignments")
     return this.http
-      .get(`${environment.apiUrl}assignments/tender/${id}`, {
+      .get<BackendResponse<Assignment>>(`${environment.apiUrl}assignments/tender/${id}`, {
         responseType: 'json',
       })
       .pipe(
-        retry(3),
+        catchError((response) => this.handleError(response))
+      ); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
+  }
+  public postAssignments(ass :any){
+    console.log("posAssignments")
+    return this.http
+      .post<BackendResponse<Assignment>>(`${environment.apiUrl}assignments`, ass, {
+        responseType: 'json',
+      })
+      .pipe(
         catchError((response) => this.handleError(response))
       ); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
 
+  getUser(username: string) {
+    console.log("getUser")
+    return this.http.get<BackendResponse<User>>(`${environment.apiUrl}users/${username}`,{
+      responseType: 'json',
+    })
+      .pipe(
+        catchError((response) => this.handleError(response))
+      );
+  }
   public getTenders(filter: Filter) {
-    let i = this.http //TODO add conditions
-      .post(`${environment.apiUrl}tenders`, filter, {
+    return this.http
+      .post<BackendResponse<Tender[]>>(`${environment.apiUrl}tenders`, filter, {
         responseType: 'json',
       })
       .pipe(
-        retry(3),
+        retry(0),
         catchError((response) => this.handleError(response))
       );
-    console.log(i);
-    return i; // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
 
   private handleError(error: HttpErrorResponse) {

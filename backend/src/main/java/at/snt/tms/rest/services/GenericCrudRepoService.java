@@ -31,10 +31,9 @@ public class GenericCrudRepoService<T, ID> {
         return ResponseEntity.ok().body(repository.findAll());
     }
 
-    public ResponseEntity<?> findById(ID id) {
+    public ResponseEntity<T> findById(ID id) {
         Optional<T> entity = repository.findById(id);
-        if (entity.isEmpty())
-            return new ResponseEntity<>("Could not find " + entityNameId(id), HttpStatus.NOT_FOUND);
+        if (entity.isEmpty()) throw new IllegalArgumentException("Could not find " + entityNameId(id));
         return ResponseEntity.ok().body(entity.get());
     }
 

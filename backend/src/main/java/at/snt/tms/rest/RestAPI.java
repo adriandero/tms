@@ -1,5 +1,6 @@
 package at.snt.tms.rest;
 
+import at.snt.tms.model.tender.Attachment;
 import at.snt.tms.payload.AccessRefreshTokenDto;
 import at.snt.tms.payload.request.UserLoginDto;
 import at.snt.tms.rest.services.*;
@@ -41,11 +42,21 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
         from("direct:tenderId")
                 .bean(TenderService.class, "findById(${header.id})");
 
+        rest("/attachment")
+                .get("{id}")
+                .bindingMode(RestBindingMode.off)
+                .to("direct:attachmentId");
+
+        from("direct:attachmentId")
+                .bean(AttachmentService.class, "findContent(${header.id})");
+
         rest("/users")
                 .get()
                 .to("direct:allUsers")
-                .get("{id}")
+                .get("id/{id}")
                 .to("direct:userId")
+                .get("{mail}")
+                .to("direct:findByUserMail")
                 .post()
                 .to("direct:addUser")
                 .delete("{id}")
@@ -54,6 +65,8 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .bean(UserService.class, "findAll");
         from("direct:userId")
                 .bean(UserService.class, "findById(${header.id})");
+        from("direct:findByUserMail")
+                .bean(UserService.class, "findByMail(${header.mail})");
         from("direct:addUser")
                 .bean(UserService.class, "add");
         from("direct:delUser")
@@ -160,6 +173,14 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .type(AccessRefreshTokenDto.class);
         from("direct:refresh")
                 .bean(AuthService.class, "refreshTokens")
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("${body.statusCodeValue}"));
+
+        rest("/auth/validate")
+                .post().to("direct:validate")
+                .consumes("application/json")
+                .type(AccessRefreshTokenDto.class);
+        from("direct:validate")
+                .bean(AuthService.class, "validateTokens")
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("${body.statusCodeValue}"));
     }
 }

@@ -14,7 +14,7 @@
         alt="profile-picture"
         class="profile-picture"
         ngxGravatar
-        [email]=user.mail
+        [email]=user.username
       />
       <div class="profile-name h2">
         <a>{{ user.firstname | userName }}</a>
@@ -23,38 +23,55 @@
     </div>
     <!--    </div>-->
 
-    <form class="search-bar">
-      <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>
+    <!--    <form class="search-bar">-->
+    <!--      <fa-icon [icon]="faSearch" class="search-icon"></fa-icon>-->
 
-      <input
-        type="text"
-        id="search"
-        name="search"
-        placeholder="Search"
-        size="11"
-      />
-    </form>
-    <a class="single-link hidden-search-icon" href="#">
-      <fa-icon [icon]="faSearch" class="link-icons" size="lg"></fa-icon>
-    </a>
+    <!--      <input-->
+    <!--        type="text"-->
+    <!--        id="search"-->
+    <!--        name="search"-->
+    <!--        placeholder="Search"-->
+    <!--        size="11"-->
+    <!--      />-->
+    <!--    </form>-->
+    <!--        <a class="single-link hidden-search-icon" href="#">
+          <fa-icon [icon]="faSearch" class="link-icons" size="lg"></fa-icon>
+        </a>-->
 
     <div class="line"></div>
 
     <mat-nav-list class="list text-center">
-      <a class="single-link" href="#">
+      <a class="single-link" (click)="activateAll()" *ngIf="!this.all_pages[0]">
         <fa-icon [icon]="faInbox" class="link-icons" size="lg"></fa-icon>
         <p class="link-text">All Tenders</p>
       </a>
-      <a class="single-link" href="#">
+      <a class="single-link blue-link" *ngIf="this.all_pages[0]" (click)="activateAll()">
+        <fa-icon [icon]="faInbox" class=" white-icons" size="lg"></fa-icon>
+        <p class="white-link-text">All Tenders</p>
+      </a>
+
+      <a class="single-link" *ngIf="!this.all_pages[1]"(click)="activateMine()">
         <fa-icon [icon]="faArchive" class="link-icons" size="lg"></fa-icon>
         <p class="link-text">My Tenders</p>
       </a>
-      <a class="single-link" href="#">
+      <a class="single-link blue-link" *ngIf="this.all_pages[1]" (click)="activateMine()">
+        <fa-icon [icon]="faArchive" class=" white-icons" size="lg"></fa-icon>
+        <p class="link-text">My Tenders</p>
+      </a>
+      <a class="single-link" *ngIf="!this.all_pages[2]"(click)="activateLatest()">
         <fa-icon [icon]="faCertificate" class="link-icons" size="lg"></fa-icon>
         <p class="link-text">New Tenders</p>
       </a>
-      <a class="single-link" href="#">
+      <a class="single-link blue-link" *ngIf="this.all_pages[2]" (click)="activateLatest()">
+        <fa-icon [icon]="faCertificate" class=" white-icons" size="lg"></fa-icon>
+        <p class="link-text">New Tenders</p>
+      </a>
+      <a class="single-link" *ngIf="!this.all_pages[3]"(click)="activateRejected()">
         <fa-icon [icon]="faTrash" class="link-icons" size="lg"></fa-icon>
+        <p class="link-text">Rejected</p>
+      </a>
+      <a class="single-link blue-link" *ngIf="this.all_pages[3]"(click)="activateRejected()">
+        <fa-icon [icon]="faTrash" class="white-icons" size="lg"></fa-icon>
         <p class="link-text">Rejected</p>
       </a>
     </mat-nav-list>
