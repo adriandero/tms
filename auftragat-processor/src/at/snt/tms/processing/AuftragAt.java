@@ -137,8 +137,7 @@ public class AuftragAt implements MailHandler {
                     update.getAttachedFiles().add(extensionsManager.getDatabase().getAttachmentRepository().save(new Attachment(name, content, update)));
                 }
 
-                existing.getUpdates().add(update);
-                existing.setLatestUpdate(update);
+                existing.addUpdate(update);
             }
 
             return true;
@@ -148,7 +147,7 @@ public class AuftragAt implements MailHandler {
     }
 
     private Tender createTender(ExtensionsManager extensionsManager, String documentNumber, String link, String title, Company company, String beschreibung, ExternalStatus externalStatus) {
-        final Tender tender = new Tender(-1L, documentNumber, this.auftrag, link, title, company, beschreibung, externalStatus, InternalStatus.Static.UNCHECKED.getInternalStatus(), null, -1);
+        final Tender tender = Tender.Builder.newInstance(documentNumber, this.auftrag).link(link).name(title).company(company).description(beschreibung).latestExtStatus(externalStatus).prediction(InternalStatus.Static.UNCHECKED, -1).build();
 
         try {
             final ClassifierPredictionDetails prediction = extensionsManager.getClassifierBridge().predict(tender).get();
