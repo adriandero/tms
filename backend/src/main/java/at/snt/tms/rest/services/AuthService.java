@@ -1,16 +1,15 @@
 package at.snt.tms.rest.services;
 
 import at.snt.tms.model.operator.User;
-import at.snt.tms.payload.AccessRefreshTokenDto;
-import at.snt.tms.payload.request.UserLoginDto;
-import at.snt.tms.payload.response.JwtResponse;
-import at.snt.tms.payload.response.MessageResponse;
+import at.snt.tms.model.dtos.AccessRefreshTokenDto;
+import at.snt.tms.model.dtos.request.UserLoginDto;
+import at.snt.tms.model.dtos.response.JwtResponse;
+import at.snt.tms.model.dtos.response.MessageResponse;
 import at.snt.tms.repositories.operator.PermissionRepository;
 import at.snt.tms.repositories.operator.UserRepository;
 import at.snt.tms.security.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.camel.Body;
-import org.apache.camel.Headers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

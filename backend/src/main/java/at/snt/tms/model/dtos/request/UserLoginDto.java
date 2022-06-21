@@ -1,11 +1,11 @@
-package at.snt.tms.payload.request;
+package at.snt.tms.model.dtos.request;
 
 /**
- * Class {@code UserSignUpDto}
+ * Class {@code UserLoginDto}
  *
  * @author Oliver Sommer
  */
-public class UserSignUpDto {  // TODO to be extended with more attributes, currently unused
+public class UserLoginDto {
     private String mail;
     private String password;
 
@@ -23,5 +23,10 @@ public class UserSignUpDto {  // TODO to be extended with more attributes, curre
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "UserLoginDto{" + "mail='" + mail + '\'' + ", password=[PROTECTED]" + '}';
     }
 }

@@ -1,15 +1,22 @@
 package at.snt.tms.model;
 
+/**
+ * Class {@code RevisionsEntity}
+ * <p>
+ * Simple class to store an audited entity combined with a revision of it.
+ *
+ * @author Oliver Sommer
+ */
 public class EntityWithRevisions<T> {
-    private RevisionsEntity revision;
+    private RevisionInformation revision;
     private T entity;
 
-    public EntityWithRevisions(RevisionsEntity revision, T entity) {
+    public EntityWithRevisions(RevisionInformation revision, T entity) {
         this.revision = revision;
         this.entity = entity;
     }
 
-    public RevisionsEntity getRevision() {
+    public RevisionInformation getRevision() {
         return revision;
     }
 

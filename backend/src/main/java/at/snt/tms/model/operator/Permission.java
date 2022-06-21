@@ -4,6 +4,7 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Class {@code Permission}
@@ -23,7 +24,7 @@ public class Permission implements Serializable {
     @Column(name = "pe_id")
     private Long id;
 
-    @Column(name = "pe_designation", length = 50)
+    @Column(name = "pe_designation", length = 100)
     private String designation;
 
     public Permission(String designation) {
@@ -47,5 +48,26 @@ public class Permission implements Serializable {
 
     public void setDesignation(String designation) {
         this.designation = designation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Permission that = (Permission) o;
+        return Objects.equals(id, that.id) && Objects.equals(designation, that.designation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, designation);
+    }
+
+    @Override
+    public String toString() {
+        return "Permission{" +
+                "id=" + id +
+                ", designation='" + designation + '\'' +
+                '}';
     }
 }

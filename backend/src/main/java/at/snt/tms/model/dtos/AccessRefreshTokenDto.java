@@ -1,4 +1,4 @@
-package at.snt.tms.payload;
+package at.snt.tms.model.dtos;
 
 /**
  * Class {@code AccessRefreshTokenDto}

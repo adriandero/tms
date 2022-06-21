@@ -1,6 +1,6 @@
-package at.snt.tms.payload.response;
+package at.snt.tms.model.dtos.response;
 
-import at.snt.tms.payload.AccessRefreshTokenDto;
+import at.snt.tms.model.dtos.AccessRefreshTokenDto;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class JwtResponse {
     private AccessRefreshTokenDto tokens;
     private String type = "Bearer";
     private String mail;
-    private List<String> roles;  // TODO
+    private final List<String> roles;
 
     public JwtResponse(AccessRefreshTokenDto tokens, String mail, List<String> roles) {
         this.tokens = tokens;

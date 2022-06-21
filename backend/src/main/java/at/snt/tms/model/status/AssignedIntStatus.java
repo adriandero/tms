@@ -9,6 +9,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /**
  * Class {@code AssignedIntStatus}
@@ -46,8 +47,7 @@ public class AssignedIntStatus implements Serializable {
     @Column(name = "ais_created")
     private Timestamp created;
 
-    public AssignedIntStatus(long id, InternalStatus internalStatus, Tender tender, User user, Timestamp created) {
-        this.id = id;
+    public AssignedIntStatus(InternalStatus internalStatus, Tender tender, User user, Timestamp created) {
         this.internalStatus = internalStatus;
         this.tender = tender;
         this.user = user;
@@ -61,7 +61,7 @@ public class AssignedIntStatus implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    private void setId(Long id) {
         this.id = id;
     }
 
@@ -95,5 +95,29 @@ public class AssignedIntStatus implements Serializable {
 
     public void setCreated(Timestamp created) {
         this.created = created;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AssignedIntStatus that = (AssignedIntStatus) o;
+        return Objects.equals(id, that.id) && Objects.equals(internalStatus, that.internalStatus) && Objects.equals(tender == null ? null : tender.getId(), that.tender == null ? null : that.tender.getId()) && Objects.equals(user, that.user) && Objects.equals(created, that.created);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, internalStatus, tender == null ? null : tender.getId(), user, created);
+    }
+
+    @Override
+    public String toString() {
+        return "AssignedIntStatus{" +
+                "id=" + id +
+                ", internalStatus=" + internalStatus +
+                ", tenderId=" + (tender == null ? null : tender.getId()) +
+                ", user=" + user +
+                ", created=" + created +
+                '}';
     }
 }

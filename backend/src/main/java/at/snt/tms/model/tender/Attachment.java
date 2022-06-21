@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.Objects;
 
 /**
  * Class {@code Attachment}
@@ -61,19 +62,11 @@ public class Attachment implements Serializable {
     public Attachment() {
     }
 
-    public TenderUpdate getTenderUpdate() {
-        return tenderUpdate;
-    }
-
-    public void setTenderUpdate(TenderUpdate tenderUpdate) {
-        this.tenderUpdate = tenderUpdate;
-    }
-
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    private void setId(Long id) {
         this.id = id;
     }
 
@@ -101,4 +94,34 @@ public class Attachment implements Serializable {
         this.file = file;
     }
 
+    public TenderUpdate getTenderUpdate() {
+        return tenderUpdate;
+    }
+
+    public void setTenderUpdate(TenderUpdate tenderUpdate) {
+        this.tenderUpdate = tenderUpdate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Attachment that = (Attachment) o;
+        return Objects.equals(id, that.id) && Objects.equals(fileName, that.fileName) && Objects.equals(fileSize, that.fileSize) && Objects.equals(file, that.file) && Objects.equals(tenderUpdate, that.tenderUpdate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, fileName, fileSize, file, tenderUpdate);
+    }
+
+    @Override
+    public String toString() {
+        return "Attachment{" +
+                "id=" + id +
+                ", fileName='" + fileName + '\'' +
+                ", fileSize=" + fileSize +
+                ", tenderUpdate=" + tenderUpdate +
+                '}';
+    }
 }

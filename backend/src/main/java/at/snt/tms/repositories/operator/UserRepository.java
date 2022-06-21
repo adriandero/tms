@@ -11,9 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
-    // https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.query-creation
     User findByMailIgnoreCase(String mail);
     Boolean existsByMailIgnoreCase(String mail);
-
-    // TODO https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.custom-implementations Example 34
 }

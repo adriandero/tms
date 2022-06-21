@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Class {@code TenderManagerConfiguration}
+ * Class {@code TenderManagerWebConfiguration}
  * <p>
  * This class defines the configuration for the authentication of users.
  *
@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 @EnableWebSecurity
-public class TenderManagerConfiguration extends WebSecurityConfigurerAdapter {
+public class TenderManagerWebConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailService;
 

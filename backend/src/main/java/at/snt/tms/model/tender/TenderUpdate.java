@@ -8,6 +8,8 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -33,7 +35,7 @@ public class TenderUpdate implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "tu_t_tender")
+    @JoinColumn(name = "tu_te_tender")
     private Tender tender;
 
     @ManyToOne
@@ -51,7 +53,8 @@ public class TenderUpdate implements Serializable {
     private String details;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tenderUpdate")
-    private Set<Attachment> attachedFiles;
+    @OrderBy(value = "fileName")
+    private Set<Attachment> attachedFiles = new HashSet<>();
 
     public TenderUpdate(Tender tender, ExternalStatus externalStatus, Timestamp validFrom, String details, Set<Attachment> attachedFiles) {
         this.tender = tender;
@@ -68,7 +71,7 @@ public class TenderUpdate implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    private void setId(Long id) {
         this.id = id;
     }
 
@@ -118,5 +121,31 @@ public class TenderUpdate implements Serializable {
 
     public void setAttachedFiles(Set<Attachment> attachedFiles) {
         this.attachedFiles = attachedFiles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TenderUpdate that = (TenderUpdate) o;
+        return Objects.equals(id, that.id) && Objects.equals(tender == null ? null : tender.getId(), that.tender == null ? null : that.tender.getId()) && Objects.equals(externalStatus, that.externalStatus) && Objects.equals(validFrom, that.validFrom) && Objects.equals(validTo, that.validTo) && Objects.equals(details, that.details) && Objects.equals(attachedFiles, that.attachedFiles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, tender == null ? null : tender.getId(), externalStatus, validFrom, validTo, details, attachedFiles);
+    }
+
+    @Override
+    public String toString() {
+        return "TenderUpdate{" +
+                "id=" + id +
+                ", tenderId=" + (tender == null ? null : tender.getId()) +
+                ", externalStatus=" + externalStatus +
+                ", validFrom=" + validFrom +
+                ", validTo=" + validTo +
+                ", details='" + details + '\'' +
+                ", attachedFiles=" + attachedFiles +
+                '}';
     }
 }

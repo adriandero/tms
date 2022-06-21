@@ -5,6 +5,8 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -27,7 +29,7 @@ public class ExternalStatus implements Serializable {
     @Column(name = "es_id", nullable = false)
     private Long id;
 
-    @Column(name = "es_label", nullable = false, unique = true, length = 400)
+    @Column(name = "es_label", nullable = false, unique = true, length = 600)
     private String label;
 
     @Column(name = "es_terminates_tender")
@@ -36,13 +38,34 @@ public class ExternalStatus implements Serializable {
     @ManyToMany
     @JoinTable(name = "es_status_transitions", joinColumns = @JoinColumn(name = "es_id", referencedColumnName = "es_id"), inverseJoinColumns = @JoinColumn(name = "transition_es_id", referencedColumnName = "es_id"))
     @JsonIgnore
-    private Set<ExternalStatus> transitions;
+    private Set<ExternalStatus> transitions = new HashSet<>();
+
+    public ExternalStatus(String label, Boolean terminatesTender) {
+        this(label);
+        this.terminatesTender = terminatesTender;
+    }
 
     public ExternalStatus(String label) {
         this.label = label;
     }
 
     public ExternalStatus() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    private void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public Boolean getTerminatesTender() {
@@ -61,12 +84,6 @@ public class ExternalStatus implements Serializable {
         this.transitions = transitions;
     }
 
-    public void addTransitions(ExternalStatus... transitions) {
-        for (ExternalStatus es : transitions) {
-            this.addTransition(es);
-        }
-    }
-
     public void addTransition(ExternalStatus transition) {
         if (transition == null) {
             throw new IllegalArgumentException("Cannot add null-value transition.");
@@ -74,19 +91,32 @@ public class ExternalStatus implements Serializable {
         this.transitions.add(transition);
     }
 
-    public Long getId() {
-        return id;
+    public void addTransitions(ExternalStatus... transitions) {
+        for (ExternalStatus es : transitions) {
+            this.addTransition(es);
+        }
     }
 
-    private void setId(Long id) {
-        this.id = id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ExternalStatus that = (ExternalStatus) o;
+        return Objects.equals(id, that.id) && Objects.equals(label, that.label) && Objects.equals(terminatesTender, that.terminatesTender) && Objects.equals(transitions, that.transitions);
     }
 
-    public String getLabel() {
-        return label;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, label, terminatesTender, transitions);
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    @Override
+    public String toString() {
+        return "ExternalStatus{" +
+                "id=" + id +
+                ", label='" + label + '\'' +
+                ", terminatesTender=" + terminatesTender +
+                ", transitions=" + transitions +
+                '}';
     }
 }
