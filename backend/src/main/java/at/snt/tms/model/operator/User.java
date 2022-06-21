@@ -1,5 +1,7 @@
 package at.snt.tms.model.operator;
 
+import at.snt.tms.model.tender.Assignment;
+import at.snt.tms.model.tender.TenderUpdate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
@@ -49,6 +51,11 @@ public class User implements UserDetails, Serializable {
     @ManyToOne
     @JoinColumn(name = "u_g_group", foreignKey = @ForeignKey(name = "g_id"))
     private Group group;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    @OrderBy(value = "hasUnseenChanges")
+    @NotAudited
+    private Set<Assignment> assignments = new HashSet<>();
 
     @Column(name = "u_refresh_token_secret", length = 500)
     @JsonIgnore
@@ -119,6 +126,14 @@ public class User implements UserDetails, Serializable {
         this.group = group;
     }
 
+    public Set<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    private void setAssignments(Set<Assignment> assignments) {
+        this.assignments = assignments;
+    }
+
     public String getRefreshTokenSecret() {
         return refreshTokenSecret;
     }
@@ -130,7 +145,9 @@ public class User implements UserDetails, Serializable {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        this.getGroup().getPermissions().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getDesignation())));
+        if(this.getGroup() != null && this.getGroup().getPermissions().size() > 0) {
+            this.getGroup().getPermissions().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getDesignation())));
+        }
         return authorities;
     }
 

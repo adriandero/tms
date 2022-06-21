@@ -7,7 +7,7 @@ import at.snt.tms.model.status.AssignedIntStatus;
 import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
 import at.snt.tms.model.tender.*;
-import at.snt.tms.repositories.EntityRevRepository;
+import at.snt.tms.repositories.EntityRevisionsRepository;
 import at.snt.tms.repositories.operator.GroupRepository;
 import at.snt.tms.repositories.operator.PermissionRepository;
 import at.snt.tms.repositories.operator.UserRepository;
@@ -24,12 +24,10 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Component
 @Transactional
 public class Database {
-
     private final PermissionRepository permissionRepository;
     private final GroupRepository groupRepository;
     private final UserRepository userRepository;
@@ -43,18 +41,17 @@ public class Database {
     private final TenderUpdateRepository tenderUpdateRepository;
     private final AssignmentRepository assignmentRepository;
 
-    private final EntityRevRepository revRepository;
+    private final EntityRevisionsRepository revRepository;
 
     @Autowired
     public Database(PermissionRepository permissionRepository, GroupRepository groupRepository,
-                    UserRepository userRepository,
-                    AssignedIntStatusRepository assignedIntStatusRepository,
+                    UserRepository userRepository, AssignedIntStatusRepository assignedIntStatusRepository,
                     ExternalStatusRepository externalStatusRepository,
                     InternalStatusRepository internalStatusRepository,
                     AttachmentRepository attachmentRepository, CompanyRepository companyRepository,
                     PlatformRepository platformRepository, TenderRepository tenderRepository,
-                    TenderUpdateRepository tenderUpdateRepository,
-                    EntityRevRepository tenderRevRepository, AssignmentRepository assignmentRepository) {
+                    TenderUpdateRepository tenderUpdateRepository,AssignmentRepository assignmentRepository,
+                    EntityRevisionsRepository tenderRevRepository) {
         this.permissionRepository = permissionRepository;
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
@@ -74,7 +71,7 @@ public class Database {
         System.out.println("Adding demo data:");
 
         for (InternalStatus.Static status : InternalStatus.Static.values()) {
-            System.out.println(this.internalStatusRepository.save(status.getInternalStatus()));
+            this.internalStatusRepository.save(status.getInternalStatus());
         }
 
         // Adding demo data:
@@ -104,15 +101,15 @@ public class Database {
                 .prediction(InternalStatus.Static.INTERESTING, 67)
                 .build());
 
-        final AssignedIntStatus assignedIntStatus = this.assignedIntStatusRepository.save(new AssignedIntStatus(intStatus, tender1, user, new Timestamp(1)));
+        final AssignedIntStatus assignedIntStatus = this.assignedIntStatusRepository.save(new AssignedIntStatus(intStatus, tender1, null, new Timestamp(1)));
         tender1.addAssignedIntStatus(assignedIntStatus);
         this.tenderRepository.save(tender1);
 
-        final Assignment assignment = new Assignment(tender1, user);
+        final Assignment assignment = new Assignment(tender1, maxMustermann);
         this.assignmentRepository.save(assignment);
 
-        //System.out.println(revRepository.listRevisions(Tender.class, tender.getId()));
-        //System.out.println(revRepository.listRevisions(Platform.class, platform.getId()));
+        System.out.println(revRepository.listRevisions(Tender.class, tender.getId()));
+        System.out.println(revRepository.listRevisions(Platform.class, platform.getId()));
     }
 
     public AssignedIntStatusRepository getAssignedIntStatusRepository() {
@@ -131,7 +128,7 @@ public class Database {
         return companyRepository;
     }
 
-    public EntityRevRepository getRevRepository() {
+    public EntityRevisionsRepository getRevRepository() {
         return revRepository;
     }
 

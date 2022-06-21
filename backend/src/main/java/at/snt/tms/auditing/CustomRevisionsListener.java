@@ -1,6 +1,6 @@
 package at.snt.tms.auditing;
 
-import at.snt.tms.model.RevisionsEntity;
+import at.snt.tms.model.RevisionInformation;
 import at.snt.tms.model.operator.User;
 import org.hibernate.envers.RevisionListener;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,8 +15,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class CustomRevisionsListener implements RevisionListener {
     @Override
     public void newRevision(Object revisionEntity) {
-        RevisionsEntity rev = (RevisionsEntity) revisionEntity;
-        User author = (User) SecurityContextHolder.getContext().getAuthentication();
-        rev.setAuthor(author);
+        RevisionInformation rev = (RevisionInformation) revisionEntity;
+        if(SecurityContextHolder.getContext().getAuthentication() != null) {
+            User author = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            rev.setAuthor(author);
+        }
     }
 }

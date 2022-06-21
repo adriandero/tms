@@ -9,6 +9,7 @@ import org.hibernate.envers.Audited;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /**
  * Class {@code AssignedIntStatus}
@@ -94,5 +95,29 @@ public class AssignedIntStatus implements Serializable {
 
     public void setCreated(Timestamp created) {
         this.created = created;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AssignedIntStatus that = (AssignedIntStatus) o;
+        return Objects.equals(id, that.id) && Objects.equals(internalStatus, that.internalStatus) && Objects.equals(tender == null ? null : tender.getId(), that.tender == null ? null : that.tender.getId()) && Objects.equals(user, that.user) && Objects.equals(created, that.created);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, internalStatus, tender == null ? null : tender.getId(), user, created);
+    }
+
+    @Override
+    public String toString() {
+        return "AssignedIntStatus{" +
+                "id=" + id +
+                ", internalStatus=" + internalStatus +
+                ", tenderId=" + (tender == null ? null : tender.getId()) +
+                ", user=" + user +
+                ", created=" + created +
+                '}';
     }
 }

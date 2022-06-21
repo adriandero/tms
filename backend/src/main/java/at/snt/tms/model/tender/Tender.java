@@ -61,6 +61,7 @@ public class Tender implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tender")
     @OrderBy(value = "validFrom")
+    @NotAudited
     private Set<TenderUpdate> updates = new HashSet<>();
 
     @ManyToOne
@@ -73,6 +74,7 @@ public class Tender implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tender")
     @OrderBy(value = "created")
+    @NotAudited
     private Set<AssignedIntStatus> assignedIntStatus = new HashSet<>();
 
     @Column(name = "te_prediction_status")
@@ -158,6 +160,7 @@ public class Tender implements Serializable {
 
     void setLatestUpdate(TenderUpdate latestUpdate) {
         this.latestUpdate = latestUpdate;
+        this.setLatestExtStatus(latestUpdate.getExternalStatus());
     }
 
     public void addUpdate(TenderUpdate update) {
