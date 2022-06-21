@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ):
     Observable < boolean > | Promise < boolean > | boolean  {
-console.log("hello im here 2")
+    console.log(sessionStorage.getItem("user"));
     return this.authService.tokenIsValid().pipe(
       tap( data => {
         if(!data){
@@ -24,7 +24,6 @@ console.log("hello im here 2")
         }
       }),
     catchError( err =>{
-      console.log("hello im here")
       this.router.navigate(['login']);
       return of(false);
     }))

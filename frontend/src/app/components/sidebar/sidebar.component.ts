@@ -34,20 +34,7 @@ export class SidebarComponent {
       map(result => result.matches),
       shareReplay()
     );
-  user: User = {
-    id: 1,
-    mail: "user@snt.at",
-    username: "user@snt.at",
-    firstname: "Maximilian",
-    lastname: "Muster",
-    password: "sfgjkasdfgzka",
-    group: {id: 1, name: "admin"},
-    enabled: true,
-    accountNonLocked: true,
-    authorities: [],
-    credentialsNonExpired: true,
-    accountNonExpired: true,
-  }
+  user: User = JSON.parse(sessionStorage.getItem("user") ?? '{}'); // these braces should be unreachable cause guard kicks if not logged in.
   faSearch = faSearch
   faInbox = faInbox
   faStar = faStar
@@ -57,8 +44,6 @@ export class SidebarComponent {
   faCog = faCog
   faCertificate = faCertificate
   faSyncAlt = faSyncAlt
-
-
 
 
    page_alltenders : Observable<boolean>;
@@ -96,11 +81,6 @@ export class SidebarComponent {
   }
 
   all_pages  = [false, false, false, false] // all  -mytenders - new - rejected
-
-
-  public isAllTenders(){
-
-  }
 
   //ngOnChanges() {
   //  console.log("ngonChanges()")
@@ -145,7 +125,6 @@ export class SidebarComponent {
   }
 
   ngOnInit() {
-
 
   }
 
