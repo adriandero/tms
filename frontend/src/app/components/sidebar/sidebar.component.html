@@ -17,8 +17,16 @@
         [email]=user.username
       />
       <div class="profile-name h2">
-        <a>{{ user.firstname | userName }}</a>
-        <a><br />{{ user.lastname | userName }}</a>
+        <div *ngIf="user.firstName === undefined || user.lastName === undefined; else names">
+          <span style="white-space: normal">
+            <a>{{ user.mail }}</a>
+          </span>
+        </div>
+        
+        <ng-template #names>
+          <a>{{ user.firstName ?? 'Error' }}</a>
+          <a><br />{{ user.lastName ?? 'Error' }}</a>
+        </ng-template>
       </div>
     </div>
     <!--    </div>-->

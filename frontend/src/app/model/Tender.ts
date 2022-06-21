@@ -44,8 +44,8 @@ export interface User{
   id : number,
   mail : string
   username :string,
-  firstname : string,
-  lastname: string,
+  firstName : string,
+  lastName: string,
   password: string,
   group : Group,
   enabled :boolean,
