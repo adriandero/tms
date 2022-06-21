@@ -5,7 +5,14 @@ import at.snt.tms.model.operator.User;
 import org.hibernate.envers.RevisionListener;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-public class MyRevisionsListener implements RevisionListener {
+/**
+ * Class {@code CustomRevisionsListener}
+ * <p>
+ * Stores information about the {@code User} that made a change to an entity.
+ *
+ * @author Oliver Sommer
+ */
+public class CustomRevisionsListener implements RevisionListener {
     @Override
     public void newRevision(Object revisionEntity) {
         RevisionsEntity rev = (RevisionsEntity) revisionEntity;

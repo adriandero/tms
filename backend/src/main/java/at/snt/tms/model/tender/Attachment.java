@@ -15,6 +15,9 @@ import java.sql.SQLException;
 
 /**
  * Class {@code Attachment}
+ * <p>
+ * {@code Attachment}s are linked to {@code TenderUpdate}s, in which some additional files might be contained
+ * (PDFs, ...). An {@code Attachment} entity stores these files as binary large objects.
  *
  * @author Oliver Sommer
  */

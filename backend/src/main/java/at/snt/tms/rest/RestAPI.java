@@ -158,7 +158,6 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .consumes("application/json")
                 .type(UserLoginDto.class);
         from("direct:login")
-//                .log("Received: ${body}")
                 .bean(AuthService.class, "authenticateUser")
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, simple("${body.statusCodeValue}"));
 

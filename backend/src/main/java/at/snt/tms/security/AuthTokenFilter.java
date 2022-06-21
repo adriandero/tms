@@ -20,6 +20,8 @@ import java.io.IOException;
 
 /**
  * Class {@code AuthTokenFilter}
+ * <p>
+ * This class filters requests to the backend and checks the validity of JWTs. See {@link TenderManagerConfiguration}.
  *
  * @author Oliver Sommer
  */
@@ -37,7 +39,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwtAccessToken = this.parseJwt(request);
-            if(jwtAccessToken != null && jwtUtils.validateJwtToken(jwtAccessToken)) {
+            if (jwtAccessToken != null && jwtUtils.validateJwtToken(jwtAccessToken)) {
                 String mail = jwtUtils.getMailFromJwtAccessToken(jwtAccessToken);
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(mail);
@@ -46,8 +48,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e.getMessage());
         }
 
@@ -57,7 +58,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
 
-        if(StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7);
         }
 

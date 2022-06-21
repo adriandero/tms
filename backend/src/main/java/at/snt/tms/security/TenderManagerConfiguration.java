@@ -3,7 +3,6 @@ package at.snt.tms.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Class {@code WebSecurityConfig}
+ * Class {@code TenderManagerConfiguration}
+ * <p>
+ * This class defines the configuration for the authentication of users.
  *
  * @author Oliver Sommer
  */
@@ -38,8 +39,8 @@ public class TenderManagerConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/auth/**").permitAll()
-                    .anyRequest().authenticated()  // all other requests must be authenticated
+                .antMatchers("/auth/**").permitAll()
+                .anyRequest().authenticated()  // all other requests must be authenticated
                 .and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)  // exception -> unauthorized
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

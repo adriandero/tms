@@ -12,6 +12,11 @@ import java.util.Set;
 
 /**
  * Class {@code TenderUpdate}
+ * <p>
+ * A {@code TenderUpdate} represents the information released by a {@code Company} on a {@code Platform} for a specific
+ * {@code Tender}. This will include a "Bekanntmachungsart" {@link TenderUpdate#externalStatus}, the validity period
+ * starting with {@link TenderUpdate#validFrom} until {@link TenderUpdate#validTo}, {@link TenderUpdate#details} and
+ * {@link TenderUpdate#attachedFiles}.
  *
  * @author Oliver Sommer
  */
@@ -39,16 +44,12 @@ public class TenderUpdate implements Serializable {
     @Column(name = "tu_valid_from" /*, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"*/)
     private Timestamp validFrom;
 
-    @CreationTimestamp
-    @Column(name = "tu_valid_to" /*, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"*/)
+    @Column(name = "tu_valid_to")
     private Timestamp validTo;
 
     @Column(name = "tu_details")
     private String details;
 
-    /*@ElementCollection
-    @CollectionTable(name = "tud_tender_updates_documents", joinColumns = @JoinColumn(name = "tu_id"))
-    @Column(name = "tu_documents")*/
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tenderUpdate")
     private Set<Attachment> attachedFiles;
 

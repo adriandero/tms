@@ -27,6 +27,6 @@ public class UserLoginDto {
 
     @Override
     public String toString() {
-        return "UserLoginDto{" + "mail='" + mail + '\'' + ", password='" + password + '\'' + '}';
+        return "UserLoginDto{" + "mail='" + mail + '\'' + ", password=[PROTECTED]" + '}';
     }
 }

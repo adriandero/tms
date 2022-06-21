@@ -5,7 +5,7 @@ package at.snt.tms.payload.request;
  *
  * @author Oliver Sommer
  */
-public class UserSignUpDto {  // TODO to be extended with more attributes
+public class UserSignUpDto {  // TODO to be extended with more attributes, currently unused
     private String mail;
     private String password;
 

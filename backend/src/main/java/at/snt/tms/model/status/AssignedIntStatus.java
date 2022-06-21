@@ -2,8 +2,9 @@ package at.snt.tms.model.status;
 
 import at.snt.tms.model.operator.User;
 import at.snt.tms.model.tender.Tender;
-import org.hibernate.envers.Audited;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +12,9 @@ import java.sql.Timestamp;
 
 /**
  * Class {@code AssignedIntStatus}
+ * <p>
+ * {@code User}s may assign an {@code InternalStatus} to a {@code Tender}, which is represented in an
+ * {@code AssignedIntStatus} object.
  *
  * @author Oliver Sommer
  */
@@ -38,6 +42,7 @@ public class AssignedIntStatus implements Serializable {
     @JoinColumn(name = "ais_u_id")
     private User user;
 
+    @CreationTimestamp
     @Column(name = "ais_created")
     private Timestamp created;
 

@@ -2,6 +2,8 @@ package at.snt.tms.payload;
 
 /**
  * Class {@code AccessRefreshTokenDto}
+ * <p>
+ * A DTO for JWT access and refresh tokens.
  *
  * @author Oliver Sommer
  */

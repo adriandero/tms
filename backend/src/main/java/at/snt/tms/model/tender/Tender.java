@@ -14,6 +14,9 @@ import java.util.Set;
 
 /**
  * Class {@code Tender}
+ * <p>
+ * {@code Tender}s con be uniquely defined by their {@link Tender#documentNumber} in combination with
+ * {@link Tender#platform}.
  *
  * @author Oliver Sommer
  */
@@ -52,11 +55,8 @@ public class Tender implements Serializable {
     @JoinColumn(name = "te_tu_updates")
     private TenderUpdate latestUpdate;
 
-    // TODO: See if fetchtype is fine here.
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tender")
     @OrderBy(value = "validFrom")
-    //@JoinColumn(name = "t_tu_updates")
     private Set<TenderUpdate> updates;
 
     @ManyToOne
@@ -67,12 +67,11 @@ public class Tender implements Serializable {
     @JoinColumn(name = "te_is_latest_int_status")
     private InternalStatus latestIntStatus;
 
-
-    // TODO: See if fetch type is fine here.
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tender")
     @OrderBy(value = "created")
     private Set<AssignedIntStatus> assignedIntStatuses;
 
+    @Column(name = "te_prediction_status")
     @NotAudited
     private InternalStatus.Static predictedIntStatus;
 
