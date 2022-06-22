@@ -8,6 +8,10 @@ import {
 import { Tender, Status } from '../../model/Tender';
 import { MatDialog } from '@angular/material/dialog';
 import { TenderOverlayComponent } from '../tender-overlay/tender-overlay.component';
+import { TenderService } from 'src/app/services/tender.service';
+import { BackendResponse } from 'src/app/model/protocol/Response';
+import { Router } from '@angular/router';
+import { STATUS_CODES } from 'http';
 
 @Component({
   selector: 'app-tender',
@@ -16,9 +20,6 @@ import { TenderOverlayComponent } from '../tender-overlay/tender-overlay.compone
 })
 export class TenderComponent implements OnInit {
   @Input() tender!: Tender;
-
-  intStatus: Status[] = this.tender?.latestIntStatus.transitions;
-  extStatus: Status[] = this.tender?.latestExtStatus.transitions;
 
   matBadge: number = 0;
 
@@ -30,7 +31,7 @@ export class TenderComponent implements OnInit {
 
   hidden = true;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(private tenderService : TenderService, public dialog: MatDialog, private router: Router) {}
   ngOnInit(): void {
     if (this.tender.latestUpdate != null) this.matBadge += 1;
     if (this.tender.updates != null)
@@ -46,11 +47,43 @@ export class TenderComponent implements OnInit {
       if (this.tender.predictionAccuracy < 0) {
         predictClass[i].style.display = 'none';
       }
-      if (this.tender.predictedIntStatus != 'IRRELEVANT') {
-        //todo - weird behaviour - look into it
-        predictClass[i].style.backgroundColor = '#93e0a0';
-      }
     }
+
+    this.fetchTransitions();
+  }
+
+  checkBoxVisible() {
+    return this.tender.latestIntStatus.label === "Unchecked"; // Label is primary key for internal status
+  }
+
+  clicked() {
+    const target = this.tender.intStatusTransitions!.find(status => status.label.toUpperCase() === this.tender.predictedIntStatus)!;
+
+    this.tenderService.updateInternalStatus(this.tender, target).subscribe(item => {
+      if(item.statusCodeValue === 200) {
+        this.tender.latestIntStatus = target;
+      }
+    });
+  }
+
+  fetchTransitions() {
+    this.tenderService.getInternalStatusTransitions(this.tender.latestIntStatus).subscribe({
+      next: (sent: any) => {
+        const response: BackendResponse<Status[]> = sent;
+        
+        this.tender.intStatusTransitions = response.body;
+      },
+    });
+  }
+
+  changeIntStatus(status: Status) {
+    this.tenderService.updateInternalStatus(this.tender, status).subscribe(item => {
+      if(item.statusCodeValue === 200) {
+        this.tender.latestIntStatus = status;
+
+        this.fetchTransitions();
+      }
+    });
   }
 
   openDialog() {

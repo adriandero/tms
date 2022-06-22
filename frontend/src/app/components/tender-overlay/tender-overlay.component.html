@@ -34,7 +34,7 @@
           {{ data.name }}
         </h4>
         <mat-chip-list aria-label="externer status">
-          <mat-chip mat-button [matMenuTriggerFor]="extern" class="extern">
+          <mat-chip mat-button class="extern">
             {{ data.latestExtStatus.label }}
           </mat-chip>
           <mat-chip mat-button [matMenuTriggerFor]="intern" class="intern">
@@ -85,17 +85,11 @@
             <div class="flexbox-assignment">+</div>
           </mat-chip>
         </mat-chip-list>
-        <mat-menu class="dropdown-menu" #extern="matMenu">
-          <button mat-menu-item>
-            <!-- <fa-icon [icon]="faUser" class="user-icon"></fa-icon> -->
-            Interesting
-          </button>
-          <button mat-menu-item>
-            <!-- <fa-icon [icon]="faTag" class="tag-icon"></fa-icon> -->
-            Uninteresting
+        <mat-menu class="dropdown-menu" #intern="matMenu">
+          <button mat-menu-item *ngFor="let intStat of data.intStatusTransitions" (click)="changeIntStatus(intStat)">
+            {{ intStat.label }}
           </button>
         </mat-menu>
-        <mat-menu class="dropdown-menu" #intern="matMenu"></mat-menu>
         <div class="line"></div>
         <div class="main">
           <h5 class="info">

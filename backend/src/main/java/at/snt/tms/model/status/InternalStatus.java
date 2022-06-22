@@ -37,36 +37,34 @@ public class InternalStatus implements Serializable {
         IRRELEVANT(new InternalStatus("Irrelevant", false)),
         UNCHECKED(new InternalStatus("Unchecked", false));
 
-        private final InternalStatus internalStatus;
+        private final InternalStatus inner;
 
-        Static(InternalStatus internalStatus) {
-            this.internalStatus = internalStatus;
+        Static(InternalStatus inner) {
+            this.inner = inner;
         }
 
-        public InternalStatus getInternalStatus() {
-            return internalStatus;
+        public InternalStatus getInner() {
+            return inner;
         }
+
     }
 
     @Id
-    @GeneratedValue
-    @Column(name = "is_id", nullable = false)
-    private Long id;
-
     @Column(name = "is_label", length = 600)
     private String label;
 
     @Column(name = "is_terminates_tender")
     private Boolean terminatesTender;
 
-    @ManyToMany
-    @JoinTable(name = "is_status_transitions", joinColumns = @JoinColumn(name = "is_id", referencedColumnName = "is_id"), inverseJoinColumns = @JoinColumn(name = "transition_is_id", referencedColumnName = "is_id"))
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "is_status_transitions", joinColumns = @JoinColumn(name = "is_label", referencedColumnName = "is_label"), inverseJoinColumns = @JoinColumn(name = "transition_is_label", referencedColumnName = "is_label"))
     @JsonIgnore
-    private Set<InternalStatus> transitions = new HashSet<>();
+    private Set<InternalStatus> transitions;
 
     public InternalStatus(String label, Boolean terminatesTender) {
         this(label);
         this.terminatesTender = terminatesTender;
+        this.transitions = new HashSet<>();
     }
 
     public InternalStatus(String label) {
@@ -74,14 +72,6 @@ public class InternalStatus implements Serializable {
     }
 
     public InternalStatus() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    private void setId(Long id) {
-        this.id = id;
     }
 
     public String getLabel() {
@@ -128,21 +118,19 @@ public class InternalStatus implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InternalStatus that = (InternalStatus) o;
-        return Objects.equals(id, that.id) && Objects.equals(label, that.label) && Objects.equals(terminatesTender, that.terminatesTender) && Objects.equals(transitions, that.transitions);
+        return Objects.equals(label, that.label) && Objects.equals(terminatesTender, that.terminatesTender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, label, terminatesTender, transitions);
+        return Objects.hash(label, terminatesTender);
     }
 
     @Override
     public String toString() {
         return "InternalStatus{" +
-                "id=" + id +
-                ", label='" + label + '\'' +
+                "label='" + label + '\'' +
                 ", terminatesTender=" + terminatesTender +
-                ", transitions=" + transitions +
                 '}';
     }
 }

@@ -8,7 +8,7 @@ import {catchError, Observable, retry, throwError} from 'rxjs';
 import {environment} from "../../environments/environment";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {Chip} from "@material-ui/core";
-import {AssignedIntStatus, Assignment, Filter, Tender} from "../model/Tender";
+import {AssignedIntStatus, Assignment, Filter, Status, Tender} from "../model/Tender";
 import {BackendResponse} from "../model/protocol/Response";
 import {RefreshRes, User} from "../auth";
 
@@ -30,7 +30,7 @@ export class TenderService {
       ); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
   public postAssignments(ass :any){
-    console.log(ass);
+    console.log("posAssignments")
     return this.http
       .post<BackendResponse<Assignment>>(`${environment.apiUrl}assignments`, ass, {
         responseType: 'json',
@@ -40,9 +40,9 @@ export class TenderService {
       ); // This weird thing with creating a function first needs to be done cause otherwise typescript is weird...
   }
 
-  getUser(mail: string) {
+  getUser(username: string) {
     console.log("getUser")
-    return this.http.get<BackendResponse<User>>(`${environment.apiUrl}users/${mail}`,{
+    return this.http.get<BackendResponse<User>>(`${environment.apiUrl}users/${username}`,{
       responseType: 'json',
     })
       .pipe(
@@ -60,6 +60,27 @@ export class TenderService {
       );
   }
 
+  public getInternalStatusTransitions(status: Status) {
+    return this.http
+      .get<BackendResponse<Status[]>>(`${environment.apiUrl}internalStatus/${status.label}/transitions`, {
+        responseType: 'json',
+      })
+      .pipe(
+        retry(0),
+        catchError((response) => this.handleError(response))
+      );
+  }
+
+  public updateInternalStatus(tender: Tender, status: Status) {
+    return this.http
+      .post<BackendResponse<any>>(`${environment.apiUrl}tenders/${tender.id}/internalStatus`, status, {
+        responseType: 'json',
+      })
+      .pipe(
+        catchError((response) => this.handleError(response))
+      );
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.
@@ -73,10 +94,7 @@ export class TenderService {
         duration: 2000,
       });
     } else if (error.status == 401) {
-      this.snackBar.open('Authentication error occured.', 'Retry', {
-        duration: 2000,
-      });
-
+      console.error('the user is not authenticated');
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.

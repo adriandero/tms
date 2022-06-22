@@ -10,7 +10,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig} from '@angular/material/dia
 
 
 import {CreateAssignmentComponent} from '../create-assignment/create-assignment.component';
-import {AssignedIntStatus, Assignment, Tender} from 'src/app/model/Tender';
+import {AssignedIntStatus, Assignment, Status, Tender} from 'src/app/model/Tender';
 import {TenderService} from '../../services/tender.service';
 import {User} from '../../model/User';
 import {Hidden} from '@material-ui/core';
@@ -44,13 +44,14 @@ export class TenderOverlayComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.data)
+    this.fetchTransitions();
     this.tenderService.getAssignments(this.data.id).subscribe({
       next: (sent: any) => {
         const response: BackendResponse<Assignment[]> = sent;
         this.assignments = response.body;
       },
     });
+
     if (this.data.updates.length == 0) {
       this.hasUpdates = false;
       //document.getElementById('history-btn')!.style.display = 'none';
@@ -69,6 +70,26 @@ export class TenderOverlayComponent {
     }/* else {
       document.getElementById('history-btn-disabled')!.style.display = 'none';
     }*/
+  }
+
+  changeIntStatus(status: Status) {
+    this.tenderService.updateInternalStatus(this.data, status).subscribe(item => {
+      if(item.statusCodeValue === 200) {
+        this.data.latestIntStatus = status;
+
+        this.fetchTransitions();
+      }
+    });
+  }
+
+  fetchTransitions() {
+    this.tenderService.getInternalStatusTransitions(this.data.latestIntStatus).subscribe({
+      next: (sent: any) => {
+        const response: BackendResponse<Status[]> = sent;
+        
+        this.data.intStatusTransitions = response.body;
+      },
+    });
   }
 
   openDialog() {
