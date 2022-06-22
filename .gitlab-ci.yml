@@ -65,11 +65,11 @@ Push latest:
     # that built the image in the previous step, we pull it again locally
     - docker pull docker-harbor.snt-online.at/tms/tms-ai:$CI_COMMIT_SHA
     - docker pull docker-harbor.snt-online.at/tms/tms-backend:$CI_COMMIT_SHA
-    - docker pull docker-harbor.snt-online.at/snt/tms-frontend:$CI_COMMIT_SHA
+    - docker pull docker-harbor.snt-online.at/tms-frontend:$CI_COMMIT_SHA
     # Then we tag it "latest"
     - docker tag docker-harbor.snt-online.at/tms/tms-ai:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms/tms-ai:latest
     - docker tag docker-harbor.snt-online.at/tms-backend:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms-backend:latest
-    - docker tag docker-harbor.snt-online.at/snt/tms-frontend:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms-frontend:latest
+    - docker tag docker-harbor.snt-online.at/tms-frontend:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms-frontend:latest
     # Annnd we push it.
     - docker push docker-harbor.snt-online.at/tms/tms-ai:latest
     - docker push docker-harbor.snt-online.at/tms-backend:latest
