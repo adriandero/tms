@@ -6,7 +6,7 @@ export interface Platform {
 }
 
 export interface Status {
-  id: number;
+  id?: number; // id is only present on external status
   label: string;
   terminatesTender: any;
   transitions: Status[];
@@ -72,6 +72,8 @@ export interface Tender {
   updates: TenderUpdate[];
   predictionAccuracy: number;
   predictedIntStatus: string;
+
+  intStatusTransitions: Status[] | undefined,
 }
 
 export interface Company {

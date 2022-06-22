@@ -62,7 +62,6 @@ console.log("here in handle401error")
 
     }),
       catchError((err) => {
-
         return throwError(err);
       })
     }
@@ -73,7 +72,7 @@ console.log("here in handle401error")
 
 
   private successRefresh(data: RefreshRes) {
-    console.log("refresh token  SUCCESS ");
+    console.log("refresh token  SUCCESS: " + JSON.stringify(data));
     localStorage.setItem('access_token', data.accessToken);
     localStorage.setItem('refresh_token', data.refreshToken);
     localStorage.setItem('login-event', 'login' + Math.random());

@@ -3,8 +3,14 @@ package at.snt.tms.rest.services;
 import at.snt.tms.model.status.InternalStatus;
 import at.snt.tms.repositories.status.InternalStatusRepository;
 import org.apache.camel.Header;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
 
 @Service
 public class IntStatusService extends GenericCrudRepoService<InternalStatus, String>{
@@ -19,4 +25,14 @@ public class IntStatusService extends GenericCrudRepoService<InternalStatus, Str
         System.out.println("Add internal status to database: " + intS);
         return repository.save(intS);
     }
+
+    @Transactional
+    public ResponseEntity<Set<InternalStatus>> transitions(@Header("id") String id) {
+        var status = this.findById(id).getBody();
+
+        Hibernate.initialize(status.getTransitions());
+
+        return ResponseEntity.ok(status.getTransitions());
+    }
+
 }

@@ -66,11 +66,11 @@
         <fa-icon [icon]="faArchive" class=" white-icons" size="lg"></fa-icon>
         <p class="link-text">My Tenders</p>
       </a>
-      <a class="single-link" *ngIf="!this.all_pages[2]"(click)="activateLatest()">
+      <a class="single-link" *ngIf="!this.all_pages[2]"(click)="activateUnchecked()">
         <fa-icon [icon]="faCertificate" class="link-icons" size="lg"></fa-icon>
         <p class="link-text">New Tenders</p>
       </a>
-      <a class="single-link blue-link" *ngIf="this.all_pages[2]" (click)="activateLatest()">
+      <a class="single-link blue-link" *ngIf="this.all_pages[2]" (click)="activateUnchecked()">
         <fa-icon [icon]="faCertificate" class=" white-icons" size="lg"></fa-icon>
         <p class="link-text">New Tenders</p>
       </a>
@@ -85,7 +85,7 @@
     </mat-nav-list>
 
     <mat-nav-list class="list-bottom">
-      <a class="single-link" href="#"  (click)="refresh()">
+      <a class="single-link" href="#">
         <fa-icon [icon]="faCog" class="link-icons" size="lg"></fa-icon>
         <p class="link-text" >Settings</p>
       </a>
