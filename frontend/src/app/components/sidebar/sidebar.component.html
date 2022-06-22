@@ -49,38 +49,21 @@
     <div class="line"></div>
 
     <mat-nav-list class="list text-center">
-      <a class="single-link" (click)="activateAll()" *ngIf="!this.all_pages[0]">
+      <a class="single-link" [class.selected]="allActivated()" (click)="activateAll()">
         <fa-icon [icon]="faInbox" class="link-icons" size="lg"></fa-icon>
         <p class="link-text">All Tenders</p>
       </a>
-      <a class="single-link blue-link" *ngIf="this.all_pages[0]" (click)="activateAll()">
-        <fa-icon [icon]="faInbox" class=" white-icons" size="lg"></fa-icon>
-        <p class="white-link-text">All Tenders</p>
-      </a>
-
-      <a class="single-link" *ngIf="!this.all_pages[1]"(click)="activateMine()">
+      <a class="single-link" [class.selected]="mineActivated()" (click)="activateMine()">
         <fa-icon [icon]="faArchive" class="link-icons" size="lg"></fa-icon>
         <p class="link-text">My Tenders</p>
       </a>
-      <a class="single-link blue-link" *ngIf="this.all_pages[1]" (click)="activateMine()">
-        <fa-icon [icon]="faArchive" class=" white-icons" size="lg"></fa-icon>
-        <p class="link-text">My Tenders</p>
-      </a>
-      <a class="single-link" *ngIf="!this.all_pages[2]"(click)="activateUnchecked()">
+      <a class="single-link" [class.selected]="uncheckedActivated()" (click)="activateUnchecked()">
         <fa-icon [icon]="faCertificate" class="link-icons" size="lg"></fa-icon>
         <p class="link-text">New Tenders</p>
       </a>
-      <a class="single-link blue-link" *ngIf="this.all_pages[2]" (click)="activateUnchecked()">
-        <fa-icon [icon]="faCertificate" class=" white-icons" size="lg"></fa-icon>
-        <p class="link-text">New Tenders</p>
-      </a>
-      <a class="single-link" *ngIf="!this.all_pages[3]"(click)="activateRejected()">
+      <a class="single-link" [class.selected]="rejectedActivated()" (click)="activateRejected()">
         <fa-icon [icon]="faTrash" class="link-icons" size="lg"></fa-icon>
-        <p class="link-text">Rejected</p>
-      </a>
-      <a class="single-link blue-link" *ngIf="this.all_pages[3]"(click)="activateRejected()">
-        <fa-icon [icon]="faTrash" class="white-icons" size="lg"></fa-icon>
-        <p class="link-text">Rejected</p>
+        <p class="link-text">Irrelevant</p>
       </a>
     </mat-nav-list>
 

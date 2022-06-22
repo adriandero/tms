@@ -7,11 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AssignmentService extends GenericCrudRepoService<Assignment, Long> {
+    private final AssignmentRepository repository;
+
     public AssignmentService (AssignmentRepository assignmentRepository){
         super(assignmentRepository, Assignment.class);
+        this.repository = assignmentRepository;
     }
 
     public void add(Assignment assignment) {
@@ -20,16 +24,7 @@ public class AssignmentService extends GenericCrudRepoService<Assignment, Long> 
     }
 
     public ResponseEntity<?> findAssignmentsByTenderId(Long id){
-        // *** this is bad ***
-        Iterable<Assignment> allAssignments = repository.findAll();
-        ArrayList<Assignment> allAssignmentsWithTenderId = new ArrayList<>();
-        for (Assignment ass: allAssignments) {
-            // should use sql / methods from repository
-            if (ass.getTender() != null && ass.getTender().getId().equals(id)){
-                allAssignmentsWithTenderId.add(ass);
-            }
-        }
-        return ResponseEntity.ok(allAssignmentsWithTenderId);
+        return ResponseEntity.ok(this.repository.findAssignmentsByTenderId(id));
     }
 
 }

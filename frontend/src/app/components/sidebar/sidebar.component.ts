@@ -60,27 +60,13 @@ export class SidebarComponent {
     files: [],
     uptDetails: [],
     users: [],
-    startDate: new Date(Date.UTC(2018, 11, 1, 0, 0, 0)), //TODO default value
-    endDate: new Date(Date.now()),
+    startDate: null, //TODO default value
+    endDate: null,
     sortBy: "DEFAULT",
   }
 
   @Input()
-  filter: Filter = {
-    platforms: [],
-    companies: [],
-    titles: [],
-    intStatus: [],
-    extStatus: [],
-    files: [],
-    uptDetails: [],
-    users: [],
-    startDate: new Date(Date.UTC(2018, 11, 1, 0, 0, 0)), //TODO default value
-    endDate: new Date(Date.now()),
-    sortBy: "DEFAULT",
-  }
-
-  all_pages  = [false, false, false, false] // all  -mytenders - new - rejected
+  filter: Filter = localStorage.getItem("filter") != null ? JSON.parse(localStorage.getItem("filter")!) : this._defaultFilter;
 
   //ngOnChanges() {
   //  console.log("ngonChanges()")
@@ -125,43 +111,57 @@ export class SidebarComponent {
   }
 
   ngOnInit() {
-
+    this.filter = localStorage.getItem("filter") != null ? JSON.parse(localStorage.getItem("filter")!) : this._defaultFilter
   }
 
   ngOnChange(){
   }
 
   activateUnchecked() {
+    this.filter = this._defaultFilter; // We can use default filter directly because site is reloaded.
     this.filter.intStatus = ["Unchecked"];
-    this.all_pages = [false, false, true, false]
 
     this.refreshPage()
+  }
+  
+  uncheckedActivated() {
+    return this.filter.intStatus.length === 1 && this.filter.intStatus[0] === "Unchecked";
   }
 
   activateMine() {
+    this.filter = this._defaultFilter; // We can use default filter directly because site is reloaded.
     this.filter.users = [this.user.mail]//new Array(sessionStorage.getItem("user") ?? ""),
     //this.all_pages[1] = true
-    this.all_pages = [false, true, false, false]
 
     this.refreshPage()
   }
 
+  mineActivated() {
+    return this.filter.users.length === 1 && this.filter.users[0] === this.user.mail;
+  }
+
   activateAll() {
-    console.log("activateAll")
     this.filter = this._defaultFilter
 
     this.refreshPage()
   }
 
+  allActivated() {
+    return JSON.stringify(this.filter) === JSON.stringify(this._defaultFilter);
+  }
+
   activateRejected(){
+    this.filter = this._defaultFilter; // We can use default filter directly because site is reloaded.
     this.filter.intStatus = ["Irrelevant"]
-    this.all_pages = [false, false, false, true]
 
     this.refreshPage()
   }
 
+  rejectedActivated() {
+    return this.filter.intStatus.length === 1 && this.filter.intStatus[0] === "Irrelevant";
+  }
+
   refreshPage() {
-    console.log("refresh page")
     localStorage.setItem("filter", JSON.stringify(this.filter))
     this.router.navigateByUrl('/RefreshComponent', {skipLocationChange: true}).then(() => {
       this.router.navigate(['home']);

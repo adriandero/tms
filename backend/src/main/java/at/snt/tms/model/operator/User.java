@@ -145,6 +145,7 @@ public class User implements UserDetails, Serializable {
         this.refreshTokenSecret = refreshTokenSecret;
     }
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();

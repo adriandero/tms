@@ -90,8 +90,8 @@ export interface Filter{
    files :   string[];
    uptDetails :   string[];
    users :   string[];
-   startDate : Date;
-   endDate : Date;
+   startDate : Date | null;
+   endDate : Date | null;
    sortBy : string | "DEFAULT";
 }
 

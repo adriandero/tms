@@ -224,11 +224,11 @@ fa-icon {
   margin-bottom: 10px;
 }
 
-.single-link:hover {
+.single-link:hover, .selected {
   background-color: rgba(6, 87, 140, 1);
 }
 
-.single-link:hover .link-text {
+.single-link:hover .link-text, .selected > * {
   color: white !important;
 }
 
