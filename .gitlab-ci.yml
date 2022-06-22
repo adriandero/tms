@@ -41,7 +41,7 @@ Build:
       docker build
       --pull
       --cache-from docker-harbor.snt-online.at/tms/tms-frontend:latest
-      --tag docker-harbor.snt-online.at/snt/tms/tms-frontend:$CI_COMMIT_SHA
+      --tag docker-harbor.snt-online.at/tms/tms-frontend:$CI_COMMIT_SHA
       frontend
     - docker push docker-harbor.snt-online.at/tms/tms-ai:$CI_COMMIT_SHA
     - docker push docker-harbor.snt-online.at/tms/tms-backend:$CI_COMMIT_SHA
