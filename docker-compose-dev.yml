@@ -1,0 +1,51 @@
+version: "3.8"
+services:
+  backend:
+    image: docker-harbor.snt-online.at/snt/tms-backend:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          memory: 1G
+    logging:
+      options:
+        max-size: "50m"
+        max-file: "5"
+    networks:
+      - core-infra
+    environment:
+      - key=value # tms configuration goes here
+  ai:
+    image: docker-harbor.snt-online.at/snt/tms-ai
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          memory: 1G
+    logging:
+      options:
+        max-size: "50m"
+        max-file: "5"
+    networks:
+      - core-infra
+  frontend:
+    image: docker-harbor.snt-online.at/snt/tms-frontend
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          memory: 1G
+    logging:
+      options:
+        max-size: "50m"
+        max-file: "5"
+    networks:
+      - core-infra
+    ports:
+      - "4200:80"
