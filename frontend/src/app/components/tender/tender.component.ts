@@ -47,10 +47,6 @@ export class TenderComponent implements OnInit {
       if (this.tender.predictionAccuracy < 0) {
         predictClass[i].style.display = 'none';
       }
-      if (this.tender.predictedIntStatus != 'IRRELEVANT') {
-        //todo - weird behaviour - look into it
-        predictClass[i].style.backgroundColor = '#93e0a0';
-      }
     }
 
     this.fetchTransitions();

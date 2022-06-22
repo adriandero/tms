@@ -131,17 +131,14 @@ export class SidebarComponent {
   ngOnChange(){
   }
 
-  activateLatest() {
-    this.filter.startDate = new Date(Date.now() - 12096e5);
-    this.filter.endDate = new Date(Date.now());
-    this.filter.sortBy = "LATEST"
+  activateUnchecked() {
+    this.filter.intStatus = ["Unchecked"];
     this.all_pages = [false, false, true, false]
 
     this.refreshPage()
   }
 
   activateMine() {
-    console.log("activateMine")
     this.filter.users = [this.user.mail]//new Array(sessionStorage.getItem("user") ?? ""),
     //this.all_pages[1] = true
     this.all_pages = [false, true, false, false]
@@ -157,7 +154,7 @@ export class SidebarComponent {
   }
 
   activateRejected(){
-    this.filter.intStatus = ["uninteressant"]
+    this.filter.intStatus = ["Irrelevant"]
     this.all_pages = [false, false, false, true]
 
     this.refreshPage()
