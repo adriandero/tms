@@ -17,9 +17,9 @@ Build:
     - mkdir -p $HOME/.docker
     - echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
     # fetches the latest image (not failing if image is not found)
-    - docker pull docker-harbor.snt-online.at/tms/tms-ai || true
-    - docker pull docker-harbor.snt-online.at/tms/tms-backend || true
-    - docker pull docker-harbor.snt-online.at/tms/tms-frontend || true
+    - docker pull docker-harbor.snt-online.at/snt/tms-ai || true
+    - docker pull docker-harbor.snt-online.at/snt/tms-backend || true
+    - docker pull docker-harbor.snt-online.at/snt/tms-frontend || true
 
     # builds the project, 
     # notice the cache-from, which is going to use the image we just pulled locally
@@ -28,24 +28,24 @@ Build:
     - >
       docker build
       --pull
-      --cache-from docker-harbor.snt-online.at/tms/tms-ai:latest
-      --tag docker-harbor.snt-online.at/tms/tms-ai:$CI_COMMIT_SHA
+      --cache-from docker-harbor.snt-online.at/snt/tms-ai:latest
+      --tag docker-harbor.snt-online.at/snt/tms-ai:$CI_COMMIT_SHA
       ai
     - >
       docker build
       --pull
-      --cache-from docker-harbor.snt-online.at/tms/tms-backend:latest
-      --tag docker-harbor.snt-online.at/tms/tms-backend:$CI_COMMIT_SHA
+      --cache-from docker-harbor.snt-online.at/snt/tms-backend:latest
+      --tag docker-harbor.snt-online.at/snt/tms-backend:$CI_COMMIT_SHA
       backend
     - >
       docker build
       --pull
-      --cache-from docker-harbor.snt-online.at/tms/tms-frontend:latest
-      --tag docker-harbor.snt-online.at/tms/tms-frontend:$CI_COMMIT_SHA
+      --cache-from docker-harbor.snt-online.at/snt/tms-frontend:latest
+      --tag docker-harbor.snt-online.at/snt/tms-frontend:$CI_COMMIT_SHA
       frontend
-    - docker push docker-harbor.snt-online.at/tms/tms-ai:$CI_COMMIT_SHA
-    - docker push docker-harbor.snt-online.at/tms/tms-backend:$CI_COMMIT_SHA
-    - docker push docker-harbor.snt-online.at/tms/tms-frontend:$CI_COMMIT_SHA
+    - docker push docker-harbor.snt-online.at/snt/tms-ai:$CI_COMMIT_SHA
+    - docker push docker-harbor.snt-online.at/snt/tms-backend:$CI_COMMIT_SHA
+    - docker push docker-harbor.snt-online.at/snt/tms-frontend:$CI_COMMIT_SHA
 
 
 # Here, the goal is to tag the "master" branch as "latest" 
@@ -63,17 +63,17 @@ Push latest:
     - echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
     # Because we have no guarantee that this job will be picked up by the same runner 
     # that built the image in the previous step, we pull it again locally
-    - docker pull docker-harbor.snt-online.at/tms/tms-ai:$CI_COMMIT_SHA
-    - docker pull docker-harbor.snt-online.at/tms/tms-backend:$CI_COMMIT_SHA
-    - docker pull docker-harbor.snt-online.at/tms/tms-frontend:$CI_COMMIT_SHA
+    - docker pull docker-harbor.snt-online.at/snt/tms-ai:$CI_COMMIT_SHA
+    - docker pull docker-harbor.snt-online.at/snt/tms-backend:$CI_COMMIT_SHA
+    - docker pull docker-harbor.snt-online.at/snt/tms-frontend:$CI_COMMIT_SHA
     # Then we tag it "latest"
-    - docker tag docker-harbor.snt-online.at/tms/tms-ai:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms/tms-ai:latest
-    - docker tag docker-harbor.snt-online.at/tms/tms-backend:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms/tms-backend:latest
-    - docker tag docker-harbor.snt-online.at/tms/tms-frontend:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms/tms-frontend:latest
+    - docker tag docker-harbor.snt-online.at/snt/tms-ai:$CI_COMMIT_SHA docker-harbor.snt-online.at/snt/tms-ai:latest
+    - docker tag docker-harbor.snt-online.at/snt/tms-backend:$CI_COMMIT_SHA docker-harbor.snt-online.at/snt/tms-backend:latest
+    - docker tag docker-harbor.snt-online.at/snt/tms-frontend:$CI_COMMIT_SHA docker-harbor.snt-online.at/snt/tms-frontend:latest
     # Annnd we push it.
-    - docker push docker-harbor.snt-online.at/tms/tms-ai:latest
-    - docker push docker-harbor.snt-online.at/tms/tms-backend:latest
-    - docker push docker-harbor.snt-online.at/tms/tms-frontend:latest
+    - docker push docker-harbor.snt-online.at/snt/tms-ai:latest
+    - docker push docker-harbor.snt-online.at/snt/tms-backend:latest
+    - docker push docker-harbor.snt-online.at/snt/tms-frontend:latest
     
 # Finally, the goal here is to Docker tag any Git tag
 # GitLab will start a new pipeline everytime a Git tag is created, which is pretty awesome
@@ -88,12 +88,12 @@ Push-v4g-vmsearch-server tag:
   script:
     - mkdir -p $HOME/.docker
     - echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
-    - docker pull docker-harbor.snt-online.at/tms/tms-ai:$CI_COMMIT_SHA
+    - docker pull docker-harbor.snt-online.at/snt/tms-ai:$CI_COMMIT_SHA
     - docker pull docker-harbor.snt-online.at/tms-backend:$CI_COMMIT_SHA
     - docker pull docker-harbor.snt-online.at/tms-frontend:$CI_COMMIT_SHA
-    - docker tag docker-harbor.snt-online.at/tms/tms-ai:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms/tms-ai:$CI_COMMIT_REF_NAME
-    - docker tag docker-harbor.snt-online.at/tms-backend:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms-backend:$CI_COMMIT_REF_NAME
-    - docker tag docker-harbor.snt-online.at/tms-frontend:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms-frontend:$CI_COMMIT_REF_NAME
-    - docker push docker-harbor.snt-online.at/tms/tms-ai:$CI_COMMIT_REF_NAME
-    - docker push docker-harbor.snt-online.at/tms-backend:$CI_COMMIT_REF_NAME
-    - docker push docker-harbor.snt-online.at/tms-frontend:$CI_COMMIT_REF_NAME
+    - docker tag docker-harbor.snt-online.at/snt/tms-ai:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms/tms-ai:$CI_COMMIT_REF_NAME
+    - docker tag docker-harbor.snt-online.at/snt/tms-backend:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms-backend:$CI_COMMIT_REF_NAME
+    - docker tag docker-harbor.snt-online.at/snt/tms-frontend:$CI_COMMIT_SHA docker-harbor.snt-online.at/tms-frontend:$CI_COMMIT_REF_NAME
+    - docker push docker-harbor.snt-online.at/snt/tms-ai:$CI_COMMIT_REF_NAME
+    - docker push docker-harbor.snt-online.at/snt/tms-backend:$CI_COMMIT_REF_NAME
+    - docker push docker-harbor.snt-online.at/snt/tms-frontend:$CI_COMMIT_REF_NAME
