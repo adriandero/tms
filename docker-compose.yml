@@ -1,20 +1,18 @@
 version: "3.8"
 services:
   backend:
-    build:
-      context: ./backend/
-    image: tms/backend
+    image: docker-harbor.snt-online.at/snt/tms-backend:latest
+    networks:
+      - core-infra
     environment:
-      - todo=todo
+      - key=value # tms configuration goes here
   ai:
-    build:
-      context: ./ai
-    image: tms/ai
+    image: docker-harbor.snt-online.at/snt/tms-ai
+    networks:
+      - core-infra
   frontend:
-    build:
-      context: ./frontend/
-    depends_on:
-      - "backend"
+    image: docker-harbor.snt-online.at/snt/tms-frontend
+    networks:
+      - core-infra
     ports:
-      - 80:80
-    image: tms/frontend-updated
+      - "4200:80"
