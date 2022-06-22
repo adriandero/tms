@@ -16,7 +16,7 @@
   <!-- <mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()"
  <mat-card class="card" matBadge="3" matBadgePosition="before" (click)="go()">-->
   <mat-chip-list aria-label="Fish selection">
-    <mat-chip mat-button [matMenuTriggerFor]="extern" class="extern"
+    <mat-chip class="extern"
       >{{ tender.latestExtStatus?.label }}
     </mat-chip>
     <mat-chip mat-button [matMenuTriggerFor]="intern" class="intern">{{
@@ -27,13 +27,8 @@
       {{ tender.predictedIntStatus }}</mat-chip
     >
   </mat-chip-list>
-  <mat-menu class="dropdown-menu" #extern="matMenu">
-    <button mat-menu-item *ngFor="let extStat of extStatus">
-      {{ extStat.label }}
-    </button>
-  </mat-menu>
   <mat-menu class="dropdown-menu" #intern="matMenu">
-    <button mat-menu-item *ngFor="let intStat of intStatus">
+    <button mat-menu-item *ngFor="let intStat of tender.intStatusTransitions" (click)="changeIntStatus(intStat)">
       {{ intStat.label }}
     </button>
   </mat-menu>
@@ -52,6 +47,6 @@
     <!-- <button mat-button [matMenuTriggerFor]="menu" class="dropdown-btn">
       <fa-icon [icon]="faAngleDown" class="dropdown-icon"></fa-icon>
     </button> -->
-    <mat-checkbox color="primary" class="read-checkbox"></mat-checkbox>
+    <mat-checkbox color="primary" class="read-checkbox" (change)="clicked()" *ngIf="checkBoxVisible()"></mat-checkbox>
   </div>
 </mat-card>

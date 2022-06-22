@@ -2,7 +2,9 @@ package at.snt.tms.rest;
 
 import at.snt.tms.model.dtos.AccessRefreshTokenDto;
 import at.snt.tms.model.dtos.request.UserLoginDto;
+import at.snt.tms.model.status.InternalStatus;
 import at.snt.tms.model.tender.Assignment;
+import at.snt.tms.repositories.status.InternalStatusRepository;
 import at.snt.tms.rest.services.*;
 import org.apache.camel.Exchange;
 import at.snt.tms.rest.services.tender.FilterConfiguration;
@@ -36,11 +38,18 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .consumes("application/json")
                 .type(FilterConfiguration.class)
                 .get("{id}")
-                .to("direct:tenderId");
+                .to("direct:tenderId")
+                .post("{id}/internalStatus")
+                .consumes("application/json")
+                .type(InternalStatus.class)
+                .to("direct:updateInternal");
+
         from("direct:allTenders")
                 .bean(TenderService.class, "findFiltered");
         from("direct:tenderId")
                 .bean(TenderService.class, "findById(${header.id})");
+        from("direct:updateInternal")
+                .bean(TenderService.class, "updateInternal(${header.id}, ${body})");
 
         rest("/attachment")
                 .get("{id}")
@@ -80,11 +89,16 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .post()
                 .to("direct:addIntStatus")
                 .delete("{id}")
-                .to("direct:delIntStatus");
+                .to("direct:delIntStatus")
+                .get("{id}/transitions")
+                .to("direct:intStatusTransitions");
+
         from("direct:allIntStatus")
                 .bean(IntStatusService.class, "findAll");
         from("direct:intStatusId")
                 .bean(IntStatusService.class, "findById(${header.id})");
+        from("direct:intStatusTransitions")
+                .bean(IntStatusService.class, "transitions(${header.id})");
         from("direct:addIntStatus")
                 .bean(IntStatusService.class, "add");
         from("direct:delIntStatus")

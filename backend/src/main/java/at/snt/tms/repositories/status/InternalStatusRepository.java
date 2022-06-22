@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface InternalStatusRepository extends CrudRepository<InternalStatus, String> {
-    ExternalStatus findByLabel(String label);
+    InternalStatus findByLabel(String label);
 }

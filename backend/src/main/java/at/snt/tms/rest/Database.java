@@ -70,13 +70,23 @@ public class Database {
         this.assignmentRepository = assignmentRepository;
         this.revRepository = tenderRevRepository;
 
+
+        for (InternalStatus.Static status : InternalStatus.Static.values()) {
+            this.internalStatusRepository.save(status.getInner());
+        }
+
+        InternalStatus.Static.INTERESTING.getInner().addTransitions(InternalStatus.Static.IRRELEVANT.getInner());
+        InternalStatus.Static.IRRELEVANT.getInner().addTransitions(InternalStatus.Static.INTERESTING.getInner());
+        InternalStatus.Static.UNCHECKED.getInner().addTransitions(InternalStatus.Static.IRRELEVANT.getInner(), InternalStatus.Static.INTERESTING.getInner());
+
+        for (InternalStatus.Static status : InternalStatus.Static.values()) {
+            this.internalStatusRepository.save(status.getInner());
+        }
+
         // ------------------------------------------ Demo Data ------------------------------------------
 
         System.out.println("Adding demo data:");
 
-        for (InternalStatus.Static status : InternalStatus.Static.values()) {
-            this.internalStatusRepository.save(status.getInternalStatus());
-        }
 
         // Adding demo data:
         final Platform platform = this.platformRepository.save(new Platform("http://demo.at"));

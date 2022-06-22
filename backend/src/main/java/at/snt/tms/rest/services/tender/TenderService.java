@@ -1,23 +1,52 @@
 package at.snt.tms.rest.services.tender;
 
+import at.snt.tms.model.status.InternalStatus;
 import at.snt.tms.model.tender.Tender;
+import at.snt.tms.repositories.status.InternalStatusRepository;
 import at.snt.tms.repositories.tender.TenderRepository;
 import at.snt.tms.rest.services.GenericCrudRepoService;
 import org.apache.camel.Body;
+import org.apache.camel.Header;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.core.Response;
 import java.util.*;
 
 //@Controller
 @Service  // works even without @Service interestingly?
 public class TenderService extends GenericCrudRepoService<Tender, Long> {
 
+    private TenderRepository tenders;
+    private InternalStatusRepository internalStatus;
+
     @Autowired
-    public TenderService(TenderRepository tenders){
+    public TenderService(TenderRepository tenders, InternalStatusRepository internalStatus){
         super(tenders, Tender.class);
+        this.tenders = tenders;
+        this.internalStatus = internalStatus;
+    }
+
+    public ResponseEntity<?> updateInternal(@Header(value = "id") long tender, @Body InternalStatus status) {
+        final Tender foundTender = this.findById(tender).getBody();
+
+        if(foundTender == null) return ResponseEntity.badRequest().body("Given tender id is unknown.");
+        System.out.println(status);
+        InternalStatus found = this.internalStatus.findByLabel(status.getLabel());
+
+        if(found == null) found = status;
+        else {
+            found.setTerminatesTender(status.getTerminatesTender()); // Apply requested changes expect transitions.
+        }
+
+        // Set & (Update | Create internal status)
+        foundTender.setLatestIntStatus(found);
+
+        this.tenders.save(foundTender);
+
+        return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<? extends Iterable<Tender>> findFiltered(@Body FilterConfiguration config) {

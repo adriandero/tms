@@ -3,6 +3,7 @@ package at.snt.tms.model.tender;
 import at.snt.tms.model.status.AssignedIntStatus;
 import at.snt.tms.model.status.ExternalStatus;
 import at.snt.tms.model.status.InternalStatus;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
@@ -27,6 +28,7 @@ import java.util.Set;
 @Entity
 @Audited
 @Table(name = "te_tenders")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Tender implements Serializable {
     private static final long serialVersionUID = 3865877817478679993L;
 
@@ -192,7 +194,7 @@ public class Tender implements Serializable {
         return latestIntStatus;
     }
 
-    void setLatestIntStatus(InternalStatus latestIntStatus) {
+    public void setLatestIntStatus(InternalStatus latestIntStatus) {
         this.latestIntStatus = latestIntStatus;
     }
 

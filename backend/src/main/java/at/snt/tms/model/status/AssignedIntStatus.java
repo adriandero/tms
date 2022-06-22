@@ -27,7 +27,7 @@ public class AssignedIntStatus implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "ais_id")
+    @Column(name = "ais_")
     private Long id;
 
     @ManyToOne

@@ -130,9 +130,6 @@ export class SidebarComponent {
 
   ngOnChange(){
   }
-  refresh() {
-    this.authService.refreshToken();
-  }
 
   activateLatest() {
     this.filter.startDate = new Date(Date.now() - 12096e5);

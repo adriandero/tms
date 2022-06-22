@@ -78,7 +78,6 @@ export class AuthService {
 
 
   refreshToken(): Observable<BackendResponse<RefreshRes>> {
-    console.log("refresh token yes")
     const refreshToken = localStorage.getItem('refresh_token');
     const accessToken = localStorage.getItem('access_token');
 
