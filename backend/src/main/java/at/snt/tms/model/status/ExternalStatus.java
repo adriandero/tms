@@ -102,12 +102,12 @@ public class ExternalStatus implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ExternalStatus that = (ExternalStatus) o;
-        return Objects.equals(id, that.id) && Objects.equals(label, that.label) && Objects.equals(terminatesTender, that.terminatesTender) && Objects.equals(transitions, that.transitions);
+        return Objects.equals(id, that.id) && Objects.equals(label, that.label);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, label, terminatesTender, transitions);
+        return Objects.hash(id, label, terminatesTender);
     }
 
     @Override
@@ -116,7 +116,6 @@ public class ExternalStatus implements Serializable {
                 "id=" + id +
                 ", label='" + label + '\'' +
                 ", terminatesTender=" + terminatesTender +
-                ", transitions=" + transitions +
                 '}';
     }
 }
