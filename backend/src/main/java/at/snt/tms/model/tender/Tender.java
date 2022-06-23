@@ -280,13 +280,14 @@ public class Tender implements Serializable {
         private String description;
         // adding updates is not supported by the Builder
         private ExternalStatus latestExtStatus;
-        // assigning InternalStatus is not supported by the Builder
+        private InternalStatus internalStatus;
         private InternalStatus.Static predictedIntStatus;
         private Integer predictionAccuracy;
 
         public Builder(String documentNumber, Platform platform) {
             this.documentNumber = documentNumber;
             this.platform = platform;
+            this.internalStatus = InternalStatus.Static.UNCHECKED.getInner();
         }
 
         public static Builder newInstance(String documentNumber, Platform platform) {
@@ -318,6 +319,11 @@ public class Tender implements Serializable {
             return this;
         }
 
+        public Tender.Builder internalStatus(InternalStatus internalStatus) {
+            this.internalStatus = internalStatus;
+            return this;
+        }
+
         public Tender.Builder prediction(InternalStatus.Static predictedIntStatus, int predictionAccuracy) {
             this.predictedIntStatus = predictedIntStatus;
             this.predictionAccuracy = predictionAccuracy;
@@ -325,8 +331,12 @@ public class Tender implements Serializable {
         }
 
         public Tender build() {
-            return new Tender(documentNumber, platform, link, name, company, description, latestExtStatus,
+            final Tender tender = new Tender(documentNumber, platform, link, name, company, description, latestExtStatus,
                     predictedIntStatus, predictionAccuracy);
+
+            tender.setLatestIntStatus(this.internalStatus);
+
+            return tender;
         }
     }
 }

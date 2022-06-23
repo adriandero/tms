@@ -137,6 +137,8 @@ public class AuftragAt implements MailHandler {
                 }
 
                 existing.addUpdate(update);
+
+                extensionsManager.getDatabase().getTenderRepository().save(existing); // Save added update.
             }
 
             return true;
