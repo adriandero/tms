@@ -88,7 +88,7 @@ public class ExtensionsManager {
      * @param url  The file containing the extension code.
      */
     public void load(URL url) throws IOException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        final ClassLoader loader = new URLClassLoader(new URL[]{url});
+        final ClassLoader loader = new URLClassLoader(new URL[]{url}, this.getClass().getClassLoader());
         final String[] handlers = new String(loader.getResourceAsStream("extension.info").readAllBytes()).split("\n");
 
         final MailHandler[] mailHandlers = new MailHandler[handlers.length];
