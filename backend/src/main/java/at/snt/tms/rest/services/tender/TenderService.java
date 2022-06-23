@@ -77,8 +77,7 @@ public class TenderService extends GenericCrudRepoService<Tender, Long> {
 
                         users.addAll(tender.getAssignedIntStatus().stream().map(status -> status.getUser()).collect(Collectors.toSet()));
 
-                        return users.stream().anyMatch(found -> found != null && (found.getLastName().toLowerCase().contains(user) || found.getFirstName().toLowerCase().contains(user) || found.getUsername().toLowerCase().contains(user) || found.getMail().toLowerCase().contains(user)));
-
+                        return users.stream().anyMatch(found -> found != null && (found.getLastName() != null && found.getLastName().toLowerCase().contains(user) || found.getFirstName() != null && found.getFirstName().toLowerCase().contains(user) || found.getMail() != null && found.getMail().toLowerCase().contains(user)));
                     }))) {
                 filtered.add(tender);
             }
