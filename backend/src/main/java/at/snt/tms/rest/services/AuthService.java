@@ -13,6 +13,7 @@ import org.apache.camel.Body;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,6 +26,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,6 +57,9 @@ public class AuthService {
     @Autowired
     private JwtUtils jwtUtils;
 
+    @Value("${tms.jwt.refresh-token-expiration}")
+    private long jwtRefreshExpiration;
+
     public ResponseEntity<?> authenticateUser(@Body UserLoginDto loginRequest) {
         Authentication authentication;
         try {
@@ -69,13 +75,20 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String accessToken = jwtUtils.generateJwtAccessToken(authentication);
 
-        String secret = randomBase64();
-        String refreshToken = jwtUtils.generateJwtRefreshToken(secret);
-
-        // store refresh-token in database
         User user = userRepository.findByMailIgnoreCase(userDetails.getUsername());
-        user.setRefreshTokenSecret(secret);
-        userRepository.save(user);
+
+        Timestamp currentTime = Timestamp.from(Instant.now());
+
+        // if a valid refresh token still exists (in a parallel session) -> send this one; otherwise send newly generated token
+        if(user.getRefreshTokenSecret() == null || currentTime.getTime() - user.getRefreshTokenLatestAccess().getTime() > jwtRefreshExpiration) {
+            String secret = randomBase64();
+
+            // store new refresh-token in database
+            user.setRefreshTokenSecret(secret);
+            userRepository.save(user);
+        }
+
+        String refreshToken = jwtUtils.generateJwtRefreshToken(user.getRefreshTokenSecret());
 
         return ResponseEntity.ok(
                 new JwtResponse(
@@ -89,14 +102,14 @@ public class AuthService {
         if(SecurityContextHolder.getContext().getAuthentication().getPrincipal().getClass() == User.class)  {
             // delete refresh-token-secret for logged-in users
             User user =  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            user.setRefreshTokenSecret(null);
+            // user.setRefreshTokenSecret(null);  // commented as this line would effectively log out all active sessions
             userRepository.save(user);
         }
         return ResponseEntity.ok(new MessageResponse("Successfully logged out."));
     }
 
     public ResponseEntity<?> refreshTokens(@Body AccessRefreshTokenDto tokens) {
-        if (!jwtUtils.jwtIsRefreshable(tokens.getAccessToken()) || !jwtUtils.validateJwtToken(tokens.getRefreshToken())) {
+        if (!jwtUtils.jwtIsRefreshable(tokens.getAccessToken()) || !jwtUtils.validateJwt(tokens.getRefreshToken())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid tokens provided."));
         }
 
@@ -107,19 +120,22 @@ public class AuthService {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid tokens provided."));
         }
 
+        /* this code has been commented since regenerating the secret of refresh-tokens would invalidate refresh-tokens of other sessions
         String secret = randomBase64();  // generate random Base64-value
-        // store refresh-token in database
+        // store new refresh-token in database
         user.setRefreshTokenSecret(secret);
         userRepository.save(user);
+        */
+        user.setRefreshTokenLatestAccess(Timestamp.from(Instant.now()));
 
-        String refresh = jwtUtils.generateJwtRefreshToken(secret);
+        String refresh = jwtUtils.generateJwtRefreshToken(user.getRefreshTokenSecret());
         String access = jwtUtils.refreshExpiredJwtAccessToken(tokens.getAccessToken());
 
         return ResponseEntity.ok(new AccessRefreshTokenDto(access, refresh));
     }
 
     public ResponseEntity<?> validateTokens(@Body AccessRefreshTokenDto tokens) {
-        if (!jwtUtils.jwtIsRefreshable(tokens.getAccessToken()) || !jwtUtils.validateJwtToken(tokens.getRefreshToken())) {
+        if (!jwtUtils.jwtIsRefreshable(tokens.getAccessToken()) || !jwtUtils.validateJwt(tokens.getRefreshToken())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid tokens provided."));
         }
 

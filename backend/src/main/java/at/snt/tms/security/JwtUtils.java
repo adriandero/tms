@@ -95,7 +95,7 @@ public class JwtUtils {
         return false;
     }
 
-    public boolean validateJwtToken(String authToken) {
+    public boolean validateJwt(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;

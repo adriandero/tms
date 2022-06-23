@@ -1,7 +1,6 @@
 package at.snt.tms.model.operator;
 
 import at.snt.tms.model.tender.Assignment;
-import at.snt.tms.model.tender.TenderUpdate;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.envers.Audited;
@@ -12,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -64,6 +65,11 @@ public class User implements UserDetails, Serializable {
     @JsonIgnore
     @NotAudited
     private String refreshTokenSecret;  // authorization
+
+    @Column(name = "u_refresh_token_latest_access", length = 500)
+    @JsonIgnore
+    @NotAudited
+    private Timestamp refreshTokenLatestAccess;
 
     public User(String mail, String passwordHash) {
         this.mail = mail;
@@ -143,13 +149,22 @@ public class User implements UserDetails, Serializable {
 
     public void setRefreshTokenSecret(String refreshTokenSecret) {
         this.refreshTokenSecret = refreshTokenSecret;
+        this.setRefreshTokenLatestAccess(refreshTokenSecret == null ? null : Timestamp.from(Instant.now()));
+    }
+
+    public void setRefreshTokenLatestAccess(Timestamp refreshTokenLatestAccess) {
+        this.refreshTokenLatestAccess = refreshTokenLatestAccess;
+    }
+
+    public Timestamp getRefreshTokenLatestAccess() {
+        return refreshTokenLatestAccess;
     }
 
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        if(this.getGroup() != null && this.getGroup().getPermissions().size() > 0) {
+        if (this.getGroup() != null && this.getGroup().getPermissions().size() > 0) {
             this.getGroup().getPermissions().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getDesignation())));
         }
         return authorities;
@@ -196,6 +211,6 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", mail='" + mail + '\'' + ", password=[PROTECTED], group=" + group + ", refreshTokenSecret=[PROTECTED]}";
+        return "User{" + "id=" + id + ", mail='" + mail + '\'' + ", password=[PROTECTED], group=" + group + '}';
     }
 }
