@@ -54,7 +54,7 @@ public class Tender implements Serializable {
     @JoinColumn(name = "te_c_company")
     private Company company;
 
-    @Column(name = "te_description", length = 2048)
+    @Column(name = "te_description", length = 4096)
     private String description;  // Beschreibung der Ausschreibung
 
     @ManyToOne

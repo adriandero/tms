@@ -49,7 +49,8 @@ public class TenderUpdate implements Serializable {
     @Column(name = "tu_valid_to")
     private Timestamp validTo;
 
-    @Column(name = "tu_details")
+    // @Column(columnDefinition="TEXT")
+    @Column(name = "tu_details", length = 4096)
     private String details;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "tenderUpdate")

@@ -96,7 +96,7 @@ public class AuftragAt implements MailHandler {
                 final String title = titleMatcher.group(1);
                 //System.out.println(title);
                 if(!(bekanntmachungArtMatcher.find() && beschreibungMatcher.find() && auftraggeberMatcher.find() && linkMatcher.find())) {
-                    LOGGER.error("Failed to parse incoming tender."); // TODO: Use logger
+                    LOGGER.error("Failed to parse incoming tender.");
                     break;
                 }
 
