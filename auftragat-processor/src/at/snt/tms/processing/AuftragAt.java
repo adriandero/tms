@@ -77,6 +77,7 @@ public class AuftragAt implements MailHandler {
         final String senders = ((String) handleableMail.getHeaders().get("from")).toLowerCase();
 
         if(senders.contains("office@auftrag.at") || senders.contains("dominik.fluch@snt.at")) {
+            System.out.println("\n\n\n\n\n\n\nHANDLE MAIL!!!!\n\n\n\n\n\n\n");
             String body = handleableMail.getBody().substring(handleableMail.getBody().indexOf(AuftragAt.BEGIN_DELIMITER) + AuftragAt.BEGIN_DELIMITER.length(), handleableMail.getBody().indexOf(AuftragAt.END_DELIMITER));
 
             try {
