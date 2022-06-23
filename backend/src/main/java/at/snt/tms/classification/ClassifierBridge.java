@@ -112,7 +112,9 @@ public class ClassifierBridge {
      */
     public CompletableFuture<ClassifierPredictionDetails> predict(Tender tender) throws IOException, URISyntaxException {
         final HttpClient client = HttpClient.newHttpClient();
-        final HttpRequest request = HttpRequest.newBuilder().header("Content-Type", "application/json").uri(new URI(this.url).resolve("/predict")).POST(HttpRequest.BodyPublishers.ofByteArray(ClassifierBridge.OBJECT_MAPPER.writeValueAsBytes(new ClassifierPredictionRequest(tender.getId(), tender.getName() + tender.getDescription())))).build();
+        final HttpRequest request = HttpRequest.newBuilder().header("Content-Type", "application/json").uri(new URI(this.url).resolve("/predict")).POST(HttpRequest.BodyPublishers.ofByteArray(ClassifierBridge.OBJECT_MAPPER
+                .writeValueAsBytes(new ClassifierPredictionRequest(tender.getId(),
+                        tender.getName() + tender.getDescription())))).build();
 
         return client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApplyAsync(data -> {
             try {

@@ -32,7 +32,6 @@ class SvmManager:
 
     def create_pipes(self) -> List[Pipeline]:
         pipes = []
-        # vec = TfidfVectorizer(stop_words=stop_words)
         for svc in self.svcs:
             pipes.append(Pipeline([('vectorizer', self.vectorizer),
                                    ('classifier', svc)]))
@@ -43,11 +42,10 @@ class SvmManager:
 
         X_train, X_test, y_train, y_test = split_data(tenders_df)
 
-        accuracies = []
+        self.accuracies = []
         for pipe in self.pipes:
             pipe.fit(X_train, y_train)
-            accuracies.append(pipe.score(X_test, y_test))
-        self.accuracies = accuracies
+            self.accuracies.append(pipe.score(X_test, y_test))
         self.best_model_idx = self.accuracies.index(max(self.accuracies))
 
         save(self)
@@ -55,9 +53,6 @@ class SvmManager:
 
     def predict(self, tender: PredictTender) -> Prediction:
         x = [clean(tender['text'])]
-        # print(self.pipes)
-        # print(self.accuracies)
-        # print(self.best_model_idx)
         best_model = self.pipes[self.best_model_idx]
         prediction = best_model.predict(x)
 
@@ -66,7 +61,7 @@ class SvmManager:
 
         return {
             'tenderId': tender['tenderId'],
-            'label': prediction[0],
+            'label': int(prediction[0]),
             'confidence': int(confidence * 100)
         }
 

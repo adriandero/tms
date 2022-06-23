@@ -77,7 +77,6 @@ public class AuftragAt implements MailHandler {
         final String senders = ((String) handleableMail.getHeaders().get("from")).toLowerCase();
 
         if(senders.contains("office@auftrag.at") || senders.contains("dominik.fluch@snt.at")) {
-            System.out.println("\n\n\n\n\n\n\nHANDLE MAIL!!!!\n\n\n\n\n\n\n");
             String body = handleableMail.getBody().substring(handleableMail.getBody().indexOf(AuftragAt.BEGIN_DELIMITER) + AuftragAt.BEGIN_DELIMITER.length(), handleableMail.getBody().indexOf(AuftragAt.END_DELIMITER));
 
             try {
@@ -131,7 +130,6 @@ public class AuftragAt implements MailHandler {
 
                 final TenderUpdate update = extensionsManager.getDatabase().getTenderUpdateRepository().save(new TenderUpdate(existing, externalStatus, Timestamp.from(Instant.now()), beschreibung, new HashSet<>()));
 
-
                 for(String name : handleableMail.getAttachments().keySet()) {
                     final byte[] content = handleableMail.getAttachments().get(name);
 
@@ -148,7 +146,7 @@ public class AuftragAt implements MailHandler {
     }
 
     private Tender createTender(ExtensionsManager extensionsManager, String documentNumber, String link, String title, Company company, String beschreibung, ExternalStatus externalStatus) {
-        final Tender tender = Tender.Builder.newInstance(documentNumber, this.auftrag).link(link).name(title).company(company).description(beschreibung).latestExtStatus(externalStatus).prediction(InternalStatus.Static.UNCHECKED, -1).build();
+        final Tender tender = extensionsManager.getDatabase().getTenderRepository().save(Tender.Builder.newInstance(documentNumber, this.auftrag).link(link).name(title).company(company).description(beschreibung).latestExtStatus(externalStatus).prediction(InternalStatus.Static.UNCHECKED, -1).build()); // save known data
 
         try {
             final ClassifierPredictionDetails prediction = extensionsManager.getClassifierBridge().predict(tender).get();
@@ -159,7 +157,7 @@ public class AuftragAt implements MailHandler {
             LOGGER.error("Failed to predict for tender with name \"" + tender.getName() + "\".", exception);
         }
 
-        return extensionsManager.getDatabase().getTenderRepository().save(tender);
+        return extensionsManager.getDatabase().getTenderRepository().save(tender); // save new prediction changes.
     }
 
     /**
