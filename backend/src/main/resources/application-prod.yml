@@ -18,8 +18,7 @@ spring:
     generate-ddl: false
     open-in-view: false
     hibernate:
-      # To be updated in real production usage!
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
