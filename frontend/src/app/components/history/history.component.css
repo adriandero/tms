@@ -3,6 +3,7 @@
   flex-direction: row;
   height: 100vh;
   width: 100%;
+  overflow-y: scroll;
 }
 app-sidebar {
   position: sticky; /* Fixed Sidebar (stay in place on scroll) */
