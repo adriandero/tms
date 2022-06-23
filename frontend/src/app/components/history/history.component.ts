@@ -92,9 +92,6 @@ export class HistoryComponent {
 
   ngOnInit(): void {
     this.updates = this.tender?.updates!;
-    this.tender?.latestUpdate != null
-      ? this.updates.unshift(this.tender?.latestUpdate!)
-      : (this.hasUpdates = false);
 
     /*
     this.tenderService.getTenders().subscribe({

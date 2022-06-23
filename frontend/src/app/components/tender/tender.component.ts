@@ -33,7 +33,6 @@ export class TenderComponent implements OnInit {
 
   constructor(private tenderService : TenderService, public dialog: MatDialog, private router: Router) {}
   ngOnInit(): void {
-    if (this.tender.latestUpdate != null) this.matBadge += 1;
     if (this.tender.updates != null)
       this.matBadge += this.tender.updates.length;
 
