@@ -2,6 +2,7 @@ package at.snt.tms.rest;
 
 import at.snt.tms.model.dtos.AccessRefreshTokenDto;
 import at.snt.tms.model.dtos.request.UserLoginDto;
+import at.snt.tms.model.dtos.request.UserSignUpDto;
 import at.snt.tms.model.status.InternalStatus;
 import at.snt.tms.model.tender.Assignment;
 import at.snt.tms.repositories.status.InternalStatusRepository;
@@ -62,12 +63,18 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
         rest("/users")
                 .get()
                 .to("direct:allUsers")
+
                 .get("id/{id}")
                 .to("direct:userId")
+
                 .get("{mail}")
                 .to("direct:findByUserMail")
+
                 .post()
                 .to("direct:addUser")
+                .consumes("application/json")
+                .type(UserSignUpDto.class)
+
                 .delete("{id}")
                 .to("direct:delUser");
         from("direct:allUsers")

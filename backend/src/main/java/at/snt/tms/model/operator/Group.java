@@ -23,6 +23,27 @@ import java.util.Set;
 public class Group implements Serializable {
     private static final long serialVersionUID = -430763022781473677L;
 
+    /**
+     * Enum {@code Group.Static}
+     * <p>
+     * Enum of all static built-in groups.
+     */
+    public enum Static {
+        MANAGER(new Group("Manager", Permission.Static.USER_MANAGEMENT.getInner())),  // admin
+        ASSISTANT(new Group("Assistant"));
+
+        private final Group inner;
+
+        Static(Group inner) {
+            this.inner = inner;
+        }
+
+        public Group getInner() {
+            return inner;
+        }
+    }
+
+
     @Id
     @GeneratedValue
     @Column(name = "g_id")
@@ -32,7 +53,7 @@ public class Group implements Serializable {
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "g_r_group_permissions", joinColumns = @JoinColumn(name = "g_id"), inverseJoinColumns = @JoinColumn(name = "pe_id"))
+    @JoinTable(name = "g_pe_group_permissions", joinColumns = @JoinColumn(name = "g_id"), inverseJoinColumns = @JoinColumn(name = "pe_id"))
     @JsonIgnore
     private Set<Permission> permissions = new HashSet<>();
 

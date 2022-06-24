@@ -70,7 +70,7 @@ public class AuthService {
         }
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+        List<String> permissions = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String accessToken = jwtUtils.generateJwtAccessToken(authentication);
@@ -94,7 +94,7 @@ public class AuthService {
                 new JwtResponse(
                         new AccessRefreshTokenDto(accessToken, refreshToken),
                         userDetails.getUsername(),  // username is mail
-                        roles)
+                        permissions)
         );
     }
 

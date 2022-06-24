@@ -13,12 +13,12 @@ public class JwtResponse {
     private AccessRefreshTokenDto tokens;
     private String type = "Bearer";
     private String mail;
-    private final List<String> roles;
+    private final List<String> permissions;
 
     public JwtResponse(AccessRefreshTokenDto tokens, String mail, List<String> roles) {
         this.tokens = tokens;
         this.mail = mail;
-        this.roles = roles;
+        this.permissions = roles;
     }
 
     public AccessRefreshTokenDto getTokens() {
@@ -45,7 +45,7 @@ public class JwtResponse {
         this.mail = mail;
     }
 
-    public List<String> getRoles() {  // TODO
-        return roles;
+    public List<String> getPermissions() {
+        return permissions;
     }
 }
