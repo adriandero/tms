@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.activation.DataHandler;
+import javax.mail.internet.MimeUtility;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,7 @@ public class ReceiveMailProcessor implements Processor {
             }
         } catch (Exception e) {}
 
-        final HandleableMail mail = new HandleableMail(exchange.getIn().getHeaders(), exchange.getIn().getBody(String.class), attachments);
+        final HandleableMail mail = new HandleableMail(exchange.getIn().getHeaders(), MimeUtility.decodeText(MimeUtility.unfold(exchange.getIn().getBody(String.class))), attachments);
 
         for(MailHandler[] handlers : this.extensionsManager.getLoaded().values()) {
             for(MailHandler handler : handlers) {

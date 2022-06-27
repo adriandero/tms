@@ -157,9 +157,6 @@ public class AuftragAt implements MailHandler {
             tender.setPredictedIntStatus(prediction.getLabel());
             tender.setPredictionAccuracy(prediction.getConfidence());
         }catch(IOException | URISyntaxException | InterruptedException | ExecutionException exception) {
-            tender.setPredictedIntStatus(System.currentTimeMillis() % 2 == 0 ? InternalStatus.Static.INTERESTING : InternalStatus.Static.IRRELEVANT);
-            tender.setPredictionAccuracy(new Random().nextInt(100)); // TODO: remove - this is just for demo
-
             LOGGER.error("Failed to predict for tender with name \"" + tender.getName() + "\".", exception);
         }
 
