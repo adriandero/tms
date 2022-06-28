@@ -1,17 +1,17 @@
 version: "3.8"
 services:
   backend:
-    image: docker-harbor.snt-online.at/snt/tms-backend:latest
+    image: docker-harbor.snt-online.at/tms/tms-backend:latest
     networks:
       - core-infra
     environment:
       - key=value # tms configuration goes here
   ai:
-    image: docker-harbor.snt-online.at/snt/tms-ai
+    image: docker-harbor.snt-online.at/tms/tms-ai
     networks:
       - core-infra
   frontend:
-    image: docker-harbor.snt-online.at/snt/tms-frontend
+    image: docker-harbor.snt-online.at/tms/tms-frontend
     networks:
       - core-infra
     ports:
