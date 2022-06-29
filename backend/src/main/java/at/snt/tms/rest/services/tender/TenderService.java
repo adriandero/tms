@@ -40,7 +40,7 @@ public class TenderService extends GenericCrudRepoService<Tender, Long> {
         final Tender foundTender = this.findById(tender).getBody();
 
         if(foundTender == null) return ResponseEntity.badRequest().body("Given tender id is unknown.");
-        System.out.println(status);
+        
         InternalStatus found = this.internalStatus.findByLabel(status.getLabel());
 
         if(found == null) found = status;

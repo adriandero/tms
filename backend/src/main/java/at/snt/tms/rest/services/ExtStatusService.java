@@ -15,8 +15,6 @@ public class ExtStatusService extends GenericCrudRepoService<ExternalStatus, Lon
     }
 
     public void add(@Header(value = "label") String label) {
-        ExternalStatus extS = new ExternalStatus(label);
-        System.out.println("Add external status to database: " + extS);
-        repository.save(extS);
+        repository.save(new ExternalStatus(label));
     }
 }

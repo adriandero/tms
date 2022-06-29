@@ -19,7 +19,6 @@ public class AssignmentService extends GenericCrudRepoService<Assignment, Long> 
     }
 
     public void add(Assignment assignment) {
-        System.out.println("Add Assignment to database: " + assignment);
         repository.save(assignment);
     }
 
