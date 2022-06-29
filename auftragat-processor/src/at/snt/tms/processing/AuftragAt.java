@@ -80,12 +80,12 @@ public class AuftragAt implements MailHandler {
         if(senders.contains("office@auftrag.at") || senders.contains("dominik.fluch@snt.at")) {
             String body = handleableMail.getBody().substring(handleableMail.getBody().indexOf(AuftragAt.BEGIN_DELIMITER) + AuftragAt.BEGIN_DELIMITER.length(), handleableMail.getBody().indexOf(AuftragAt.END_DELIMITER));
 
-            try {
+            /*try {
                 // Auftrag.AT uses iso-8859-1
                 body = new String(body.getBytes(), "iso-8859-1");
             } catch(UnsupportedEncodingException exception) {
                 LOGGER.error("Failed to use auftrag.at encoding: " + exception.getMessage(), exception);
-            }
+            }*/
 
             final Matcher titleMatcher = AuftragAt.TITLE_REGEX.matcher(body);
             final Matcher bekanntmachungArtMatcher = AuftragAt.BEKANNTMACHUNGSART_REGEX.matcher(body);

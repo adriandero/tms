@@ -1,6 +1,9 @@
 package at.snt.tms.rest.services.tender;
 
+import at.snt.tms.model.dtos.response.MessageResponse;
+import at.snt.tms.model.operator.Permission;
 import at.snt.tms.model.operator.User;
+import at.snt.tms.model.status.AssignedIntStatus;
 import at.snt.tms.model.status.InternalStatus;
 import at.snt.tms.model.tender.Assignment;
 import at.snt.tms.model.tender.Tender;
@@ -14,9 +17,12 @@ import org.apache.camel.Header;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.core.Response;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,23 +43,31 @@ public class TenderService extends GenericCrudRepoService<Tender, Long> {
     }
 
     public ResponseEntity<?> updateInternal(@Header(value = "id") long tender, @Body InternalStatus status) {
-        final Tender foundTender = this.findById(tender).getBody();
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            final Tender foundTender = this.findById(tender).getBody();
 
-        if(foundTender == null) return ResponseEntity.badRequest().body("Given tender id is unknown.");
-        
-        InternalStatus found = this.internalStatus.findByLabel(status.getLabel());
+            if(foundTender == null) return ResponseEntity.badRequest().body("Given tender id is unknown.");
 
-        if(found == null) found = status;
-        else {
-            found.setTerminatesTender(status.getTerminatesTender()); // Apply requested changes expect transitions.
+            InternalStatus found = this.internalStatus.findByLabel(status.getLabel());
+
+            if(found == null) found = status;
+            else {
+                found.setTerminatesTender(status.getTerminatesTender()); // Apply requested changes expect transitions.
+            }
+
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            foundTender.getAssignedIntStatus().add(new AssignedIntStatus(found, foundTender, user, Timestamp.from(Instant.now())));
+            // Set & (Update | Create internal status)
+            foundTender.setLatestIntStatus(found);
+
+            this.tenders.save(foundTender);
+
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body(new MessageResponse("Couldn't associate user."));
         }
 
-        // Set & (Update | Create internal status)
-        foundTender.setLatestIntStatus(found);
-
-        this.tenders.save(foundTender);
-
-        return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<? extends Iterable<Tender>> findFiltered(@Body FilterConfiguration config) {
