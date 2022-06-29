@@ -88,6 +88,13 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
         from("direct:delUser")
                 .bean(UserService.class, "delete(${header.id})");
 
+        rest("/groups")
+                .get()
+                .to("direct:allGroups");
+
+        from("direct:allGroups")
+                .bean(GroupService.class, "findAll");
+
         rest("/internalStatus")
                 .get()
                 .to("direct:allIntStatus")
