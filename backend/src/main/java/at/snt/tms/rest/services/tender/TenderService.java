@@ -2,6 +2,7 @@ package at.snt.tms.rest.services.tender;
 
 import at.snt.tms.model.dtos.response.MessageResponse;
 import at.snt.tms.model.operator.Permission;
+import at.snt.tms.classification.ClassifierBridge;
 import at.snt.tms.model.operator.User;
 import at.snt.tms.model.status.AssignedIntStatus;
 import at.snt.tms.model.status.InternalStatus;
@@ -10,7 +11,6 @@ import at.snt.tms.model.tender.Tender;
 import at.snt.tms.repositories.status.InternalStatusRepository;
 import at.snt.tms.repositories.tender.AssignmentRepository;
 import at.snt.tms.repositories.tender.TenderRepository;
-import at.snt.tms.rest.services.AssignmentService;
 import at.snt.tms.rest.services.GenericCrudRepoService;
 import org.apache.camel.Body;
 import org.apache.camel.Header;
@@ -33,13 +33,15 @@ public class TenderService extends GenericCrudRepoService<Tender, Long> {
     private AssignmentRepository assignmentRepository;
     private TenderRepository tenders;
     private InternalStatusRepository internalStatus;
+    private ClassifierBridge classifierBridge;
 
     @Autowired
-    public TenderService(TenderRepository tenders, AssignmentRepository assignmentRepository, InternalStatusRepository internalStatus){
+    public TenderService(TenderRepository tenders, AssignmentRepository assignmentRepository, InternalStatusRepository internalStatus, ClassifierBridge classifierBridge){
         super(tenders, Tender.class);
         this.assignmentRepository = assignmentRepository;
         this.tenders = tenders;
         this.internalStatus = internalStatus;
+        this.classifierBridge = classifierBridge;
     }
 
     public ResponseEntity<?> updateInternal(@Header(value = "id") long tender, @Body InternalStatus status) {
@@ -53,6 +55,13 @@ public class TenderService extends GenericCrudRepoService<Tender, Long> {
             if(found == null) found = status;
             else {
                 found.setTerminatesTender(status.getTerminatesTender()); // Apply requested changes expect transitions.
+            }
+
+            for(InternalStatus.Static staticStatus : InternalStatus.Static.values()) {
+                if(staticStatus.getInner().equals(status)) {
+                    this.classifierBridge.manualClassification(foundTender, staticStatus);
+                    break;
+                }
             }
 
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

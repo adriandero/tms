@@ -156,11 +156,9 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
                 .bean(CompanyService.class, "findAll");
         from("direct:companyId")
                 .bean(CompanyService.class, "findById(${header.id})");
-        from("direct:addCompany")
-                .bean(CompanyService.class, "add");
         from("direct:delCompany")
                 .bean(CompanyService.class, "delete(${header.id})");
-                
+
         rest("/assignments")
                 .get()
                 .to("direct:allAssignments")
