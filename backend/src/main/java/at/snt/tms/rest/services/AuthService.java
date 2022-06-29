@@ -30,6 +30,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -75,7 +76,8 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String accessToken = jwtUtils.generateJwtAccessToken(authentication);
 
-        User user = userRepository.findByMailIgnoreCase(userDetails.getUsername());
+        // the user must exist, otherwise it would be an invalid state -> throw exception
+        User user = userRepository.findByMailIgnoreCase(userDetails.getUsername()).orElseThrow();
 
         Timestamp currentTime = Timestamp.from(Instant.now());
 
@@ -113,10 +115,10 @@ public class AuthService {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid tokens provided."));
         }
 
-        User user = userRepository.findByMailIgnoreCase(jwtUtils.getMailFromJwtAccessToken(tokens.getAccessToken()));
+        Optional<User> optUser = userRepository.findByMailIgnoreCase(jwtUtils.getMailFromJwtAccessToken(tokens.getAccessToken()));
 
         // check if the secret in the refresh-token is correct
-        if (user == null || user.getRefreshTokenSecret() == null || !user.getRefreshTokenSecret().equals(jwtUtils.getSecretFromJwtRefreshToken(tokens.getRefreshToken()))) {
+        if (optUser.isEmpty() || optUser.get().getRefreshTokenSecret() == null || !optUser.get().getRefreshTokenSecret().equals(jwtUtils.getSecretFromJwtRefreshToken(tokens.getRefreshToken()))) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid tokens provided."));
         }
 
@@ -126,6 +128,7 @@ public class AuthService {
         user.setRefreshTokenSecret(secret);
         userRepository.save(user);
         */
+        User user = optUser.get();
         user.setRefreshTokenLatestAccess(Timestamp.from(Instant.now()));
 
         String refresh = jwtUtils.generateJwtRefreshToken(user.getRefreshTokenSecret());

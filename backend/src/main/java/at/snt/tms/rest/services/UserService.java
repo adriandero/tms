@@ -48,12 +48,11 @@ public class UserService implements UserDetailsService {
     }
 
     public ResponseEntity<?> findByMail(String mail) {
-        // not best practice
-        for (User user : this.findAll()) {
-            if (user.getMail().equals(mail))
-                return ResponseEntity.ok().body(user);
+        Optional<User> user = users.findByMailIgnoreCase(mail);
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(user.get());
     }
 
     public ResponseEntity<?> add(@Body UserSignUpDto userInfo) {
@@ -93,13 +92,11 @@ public class UserService implements UserDetailsService {
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = users.findByMailIgnoreCase(username);  // username is mail
-
-        if (user == null) {
+        Optional<User> user = users.findByMailIgnoreCase(username);  // username is mail
+        if (user.isEmpty()) {
             throw new UsernameNotFoundException(username);
         }
-
-        return user;
+        return user.get();
     }
 
     boolean hasUserManagementPermission() {

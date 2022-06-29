@@ -4,6 +4,8 @@ import at.snt.tms.model.operator.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * Class {@code UserRepository}
  *
@@ -11,6 +13,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
-    User findByMailIgnoreCase(String mail);
+    Optional<User> findByMailIgnoreCase(String mail);
     Boolean existsByMailIgnoreCase(String mail);
 }
