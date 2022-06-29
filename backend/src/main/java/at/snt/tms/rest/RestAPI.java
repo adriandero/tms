@@ -95,6 +95,13 @@ public class RestAPI extends RouteBuilder {  // http://localhost:8080/
         from("direct:allGroups")
                 .bean(GroupService.class, "findAll");
 
+        rest("/permissions")
+                .get()
+                .to("direct:allPermissions");
+
+        from("direct:allPermissions")
+                .bean(PermissionService.class, "findAll");
+
         rest("/internalStatus")
                 .get()
                 .to("direct:allIntStatus")
