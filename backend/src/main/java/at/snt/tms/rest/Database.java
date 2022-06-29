@@ -71,6 +71,14 @@ public class Database {
         this.revRepository = tenderRevRepository;
 
 
+        for (Permission.Static permission : Permission.Static.values()) {
+            this.permissionRepository.save(permission.getInner());
+        }
+
+        for (Group.Static group : Group.Static.values()) {
+            this.groupRepository.save(group.getInner());
+        }
+
         for (InternalStatus.Static status : InternalStatus.Static.values()) {
             this.internalStatusRepository.save(status.getInner());
         }
@@ -94,8 +102,7 @@ public class Database {
         // terminates tender not included (from pending merge request)
 //        intStatus.addTransition(this.internalStatusRepository.save(new InternalStatus("closed"))); wrong behaviour
 
-        Permission permission = this.permissionRepository.save(new Permission("admin"));
-        Group g = this.groupRepository.save(new Group("tender_admin", permission));
+        Group g = Group.Static.MANAGER.getInner();
         User maxMustermann = this.userRepository.save(new User("user@snt.at", "Max", "Mustermann", new BCryptPasswordEncoder().encode("pass123"), g));
 
         final Tender tender = this.tenderRepository.save(new Tender("#1234", platform, "http://link.demo.at", "test", this.companyRepository.save(new Company("Demo Company")), "Example demo fetched from database.", this.externalStatusRepository.save(new ExternalStatus("external status")), InternalStatus.Static.IRRELEVANT, 30));
@@ -103,7 +110,7 @@ public class Database {
         tender.setUpdates(new HashSet<>(List.of(tenderUpdateRepository.save(new TenderUpdate(tender, this.externalStatusRepository.save(new ExternalStatus("external status0")), Timestamp.from(Instant.now()), "Hello hello hello", new HashSet<>())))));
         this.tenderRepository.save(tender);
 
-        final User user = new User("example@gmail.com", new BCryptPasswordEncoder().encode("secret"));
+        final User user = new User("example@gmail.com", "John", "Doe", new BCryptPasswordEncoder().encode("secret"), Group.Static.ASSISTANT.getInner());
         this.userRepository.save(user);
 
         Tender tender1 = this.tenderRepository.save(Tender.Builder.newInstance("#123", platform)
@@ -122,8 +129,8 @@ public class Database {
         final Assignment assignment = new Assignment(tender1, maxMustermann);
         this.assignmentRepository.save(assignment);
 
-        System.out.println(revRepository.listRevisions(Tender.class, tender.getId()));
-        System.out.println(revRepository.listRevisions(Platform.class, platform.getId()));
+        //System.out.println(revRepository.listRevisions(Tender.class, tender.getId()));
+        //System.out.println(revRepository.listRevisions(Platform.class, platform.getId()));
     }
 
     public AssignedIntStatusRepository getAssignedIntStatusRepository() {

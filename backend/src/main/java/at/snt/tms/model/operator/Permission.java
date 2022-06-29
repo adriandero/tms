@@ -18,12 +18,10 @@ import java.util.Objects;
 @Table(name = "pe_permissions")
 public class Permission implements Serializable {
     private static final long serialVersionUID = -430763022781473677L;
-
     @Id
     @GeneratedValue
     @Column(name = "pe_id")
     private Long id;
-
     @Column(name = "pe_designation", length = 100)
     private String designation;
 
@@ -69,5 +67,24 @@ public class Permission implements Serializable {
                 "id=" + id +
                 ", designation='" + designation + '\'' +
                 '}';
+    }
+
+    /**
+     * Enum {@code Permission.Static}
+     * <p>
+     * Enum of all static built-in permissions.
+     */
+    public enum Static {
+        USER_MANAGEMENT(new Permission("User-Management"));
+
+        private final Permission inner;
+
+        Static(Permission inner) {
+            this.inner = inner;
+        }
+
+        public Permission getInner() {
+            return inner;
+        }
     }
 }
