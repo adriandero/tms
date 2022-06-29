@@ -15,8 +15,6 @@ public class CompanyService extends GenericCrudRepoService<Company, Long>{
     }
 
     public void add(@Header(value = "name") String name) {
-        Company company = new Company(name);
-        System.out.println("Add company to database: " + company);
-        repository.save(company);
+        repository.save(new Company(name));
     }
 }
