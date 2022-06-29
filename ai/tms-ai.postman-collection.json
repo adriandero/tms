@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "0e6faf1b-6720-48cd-91b6-bce645cae8df",
+		"name": "tms-microservice-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://127.0.0.1:5000/predict1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"tenderId\": 69,\r\n \"text\": \"haus bauen\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://10.40.11.127:5000/predict",
+					"protocol": "http",
+					"host": [
+						"10",
+						"40",
+						"11",
+						"127"
+					],
+					"port": "5000",
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/train",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n    \"tenderId\": 69,\r\n    \"text\": \"Informatik auftrag mit Spring boot cloud\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 99,\r\n    \"text\": \"hausbau und bohnen kochen\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 66,\r\n    \"text\": \"Spring cloud services\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 616,\r\n    \"text\": \"Haus ausmalen und sanieren\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 626,\r\n    \"text\": \"Cloud Informatik service\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 929,\r\n    \"text\": \"Informatik Service =)(/&% cloud\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 626,\r\n    \"text\": \"Oracle Datenbank Service\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 6316,\r\n    \"text\": \"Kindergarten bauen und mit Weißer Farbe ausmalen\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 62,\r\n    \"text\": \"Software projekt abc service\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 929,\r\n    \"text\": \"Niederösterreich sanierungs projekt\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 616,\r\n    \"text\": \"Gartengestaltung\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 68,\r\n    \"text\": \"Auto reparieren und lackieren\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 620,\r\n    \"text\": \"IT Informatik Cloud\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 69,\r\n    \"text\": \"Informatik auftrag mit Spring boot cloud\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 99,\r\n    \"text\": \"hausbau und bohnen kochen\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 66,\r\n    \"text\": \"Spring cloud services\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 616,\r\n    \"text\": \"Haus ausmalen und sanieren\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 626,\r\n    \"text\": \"Cloud Informatik service\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 929,\r\n    \"text\": \"Informatik Service =)(/&% cloud\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 626,\r\n    \"text\": \"Oracle Datenbank Service\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 6316,\r\n    \"text\": \"Kindergarten bauen und mit Weißer Farbe ausmalen\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 62,\r\n    \"text\": \"Software projekt abc service\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 929,\r\n    \"text\": \"Niederösterreich sanierungs projekt\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 616,\r\n    \"text\": \"Gartengestaltung\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 68,\r\n    \"text\": \"Auto reparieren und lackieren\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 68,\r\n    \"text\": \"Auto reparieren und lackieren\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 68,\r\n    \"text\": \"Auto reparieren und lackieren\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 68,\r\n    \"text\": \"Auto reparieren und lackieren\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 68,\r\n    \"text\": \"Auto reparieren und lackieren\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 68,\r\n    \"text\": \"Auto reparieren und lackieren\",\r\n    \"label\": 0\r\n},\r\n{\r\n    \"tenderId\": 620,\r\n    \"text\": \"IT Informatik Cloud\",\r\n    \"label\": 1\r\n},\r\n{\r\n    \"tenderId\": 68,\r\n    \"text\": \"Auto reparieren und lackieren\",\r\n    \"label\": 1\r\n}\r\n\r\n] \r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://10.40.11.127:5000/train",
+					"protocol": "http",
+					"host": [
+						"10",
+						"40",
+						"11",
+						"127"
+					],
+					"port": "5000",
+					"path": [
+						"train"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/predict2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"tenderId\": null,\r\n \"text\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://10.40.11.127:5000/predict",
+					"protocol": "http",
+					"host": [
+						"10",
+						"40",
+						"11",
+						"127"
+					],
+					"port": "5000",
+					"path": [
+						"predict"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
