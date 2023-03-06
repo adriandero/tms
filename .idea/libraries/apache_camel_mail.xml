@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="apache.camel.mail" type="repository">
+    <properties maven-id="org.apache.camel:camel-mail:3.13.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-mail/3.13.0/camel-mail-3.13.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-support/3.13.0/camel-support-3.13.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-api/3.13.0/camel-api-3.13.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-management-api/3.13.0/camel-management-api-3.13.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-util/3.13.0/camel-util-3.13.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/camel/camel-attachments/3.13.0/camel-attachments-3.13.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/sun/activation/javax.activation/1.2.0/javax.activation-1.2.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/sun/mail/jakarta.mail/1.6.6/jakarta.mail-1.6.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
